@@ -1,6 +1,5 @@
 package com.example.test.demo.service;
 
-import com.example.test.demo.interfaces.ServicesMat;
 import com.example.test.demo.model.Material;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -10,21 +9,20 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class MaterialService implements ServicesMat {
+public class MaterialService {
 
     public static final String COL_NAME = "material";
 
-    @Override
+
     public String saveMat(Material mat) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
-
         int bigest = -1;
         Material oldMat = null;
 
@@ -33,29 +31,51 @@ public class MaterialService implements ServicesMat {
              oldMat = doc.toObject(Material.class);
             if (oldMat.getMaterialId() > bigest) {
                 bigest = oldMat.getMaterialId();
+
             }
         }
         mat.setMaterialId(bigest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(mat);
 
-
         return colApiFuture.get().getUpdateTime().toString();
+    }
+
+
+    public String deleteMat(Material mat) throws InterruptedException, ExecutionException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("materialId",mat.getMaterialId()).get();
+        if (future.get().size()<=0)
+            return "Material não encontrado para ser eleminado";
+        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return writeResult.get().getUpdateTime().toString();
+    }
+
+
+    public String updateMat(Material mat) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", mat.getMaterialId()).get();
+        //update a document from firestore
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+
+        return apiFuture.get().getUpdateTime().toString();
 
     }
 
-    @Override
-    public void deleteMat() {
-
-    }
-
-    @Override
-    public void updateMat() {
-
-    }
-
-    @Override
-    public void getMat() {
-
+    public List<Material> getMat() throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<Material> mats = new ArrayList<>();
+        if(documents.size()>0){
+            for (QueryDocumentSnapshot doc: documents){
+                mats.add(doc.toObject(Material.class));
+            }
+            return mats;
+        }
+        return null;
     }
 }
