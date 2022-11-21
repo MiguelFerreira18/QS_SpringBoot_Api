@@ -6,15 +6,26 @@ public class Material {
     private boolean isDisponivel;
     private boolean isAvariado;
     private int materialId;
+    private int etiquetaId;
 
-    public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId) {
+    public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) {
         this.dataEntrega = dataEntrega;
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
+        this.etiquetaId = etiquetaId;
         this.isAvariado = isAvariado;
         this.materialId = materialId;
     }
+
     public Material() {
+    }
+
+    public int getEtiquetaId() {
+        return etiquetaId;
+    }
+    
+    public void setEtiquetaId(int etiquetaId) {
+        this.etiquetaId = etiquetaId;
     }
 
     public String getDataEntrega() {

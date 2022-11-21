@@ -23,18 +23,18 @@ public class MaterialService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        int bigest = -1;
+        int biggest = -1;
         Material oldMat = null;
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
              oldMat = doc.toObject(Material.class);
-            if (oldMat.getMaterialId() > bigest) {
-                bigest = oldMat.getMaterialId();
+            if (oldMat.getMaterialId() > biggest) {
+                biggest = oldMat.getMaterialId();
 
             }
         }
-        mat.setMaterialId(bigest + 1);
+        mat.setMaterialId(biggest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(mat);
 
