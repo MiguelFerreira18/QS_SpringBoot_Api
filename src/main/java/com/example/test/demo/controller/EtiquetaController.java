@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class EtiquetaController {
     @Autowired
-    EtiquetaService etiquetaService;
+    private EtiquetaService etiquetaService;
 
     @GetMapping("/getEtiqueta")
     public List<EtiquetaMaterial> getEtiqueta() throws Exception {

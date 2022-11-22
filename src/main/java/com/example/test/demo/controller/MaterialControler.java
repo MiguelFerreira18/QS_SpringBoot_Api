@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 public class MaterialControler {
 
     @Autowired
-    MaterialService materialService;
+   private  MaterialService materialService;
 
     @PostMapping("/createMaterial")
     public String createMaterial(@RequestBody Material mat) throws InterruptedException, ExecutionException {
