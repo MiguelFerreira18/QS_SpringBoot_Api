@@ -30,5 +30,19 @@ public class LaboratorioController {
     public String deleteLaboratorio(@PathVariable int id) throws Exception {
         return laboratorioService.deleteLab(id);
     }
+    /*CASOS PARTICULARES*/
+
+    @PostMapping("/createMaterialLab/{id}")
+    public String createMaterialLab(@PathVariable int id, @RequestBody int lab) throws Exception {
+        return laboratorioService.addMaterialToLab(id, lab);
+    }
+    @DeleteMapping("/deleteMaterialLab/{id}")
+    public String deleteMaterialLab(@PathVariable int id, @RequestBody int lab) throws Exception {
+        return laboratorioService.deleteMaterialFromLab(id, lab);
+    }
+    @GetMapping("/getMateriaisLab/{id}")
+    public List<Integer> getMateriaisLab(@PathVariable int id) throws Exception {
+        return laboratorioService.getMateriaisFromLab(id);
+    }
 
 }

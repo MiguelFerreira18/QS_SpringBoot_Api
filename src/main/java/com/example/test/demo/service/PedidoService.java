@@ -73,8 +73,67 @@ public class PedidoService {
         }
         return null;
     }
+    /*CASOS PARTICULARES*/
+    /*
+    * ADICIONAR UMA NOVA ETIQUETA AO PEDIDO
+    * APAGAR ETIQUETA DO PEDIDO
+    * LER TODAS AS ETIQUETAS
+    */
 
+    /**
+     *
+     * @param idPedido
+     * @param nomeEtiqueta
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String addEtiqueta(int idPedido, String nomeEtiqueta) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("pedidoId", idPedido).get();
+        //update a document from firestore
+        if(future.get().size()<=0)
+            return "Pedido não encontrado para ser atualizado";
+        Pedido pedido = future.get().getDocuments().get(0).toObject(Pedido.class);
+        pedido.getEtiquetas().add(nomeEtiqueta);
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
+        return writeResult.get().getUpdateTime().toString();
+    }
 
+    /**
+     *
+     * @param idPedido
+     * @param nomeEtiqueta
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String deleteEtiqueta(int idPedido, String nomeEtiqueta) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("pedidoId", idPedido).get();
+        //update a document from firestore
+        if(future.get().size()<=0)
+            return "Pedido não encontrado para ser atualizado";
+        Pedido pedido = future.get().getDocuments().get(0).toObject(Pedido.class);
+        pedido.getEtiquetas().remove(nomeEtiqueta);
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
+        return writeResult.get().getUpdateTime().toString();
+    }
 
-
+    /**
+     *
+     * @param idPedido
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public List<String> getEtiquetas(int idPedido) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("pedidoId", idPedido).get();
+        //update a document from firestore
+        if(future.get().size()<=0)
+            return null;
+        Pedido pedido = future.get().getDocuments().get(0).toObject(Pedido.class);
+        return pedido.getEtiquetas();
+    }
 }

@@ -32,6 +32,21 @@ public class PedidoController {
         return pedidoService.updatePedido(pedido);
     }
 
+    /*CASOS PARTICULARES*/
+
+    @PostMapping("/createEtiquetaPedido/{id}")
+    public String createEtiquetaPedido(@PathVariable int id,@RequestBody String nomeEtiqueta) throws Exception {
+        return pedidoService.addEtiqueta(id,nomeEtiqueta);
+    }
+    @DeleteMapping("/deleteEtiquetaPedido/{id}")
+    public String deleteEtiquetaPedido(@PathVariable int id,@RequestBody String nomeEtiqueta) throws Exception {
+        return pedidoService.deleteEtiqueta(id,nomeEtiqueta);
+    }
+    @GetMapping("/getEtiquetasPedido/{id}")
+    public List<String> getEtiquetasPedido(@PathVariable int id) throws Exception {
+        return pedidoService.getEtiquetas(id);
+    }
+
 
 
 }

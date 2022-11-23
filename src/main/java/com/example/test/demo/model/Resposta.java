@@ -5,9 +5,9 @@ import java.util.List;
 public class Resposta {
     private String data;
     private String descricao;
-    private List<Material> materiais;
+    private List<Integer> materiais;
     private int respostaId;
-    public Resposta(int respostaId,String data, String descricao, List<Material> materiais) {
+    public Resposta(int respostaId,String data, String descricao, List<Integer> materiais) {
         this.data = data;
         this.descricao = descricao;
         this.materiais = materiais;
@@ -41,11 +41,11 @@ public class Resposta {
         this.descricao = descricao;
     }
 
-    public List<Material> getMateriais() {
+    public List<Integer> getMateriais() {
         return materiais;
     }
 
-    public void setMateriais(List<Material> materiais) {
+    public void setMateriais(List<Integer> materiais) {
         this.materiais = materiais;
     }
 }

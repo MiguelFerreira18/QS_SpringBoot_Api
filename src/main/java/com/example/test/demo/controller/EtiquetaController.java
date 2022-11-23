@@ -1,6 +1,7 @@
 package com.example.test.demo.controller;
 
 
+import com.example.test.demo.model.Componente;
 import com.example.test.demo.model.EtiquetaMaterial;
 import com.example.test.demo.service.EtiquetaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,32 @@ public class EtiquetaController {
     public String updateEtiqueta(@RequestBody EtiquetaMaterial etiqueta) throws Exception {
         return etiquetaService.updateEtiqueta(etiqueta);
     }
+    /*CASOS PARTICULARES*/
+
+    @PostMapping("/createComponenteEtiqueta/{id}")
+    public String createComponentesEtiqueta(@RequestBody Componente componente, @PathVariable int id) throws Exception {
+        return etiquetaService.addComponente(id , componente);
+    }
+    @DeleteMapping("/deleteComponenteEtiqueta/{id}")
+    public String deleteComponentesEtiqueta(@RequestBody Componente componente, @PathVariable int id) throws Exception {
+        return etiquetaService.deleteComponente(id , componente);
+    }
+    @GetMapping("/getComponentesEtiqueta/{id}")
+    public List<Componente> getComponentesEtiqueta(@PathVariable int id) throws Exception {
+        return etiquetaService.getAllComponentes(id);
+    }
+    @PostMapping("/createMaterialEtiqueta/{id}")
+    public String createMateriaisEtiqueta(@RequestBody int idMaterial, @PathVariable int idEtiqueta) throws Exception {
+        return etiquetaService.addMaterialToEtiqueta(idEtiqueta , idMaterial);
+    }
+    @DeleteMapping("/deleteMaterialEtiqueta/{id}")
+    public String deleteMateriaisEtiqueta(@RequestBody int idMaterial, @PathVariable int idEtiqueta) throws Exception {
+        return etiquetaService.deleteMaterialFromEtiqueta(idEtiqueta , idMaterial);
+    }
+    @GetMapping("/getMateriaisEtiqueta/{id}")
+    public List<Integer> getMateriaisEtiqueta(@PathVariable int idEtiqueta) throws Exception {
+        return etiquetaService.getAllMateriaisFromEtiqueta(idEtiqueta);
+    }
+
 
 }

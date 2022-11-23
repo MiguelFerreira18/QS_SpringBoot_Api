@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class LaboratorioService {
 
-    private static final String COL_NAME = "laboratirio";
+    private static final String COL_NAME = "laboratorio";
 
     public String saveLaboratorio(Laboratorio laboratorio) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -60,6 +60,77 @@ public class LaboratorioService {
             return writeResultApiFuture.get().getUpdateTime().toString();
         }
         return "laboratorio não encontrado";
+    }
+
+    /*CASOS PARTICULARES*/
+    /*
+    * ADICIONAR UM NOVO MATERIAL AO LABORATORIO
+    * APAGAR UM MATERIAL DO LABORATÓRIO
+    * LER TODOS OS MATERIAIS DO LABORATÓRIO
+    */
+
+    /**
+     *
+     * @param id
+     * @param matId
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String addMaterialToLab(int id,int matId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        if (documents.size() > 0) {
+            Laboratorio docente = documents.get(0).toObject(Laboratorio.class);
+            docente.getMateriaisId().add(matId);
+            ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).set(docente);
+            return writeResultApiFuture.get().getUpdateTime().toString();
+        }
+        return "docente não encontrado";
+    }
+
+    /**
+     *
+     *
+     * @param id
+     * @param matId
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String deleteMaterialFromLab(int id,int matId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        if (documents.size() > 0) {
+            Laboratorio docente = documents.get(0).toObject(Laboratorio.class);
+            docente.getMateriaisId().remove(matId);
+            ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).set(docente);
+            return writeResultApiFuture.get().getUpdateTime().toString();
+        }
+        return "docente não encontrado";
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public List<Integer> getMateriaisFromLab(int id) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        if (documents.size() > 0) {
+            Laboratorio docente = documents.get(0).toObject(Laboratorio.class);
+            return docente.getMateriaisId();
+        }
+        return null;
     }
 
 }

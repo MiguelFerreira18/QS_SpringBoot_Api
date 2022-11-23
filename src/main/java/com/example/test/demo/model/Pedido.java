@@ -6,12 +6,12 @@ public class Pedido {
     private int autorId;
     private int pedidoId;
     private int labId;
-    private List<EtiquetaMaterial> etiquetas;
+    private List<String> etiquetas;
     private boolean resposta;
     private String tipoPedido;
     private int respostaId;
 
-    public Pedido(int respostaId,int autorId,int pedidoId, int labId, List<EtiquetaMaterial> etiquetas, boolean resposta, String tipoPedido) {
+    public Pedido(int respostaId,int autorId,int pedidoId, int labId, List<String> etiquetas, boolean resposta, String tipoPedido) {
         this.autorId = autorId;
         this.labId = labId;
         this.etiquetas = etiquetas;
@@ -48,11 +48,11 @@ public class Pedido {
         this.labId = labId;
     }
 
-    public List<EtiquetaMaterial> getEtiquetas() {
+    public List<String> getEtiquetas() {
         return etiquetas;
     }
 
-    public void setEtiquetas(List<EtiquetaMaterial> etiquetas) {
+    public void setEtiquetas(List<String> etiquetas) {
         this.etiquetas = etiquetas;
     }
 

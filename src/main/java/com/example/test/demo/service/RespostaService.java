@@ -71,6 +71,68 @@ public class RespostaService {
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
         return writeResult.get().getUpdateTime().toString();
     }
+    /*CASOS PARTICULARES*/
+    /*
+     *ADICIONA MATERIAL A UMA RESPOSTA
+     *APAGA UM MATERIAL DA RESPOSTA
+     *LER TODOS OS MATERIAIS DE UMA RESPOSTA
+     *
+     */
+
+    /**
+     *
+     * @param respostaId
+     * @param materialId
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String addMaterialToResposta(int respostaId, int materialId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", respostaId).get();
+        if (future.get().size() <= 0)
+            return "Resposta não encontrada para ser atualizada";
+        Resposta resposta = future.get().getDocuments().get(0).toObject(Resposta.class);
+        resposta.getMateriais().add(materialId);
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return writeResult.get().getUpdateTime().toString();
+
+    }
+
+    /**
+     *
+     * @param respostaId
+     * @param materialId
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String deleteMaterialFromResposta(int respostaId, int materialId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", respostaId).get();
+        if (future.get().size() <= 0)
+            return "Resposta não encontrada para ser atualizada";
+        Resposta resposta = future.get().getDocuments().get(0).toObject(Resposta.class);
+        resposta.getMateriais().remove(materialId);
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return writeResult.get().getUpdateTime().toString();
+    }
+
+    /**
+     *
+     * @param respostaId
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public List<Integer> getMateriaisFromResposta(int respostaId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", respostaId).get();
+        if (future.get().size() <= 0)
+            return null;
+        Resposta resposta = future.get().getDocuments().get(0).toObject(Resposta.class);
+        return resposta.getMateriais();
+    }
 
 
 
