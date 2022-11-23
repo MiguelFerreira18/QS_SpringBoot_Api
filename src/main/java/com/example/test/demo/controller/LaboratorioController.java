@@ -26,7 +26,7 @@ public class LaboratorioController {
     public String updateLaboratorio(@RequestBody Laboratorio lab) throws Exception {
         return laboratorioService.updateLab(lab);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteLaboratorio(@PathVariable int id) throws Exception {
         return laboratorioService.deleteLab(id);
     }

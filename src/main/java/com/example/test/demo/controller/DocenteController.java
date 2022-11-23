@@ -24,7 +24,7 @@ public class DocenteController {
         return docenteService.saveDocente(docente);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteDocente(@PathVariable int id) throws Exception {
         return docenteService.deleteDocente(id);
     }

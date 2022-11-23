@@ -24,7 +24,7 @@ public class EtiquetaController {
     public String createEtiqueta(@RequestBody EtiquetaMaterial etiqueta) throws Exception {
         return etiquetaService.saveEtiqueta(etiqueta);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteEtiqueta(@PathVariable int id) throws Exception {
         return etiquetaService.deleteEtiqueta(id);
     }

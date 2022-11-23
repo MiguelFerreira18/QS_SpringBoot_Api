@@ -23,7 +23,7 @@ public class PedidoController {
     public String createPedido(@RequestBody Pedido pedido) throws Exception {
         return pedidoService.savePedido(pedido);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deletePedido(@PathVariable int id) throws Exception {
         return pedidoService.deletePedido(id);
     }

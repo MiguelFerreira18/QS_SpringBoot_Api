@@ -28,7 +28,7 @@ public class MaterialControler {
     public String updateMaterial(@RequestBody Material mat)throws ExecutionException, InterruptedException{
         return materialService.updateMat(mat);
     }
-    @DeleteMapping("/{id}}")
+    @DeleteMapping("/delete/{id}}")
     public String deleteMaterial(@PathVariable int id)throws ExecutionException, InterruptedException{
         return materialService.deleteMat(id);
     }
