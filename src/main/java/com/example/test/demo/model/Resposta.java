@@ -2,19 +2,32 @@ package com.example.test.demo.model;
 
 import java.util.List;
 
-public class Resposta {
+public abstract class Resposta {
     private String data;
     private String descricao;
-    private List<Integer> materiais;
+
     private int respostaId;
-    public Resposta(int respostaId,String data, String descricao, List<Integer> materiais) {
+    private int tipoResposta;
+    private int utilizadorId;
+
+    //0=pedidos do utilizador, 1=pedidos do laboratorio,2=pedidos do material
+
+    public Resposta(String data, String descricao, int respostaId, int tipoResposta) {
         this.data = data;
         this.descricao = descricao;
-        this.materiais = materiais;
         this.respostaId = respostaId;
+        this.tipoResposta = tipoResposta;
     }
 
     public Resposta() {
+    }
+
+    public int getTipoResposta() {
+        return tipoResposta;
+    }
+
+    public void setTipoResposta(int tipoResposta) {
+        this.tipoResposta = tipoResposta;
     }
 
     public int getRespostaId() {
@@ -41,11 +54,4 @@ public class Resposta {
         this.descricao = descricao;
     }
 
-    public List<Integer> getMateriais() {
-        return materiais;
-    }
-
-    public void setMateriais(List<Integer> materiais) {
-        this.materiais = materiais;
-    }
 }

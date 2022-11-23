@@ -1,8 +1,6 @@
 package com.example.test.demo.service;
 
-import com.example.test.demo.model.Docente;
-import com.example.test.demo.model.Pedido;
-import com.example.test.demo.model.Resposta;
+import com.example.test.demo.model.*;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -19,22 +17,23 @@ import java.util.concurrent.ExecutionException;
 public class RespostaService {
 
     private static final String COL_NAME = "resposta";
-
-    public List<Resposta> getAllRespostas() throws ExecutionException, InterruptedException {
+    /*RESPOSTA LABORATORIO*/
+    public List<RespostaLaboratorio> getAllRespostasLaboratorio() throws ExecutionException, InterruptedException {
 
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<Resposta> respostas = new ArrayList<>();
-        if(documents.size()>0){
-            for (QueryDocumentSnapshot doc: documents){
-                respostas.add(doc.toObject(Resposta.class));
+        List<RespostaLaboratorio> respostas = new ArrayList<>();
+        if (documents.size() > 0) {
+            for (QueryDocumentSnapshot doc : documents) {
+                respostas.add(doc.toObject(RespostaLaboratorio.class));
             }
             return respostas;
         }
         return null;
     }
-    public String createResposta(Resposta resposta) throws ExecutionException, InterruptedException {
+
+    public String createResposta(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -43,7 +42,7 @@ public class RespostaService {
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
-            oldResposta = doc.toObject(Resposta.class);
+            oldResposta = doc.toObject(RespostaLaboratorio.class);
             if (oldResposta.getRespostaId() > biggest) {
                 biggest = oldResposta.getRespostaId();
 
@@ -54,6 +53,102 @@ public class RespostaService {
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(oldResposta);
         return colApiFuture.get().getUpdateTime().toString();
     }
+
+    public String updateResposta(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
+        if (future.get().size() <= 0)
+            return "Resposta não encontrada para ser atualizada";
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return writeResult.get().getUpdateTime().toString();
+    }
+
+    /*RESPOSTA MATERIAL*/
+    public List<RespostaMaterial> getAllRespostasMaterial() throws ExecutionException, InterruptedException {
+
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<RespostaMaterial> respostas = new ArrayList<>();
+        if (documents.size() > 0) {
+            for (QueryDocumentSnapshot doc : documents) {
+                respostas.add(doc.toObject(RespostaMaterial.class));
+            }
+            return respostas;
+        }
+        return null;
+    }
+
+    public String createResposta(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        int biggest = -1;
+        Resposta oldResposta = null;
+
+        /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
+        for (QueryDocumentSnapshot doc : documents) {
+            oldResposta = doc.toObject(RespostaLaboratorio.class);
+            if (oldResposta.getRespostaId() > biggest) {
+                biggest = oldResposta.getRespostaId();
+
+            }
+        }
+        oldResposta.setRespostaId(biggest + 1);
+        /*ADICIONA UM NOVO PEDIDO*/
+        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(oldResposta);
+        return colApiFuture.get().getUpdateTime().toString();
+    }
+
+    public String updateResposta(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
+        if (future.get().size() <= 0)
+            return "Resposta não encontrada para ser atualizada";
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return writeResult.get().getUpdateTime().toString();
+    }
+
+    /*RESPOSTA UTILIZADOR*/
+    public List<RespostaUtilizador> getAllRespostas() throws ExecutionException, InterruptedException {
+
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<RespostaUtilizador> respostas = new ArrayList<>();
+        if (documents.size() > 0) {
+            for (QueryDocumentSnapshot doc : documents) {
+                respostas.add(doc.toObject(RespostaUtilizador.class));
+            }
+            return respostas;
+        }
+        return null;
+    }
+
+    public String createResposta(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        int biggest = -1;
+        Resposta oldResposta = null;
+
+        /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
+        for (QueryDocumentSnapshot doc : documents) {
+            oldResposta = doc.toObject(RespostaUtilizador.class);
+            if (oldResposta.getRespostaId() > biggest) {
+                biggest = oldResposta.getRespostaId();
+
+            }
+        }
+        oldResposta.setRespostaId(biggest + 1);
+
+
+        /*ADICIONA UM NOVO PEDIDO*/
+
+        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(oldResposta);
+        return colApiFuture.get().getUpdateTime().toString();
+    }
+
     public String deleteResposta(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", id).get();
@@ -63,7 +158,7 @@ public class RespostaService {
         return writeResult.get().getUpdateTime().toString();
     }
 
-    public String updateResposta(Resposta resposta) throws ExecutionException, InterruptedException {
+    public String updateResposta(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
         if (future.get().size() <= 0)
@@ -79,8 +174,9 @@ public class RespostaService {
      *
      */
 
+    /*RESPOSTA MATERIAL*/
+
     /**
-     *
      * @param respostaId
      * @param materialId
      * @return
@@ -92,15 +188,14 @@ public class RespostaService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", respostaId).get();
         if (future.get().size() <= 0)
             return "Resposta não encontrada para ser atualizada";
-        Resposta resposta = future.get().getDocuments().get(0).toObject(Resposta.class);
-        resposta.getMateriais().add(materialId);
+        RespostaMaterial resposta = future.get().getDocuments().get(0).toObject(RespostaMaterial.class);
+        resposta.getMateriaisId().add(materialId);
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
         return writeResult.get().getUpdateTime().toString();
 
     }
 
     /**
-     *
      * @param respostaId
      * @param materialId
      * @return
@@ -112,14 +207,13 @@ public class RespostaService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", respostaId).get();
         if (future.get().size() <= 0)
             return "Resposta não encontrada para ser atualizada";
-        Resposta resposta = future.get().getDocuments().get(0).toObject(Resposta.class);
-        resposta.getMateriais().remove(materialId);
+        RespostaMaterial resposta = future.get().getDocuments().get(0).toObject(RespostaMaterial.class);
+        resposta.getMateriaisId().remove(materialId);
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
         return writeResult.get().getUpdateTime().toString();
     }
 
     /**
-     *
      * @param respostaId
      * @return
      * @throws ExecutionException
@@ -130,8 +224,8 @@ public class RespostaService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", respostaId).get();
         if (future.get().size() <= 0)
             return null;
-        Resposta resposta = future.get().getDocuments().get(0).toObject(Resposta.class);
-        return resposta.getMateriais();
+        RespostaMaterial resposta = future.get().getDocuments().get(0).toObject(RespostaMaterial.class);
+        return resposta.getMateriaisId();
     }
 
 

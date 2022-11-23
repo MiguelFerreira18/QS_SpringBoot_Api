@@ -1,5 +1,6 @@
 package com.example.test.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Docente {
@@ -12,12 +13,12 @@ public class Docente {
     private boolean hasAccess;
 
 
-    public Docente(boolean hasAccess,String docenteNome, String docenteEmail, String docentePassword, int docenteId, List<String> unidadesCurriculares, boolean isAdmin) {
+    public Docente(boolean hasAccess,String docenteNome, String docenteEmail, String docentePassword, int docenteId, boolean isAdmin) {
         this.docenteNome = docenteNome;
         this.docenteEmail = docenteEmail;
         this.docentePassword = docentePassword;
         this.docenteNumber = docenteId;
-        this.unidadesCurriculares = unidadesCurriculares;
+        this.unidadesCurriculares = new ArrayList<>() ;
         this.isAdmin = isAdmin;
         this.hasAccess = hasAccess;
     }

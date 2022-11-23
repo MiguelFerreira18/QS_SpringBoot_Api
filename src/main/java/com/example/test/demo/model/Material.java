@@ -1,5 +1,8 @@
 package com.example.test.demo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Material {
     private String dataEntrega;
     private String descricao;
@@ -8,13 +11,16 @@ public class Material {
     private int materialId;
     private int etiquetaId;
 
-    public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) {
+    private List<RespostaMaterial> respostasMaterial;
+
+    public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId ){
         this.dataEntrega = dataEntrega;
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
-        this.etiquetaId = etiquetaId;
         this.isAvariado = isAvariado;
         this.materialId = materialId;
+        this.etiquetaId = etiquetaId;
+        respostasMaterial = new ArrayList<>();
     }
 
     public Material() {
@@ -26,6 +32,14 @@ public class Material {
     
     public void setEtiquetaId(int etiquetaId) {
         this.etiquetaId = etiquetaId;
+    }
+
+    public List<RespostaMaterial> getRespostasMaterial() {
+        return respostasMaterial;
+    }
+
+    public void setRespostasMaterial(List<RespostaMaterial> respostasMaterial) {
+        this.respostasMaterial = respostasMaterial;
     }
 
     public String getDataEntrega() {

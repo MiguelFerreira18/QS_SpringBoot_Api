@@ -11,11 +11,11 @@ public class EtiquetaMaterial {
     private int quantidade;
     private int etiquetaId;
 
-    public EtiquetaMaterial(List<Componente> componentes, String etiqueta, List<Integer> materiaisId, String descircaoMatetial, int quantidade,int etiquetaId) {
-        this.componentes = componentes;
+    public EtiquetaMaterial( String etiqueta,  String descircaoMatetial, int quantidade,int etiquetaId) {
+        this.componentes = new ArrayList<>();
         this.etiqueta = etiqueta;
         this.etiquetaId = etiquetaId;
-        this.materiaisId = materiaisId;
+        this.materiaisId = new ArrayList<>();
         this.descircaoMatetial = descircaoMatetial;
         this.quantidade = quantidade;
     }

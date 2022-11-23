@@ -1,5 +1,6 @@
 package com.example.test.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
@@ -11,10 +12,10 @@ public class Pedido {
     private String tipoPedido;
     private int respostaId;
 
-    public Pedido(int respostaId,int autorId,int pedidoId, int labId, List<String> etiquetas, boolean resposta, String tipoPedido) {
+    public Pedido(int respostaId,int autorId,int pedidoId, int labId, boolean resposta, String tipoPedido) {
         this.autorId = autorId;
         this.labId = labId;
-        this.etiquetas = etiquetas;
+        this.etiquetas = new ArrayList<>();
         this.resposta = resposta;
         this.tipoPedido = tipoPedido;
         this.pedidoId = pedidoId;

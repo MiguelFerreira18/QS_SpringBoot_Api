@@ -1,5 +1,6 @@
 package com.example.test.demo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Laboratorio {
@@ -7,15 +8,28 @@ public class Laboratorio {
     private int laboratorioId;
     private List<Integer> materiaisId;
     private int refAdmin;
+    private List<RespostaLaboratorio> respostasLaboratorio;
 
-    public Laboratorio(List<String> logs, int laboratorioId, List<Integer> materiaisId, int refAdmin) {
-        this.logs = logs;
+
+
+    public Laboratorio( int laboratorioId, int refAdmin) {
+        this.logs = new ArrayList<>();
         this.laboratorioId = laboratorioId;
-        this.materiaisId = materiaisId;
+        this.materiaisId = new ArrayList<>();
         this.refAdmin = refAdmin;
+        respostasLaboratorio = new ArrayList<>();
     }
 
+
     public Laboratorio() {
+    }
+
+    public List<RespostaLaboratorio> getRespostasLaboratorio() {
+        return respostasLaboratorio;
+    }
+
+    public void setRespostasLaboratorio(List<RespostaLaboratorio> respostasLaboratorio) {
+        this.respostasLaboratorio = respostasLaboratorio;
     }
 
     public List<String> getLogs() {
