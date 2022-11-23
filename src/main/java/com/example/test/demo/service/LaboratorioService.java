@@ -2,6 +2,7 @@ package com.example.test.demo.service;
 
 import com.example.test.demo.model.Docente;
 import com.example.test.demo.model.Laboratorio;
+import com.example.test.demo.model.Material;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -64,20 +65,19 @@ public class LaboratorioService {
 
     /*CASOS PARTICULARES*/
     /*
-    * ADICIONAR UM NOVO MATERIAL AO LABORATORIO
-    * APAGAR UM MATERIAL DO LABORATÓRIO
-    * LER TODOS OS MATERIAIS DO LABORATÓRIO
-    */
+     * ADICIONAR UM NOVO MATERIAL AO LABORATORIO
+     * APAGAR UM MATERIAL DO LABORATÓRIO
+     * LER TODOS OS MATERIAIS DO LABORATÓRIO
+     */
 
     /**
-     *
      * @param id
      * @param matId
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String addMaterialToLab(int id,int matId) throws ExecutionException, InterruptedException {
+    public String addMaterialToLab(int id, int matId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -92,15 +92,13 @@ public class LaboratorioService {
     }
 
     /**
-     *
-     *
      * @param id
      * @param matId
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String deleteMaterialFromLab(int id,int matId) throws ExecutionException, InterruptedException {
+    public String deleteMaterialFromLab(int id, int matId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -115,7 +113,6 @@ public class LaboratorioService {
     }
 
     /**
-     *
      * @param id
      * @return
      * @throws ExecutionException
@@ -132,5 +129,41 @@ public class LaboratorioService {
         }
         return null;
     }
+
+    /*CASOS PARTICULARES*/
+    /*
+    * Cria resposta no laboratorio
+    * altera resposta no laboratorio
+    */
+
+
+    public String createRespostaLaboratorio(int labId, int respostaId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", labId).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        if (future.get().size() <= 0)
+            return "Laboratório não encontrado";
+
+        Laboratorio lab = future.get().getDocuments().get(0).toObject(Laboratorio.class);
+        lab.getRespostasLaboratorio().remove(lab.getRespostasLaboratorio().indexOf(respostaId));
+        lab.getRespostasLaboratorio().add(respostaId);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(lab);
+        return apiFuture.get().getUpdateTime().toString();
+
+    }
+
+    public String updateRespostaLaboratório(int idResposta,int idLaboratorio) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idLaboratorio).get();
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        Laboratorio laboratorio = future.get().getDocuments().get(0).toObject(Laboratorio.class);
+        laboratorio.getRespostasLaboratorio().remove(laboratorio.getRespostasLaboratorio().indexOf(idResposta));
+        laboratorio.getRespostasLaboratorio().add(idResposta);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(laboratorio);
+        return apiFuture.get().getUpdateTime().toString();
+    }
+
 
 }

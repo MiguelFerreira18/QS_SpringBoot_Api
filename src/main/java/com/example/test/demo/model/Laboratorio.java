@@ -8,7 +8,7 @@ public class Laboratorio {
     private int laboratorioId;
     private List<Integer> materiaisId;
     private int refAdmin;
-    private List<RespostaLaboratorio> respostasLaboratorio;
+    private List<Integer> respostasLaboratorio;
 
 
 
@@ -24,11 +24,11 @@ public class Laboratorio {
     public Laboratorio() {
     }
 
-    public List<RespostaLaboratorio> getRespostasLaboratorio() {
+    public List<Integer> getRespostasLaboratorio() {
         return respostasLaboratorio;
     }
 
-    public void setRespostasLaboratorio(List<RespostaLaboratorio> respostasLaboratorio) {
+    public void setRespostasLaboratorio(List<Integer> respostasLaboratorio) {
         this.respostasLaboratorio = respostasLaboratorio;
     }
 

@@ -3,17 +3,18 @@ package com.example.test.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RespostaMaterial extends Resposta{
+public class RespostaMaterial extends Resposta {
     private List<Integer> materiaisId;
     private String dataReserva;
     private String dataEntrega;
 
-    public RespostaMaterial(String data, String descricao, int respostaId, int tipoResposta, String dataReserva, String dataEntrega) {
-        super(data, descricao, respostaId, tipoResposta);
+    public RespostaMaterial(String data, String descricao, int respostaId, int tipoResposta, String dataReserva, String dataEntrega, int utilizadorId) {
+        super(data, descricao, respostaId, tipoResposta,utilizadorId);
         this.materiaisId = new ArrayList<>();
         this.dataReserva = dataReserva;
         this.dataEntrega = dataEntrega;
     }
+
     public List<Integer> getMateriaisId() {
         return materiaisId;
     }

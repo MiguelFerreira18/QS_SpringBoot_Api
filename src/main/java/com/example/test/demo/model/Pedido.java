@@ -12,6 +12,7 @@ public class Pedido {
     private String tipoPedido;
     private int respostaId;
 
+    /*!*NÃO ESQUECER DE PERGUNTAR AO QUENTAL*!*/
     public Pedido(int respostaId,int autorId,int pedidoId, int labId, boolean resposta, String tipoPedido) {
         this.autorId = autorId;
         this.labId = labId;

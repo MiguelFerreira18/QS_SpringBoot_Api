@@ -45,4 +45,17 @@ public class LaboratorioController {
         return laboratorioService.getMateriaisFromLab(id);
     }
 
+
+    /*ADICIONAR OUTRO CASO*/
+
+    @PostMapping("/createRespostaLaboratorio/{id}")
+    public String createRespostaLaboratorio(@PathVariable int idLab, @RequestBody int idMaterial) throws Exception {
+        return laboratorioService.createRespostaLaboratorio(idLab, idMaterial);
+    }
+    @PutMapping("/updateRespostaLaboratorio/{id}")
+    public String updateRespostaLaboratorio(@PathVariable int idLab, @RequestBody int idMaterial) throws Exception {
+        return laboratorioService.updateRespostaLaboratório(idLab, idMaterial);
+    }
+
+
 }

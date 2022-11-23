@@ -11,7 +11,7 @@ public class Material {
     private int materialId;
     private int etiquetaId;
 
-    private List<RespostaMaterial> respostasMaterial;
+    private List<Integer> respostasMaterial;
 
     public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId ){
         this.dataEntrega = dataEntrega;
@@ -34,11 +34,11 @@ public class Material {
         this.etiquetaId = etiquetaId;
     }
 
-    public List<RespostaMaterial> getRespostasMaterial() {
+    public List<Integer> getRespostasMaterial() {
         return respostasMaterial;
     }
 
-    public void setRespostasMaterial(List<RespostaMaterial> respostasMaterial) {
+    public void setRespostasMaterial(List<Integer> respostasMaterial) {
         this.respostasMaterial = respostasMaterial;
     }
 

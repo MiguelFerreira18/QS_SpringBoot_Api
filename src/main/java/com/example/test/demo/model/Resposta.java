@@ -12,14 +12,23 @@ public abstract class Resposta {
 
     //0=pedidos do utilizador, 1=pedidos do laboratorio,2=pedidos do material
 
-    public Resposta(String data, String descricao, int respostaId, int tipoResposta) {
+    public Resposta(String data, String descricao, int respostaId, int tipoResposta, int utilizadorId) {
         this.data = data;
         this.descricao = descricao;
         this.respostaId = respostaId;
         this.tipoResposta = tipoResposta;
+        this.utilizadorId = utilizadorId;
     }
 
     public Resposta() {
+    }
+
+    public int getUtilizadorId() {
+        return utilizadorId;
+    }
+
+    public void setUtilizadorId(int utilizadorId) {
+        this.utilizadorId = utilizadorId;
     }
 
     public int getTipoResposta() {

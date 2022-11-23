@@ -32,6 +32,16 @@ public class MaterialControler {
     public String deleteMaterial(@PathVariable int id)throws ExecutionException, InterruptedException{
         return materialService.deleteMat(id);
     }
+    /*CASOS PARTICULARES*/
+
+    @PostMapping("/createRespostaMaterial/{id}")
+    public String createRespostaMaterial(@PathVariable int id,@RequestBody int matId) throws InterruptedException, ExecutionException {
+        return materialService.createRespostaToMaterial(id,matId);
+    }
+    @PostMapping("/UpdateRespostaMaterial/{id}")
+    public String updateRespostaMaterial(@PathVariable int id,@RequestBody int matId) throws InterruptedException, ExecutionException {
+        return materialService.updateRespostaToMaterial(id,matId);
+    }
 
 
 }

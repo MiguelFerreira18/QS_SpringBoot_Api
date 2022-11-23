@@ -78,4 +78,32 @@ public class MaterialService {
         }
         return null;
     }
+
+    /*CASOS PARTICULARES*/
+    /*
+    * ADICIONAR RESPOSTA AO MATERIAL
+    * ALTERAR RESPOSTA NO MATERIAL*/
+
+    public String createRespostaToMaterial(int idResposta,int idMaterial) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idMaterial).get();
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        Material mat = future.get().getDocuments().get(0).toObject(Material.class);
+        mat.getRespostasMaterial().add(idResposta);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        return apiFuture.get().getUpdateTime().toString();
+    }
+    public String updateRespostaToMaterial(int idResposta,int idMaterial) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idMaterial).get();
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        Material mat = future.get().getDocuments().get(0).toObject(Material.class);
+        mat.getRespostasMaterial().remove(mat.getRespostasMaterial().indexOf(idResposta));
+        mat.getRespostasMaterial().add(idResposta);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        return apiFuture.get().getUpdateTime().toString();
+    }
+
 }

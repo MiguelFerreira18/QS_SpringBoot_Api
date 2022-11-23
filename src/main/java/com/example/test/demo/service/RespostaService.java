@@ -18,7 +18,7 @@ public class RespostaService {
 
     private static final String COL_NAME = "resposta";
     /*RESPOSTA LABORATORIO*/
-    public List<RespostaLaboratorio> getAllRespostasLaboratorio() throws ExecutionException, InterruptedException {
+  /*  public List<RespostaLaboratorio> getAllRespostasLaboratorio() throws ExecutionException, InterruptedException {
 
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
@@ -31,9 +31,9 @@ public class RespostaService {
             return respostas;
         }
         return null;
-    }
+    }*/
 
-    public String createResposta(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
+    public String createRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -54,7 +54,7 @@ public class RespostaService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
-    public String updateResposta(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
+    public String updateRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
         if (future.get().size() <= 0)
@@ -64,22 +64,22 @@ public class RespostaService {
     }
 
     /*RESPOSTA MATERIAL*/
-    public List<RespostaMaterial> getAllRespostasMaterial() throws ExecutionException, InterruptedException {
+//    public List<RespostaMaterial> getAllRespostasMaterial() throws ExecutionException, InterruptedException {
+//
+//        Firestore db = FirestoreClient.getFirestore();
+//        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+//        List<RespostaMaterial> respostas = new ArrayList<>();
+//        if (documents.size() > 0) {
+//            for (QueryDocumentSnapshot doc : documents) {
+//                respostas.add(doc.toObject(RespostaMaterial.class));
+//            }
+//            return respostas;
+//        }
+//        return null;
+//    }
 
-        Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<RespostaMaterial> respostas = new ArrayList<>();
-        if (documents.size() > 0) {
-            for (QueryDocumentSnapshot doc : documents) {
-                respostas.add(doc.toObject(RespostaMaterial.class));
-            }
-            return respostas;
-        }
-        return null;
-    }
-
-    public String createResposta(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
+    public String createRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -100,7 +100,7 @@ public class RespostaService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
-    public String updateResposta(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
+    public String updateRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
         if (future.get().size() <= 0)
@@ -110,7 +110,7 @@ public class RespostaService {
     }
 
     /*RESPOSTA UTILIZADOR*/
-    public List<RespostaUtilizador> getAllRespostas() throws ExecutionException, InterruptedException {
+  /*  public List<RespostaUtilizador> getAllRespostasUtilizador() throws ExecutionException, InterruptedException {
 
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
@@ -123,9 +123,9 @@ public class RespostaService {
             return respostas;
         }
         return null;
-    }
+    }*/
 
-    public String createResposta(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
+    public String createRespostaUtilizador(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -158,7 +158,7 @@ public class RespostaService {
         return writeResult.get().getUpdateTime().toString();
     }
 
-    public String updateResposta(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
+    public String updateRespostaUtilizador(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
         if (future.get().size() <= 0)
@@ -169,12 +169,10 @@ public class RespostaService {
     /*CASOS PARTICULARES*/
     /*
      *ADICIONA MATERIAL A UMA RESPOSTA
-     *APAGA UM MATERIAL DA RESPOSTA
      *LER TODOS OS MATERIAIS DE UMA RESPOSTA
      *
      */
 
-    /*RESPOSTA MATERIAL*/
 
     /**
      * @param respostaId
