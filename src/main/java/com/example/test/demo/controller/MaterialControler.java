@@ -10,26 +10,27 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@RequestMapping("/material")
 public class MaterialControler {
 
     @Autowired
    private  MaterialService materialService;
 
-    @PostMapping("/createMaterial")
+    @PostMapping("/create")
     public String createMaterial(@RequestBody Material mat) throws InterruptedException, ExecutionException {
         return materialService.saveMat(mat);
     }
-    @GetMapping("/getMaterial")
+    @GetMapping("/all")
     public List<Material> getMaterial() throws ExecutionException, InterruptedException {
         return materialService.getMat();
     }
-    @PutMapping("/updateMaterial")
+    @PutMapping("/update")
     public String updateMaterial(@RequestBody Material mat)throws ExecutionException, InterruptedException{
         return materialService.updateMat(mat);
     }
-    @DeleteMapping("/deleteMaterial")
-    public String deleteMaterial(@RequestBody Material mat)throws ExecutionException, InterruptedException{
-        return materialService.deleteMat(mat);
+    @DeleteMapping("/{id}}")
+    public String deleteMaterial(@PathVariable int id)throws ExecutionException, InterruptedException{
+        return materialService.deleteMat(id);
     }
 
 

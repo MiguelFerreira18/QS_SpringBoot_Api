@@ -9,17 +9,27 @@ public class Pedido {
     private List<EtiquetaMaterial> etiquetas;
     private boolean resposta;
     private String tipoPedido;
+    private int respostaId;
 
-    public Pedido(int autorId,int pedidoId, int labId, List<EtiquetaMaterial> etiquetas, boolean resposta, String tipoPedido) {
+    public Pedido(int respostaId,int autorId,int pedidoId, int labId, List<EtiquetaMaterial> etiquetas, boolean resposta, String tipoPedido) {
         this.autorId = autorId;
         this.labId = labId;
         this.etiquetas = etiquetas;
         this.resposta = resposta;
         this.tipoPedido = tipoPedido;
         this.pedidoId = pedidoId;
+        this.respostaId = respostaId;
     }
 
     public Pedido() {
+    }
+
+    public int getRespostaId() {
+        return respostaId;
+    }
+
+    public void setRespostaId(int respostaId) {
+        this.respostaId = respostaId;
     }
 
     public int getAutorId() {

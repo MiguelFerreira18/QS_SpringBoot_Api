@@ -67,9 +67,9 @@ public class EtiquetaService {
     }
 
 
-    public String deleteEtiqueta(EtiquetaMaterial etiquetaMaterial) throws ExecutionException, InterruptedException {
+    public String deleteEtiqueta(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("etiquetaId",etiquetaMaterial.getEtiquetaId()).get();
+        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("etiquetaId",id).get();
         if (future.get().size()<=0)
             return "Material não encontrado para ser eleminado";
         System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));

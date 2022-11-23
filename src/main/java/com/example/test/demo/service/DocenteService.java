@@ -48,9 +48,9 @@ public class DocenteService {
         }
         return "nenhum docente encontrado";
     }
-    public String deleteDocente(Docente docente) throws ExecutionException, InterruptedException {
+    public String deleteDocente(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber",docente.getDocenteNumber()).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber",id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         if(documents.size()>0){
             ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).delete();

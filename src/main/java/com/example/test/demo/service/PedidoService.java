@@ -41,9 +41,9 @@ public class PedidoService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
-    public String deletePedido(Pedido pedido) throws InterruptedException, ExecutionException {
+    public String deletePedido(int id) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("pedidoId",pedido.getPedidoId()).get();
+        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("pedidoId",id).get();
         if (future.get().size()<=0)
             return "Pedido não encontrado para ser eleminado";
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();

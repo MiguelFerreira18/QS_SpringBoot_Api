@@ -42,9 +42,9 @@ public class MaterialService {
     }
 
 
-    public String deleteMat(Material mat) throws InterruptedException, ExecutionException {
+    public String deleteMat(int id) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("materialId",mat.getMaterialId()).get();
+        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("materialId",id).get();
         if (future.get().size()<=0)
             return "Material não encontrado para ser eleminado";
         System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));

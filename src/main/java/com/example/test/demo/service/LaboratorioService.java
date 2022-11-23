@@ -40,9 +40,9 @@ public class LaboratorioService {
         return null;
     }
 
-    public String deleteLab(Laboratorio laboratorio) throws ExecutionException, InterruptedException {
+    public String deleteLab(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         if (documents.size() > 0) {
             ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).delete();
