@@ -18,6 +18,13 @@ public class DocenteService {
 
     private static final String COL_NAME = "docente";
 
+    /**
+     * metodo para creiar um novo docente na base de dados
+     * @param docente docente que vêm do client side
+     * @return retorna o momento em que foi adicionado
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String saveDocente(Docente docente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         /*ADICIONA UM NOVO MATERIAL*/
@@ -25,6 +32,12 @@ public class DocenteService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
+    /**
+     * metodo para obter todos os docentes da base de dados
+     * @return retorna a lista de docentes
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<Docente> getAllDocentes() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
@@ -39,6 +52,13 @@ public class DocenteService {
         return null;
     }
 
+    /**
+     * metodo para alterar um docente na base de dados
+     * @param docente docente que vêm do client side
+     * @return retorna o momento em que foi alterado
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updateDocente(Docente docente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", docente.getDocenteNumber()).get();
@@ -50,6 +70,13 @@ public class DocenteService {
         return "nenhum docente encontrado";
     }
 
+    /**
+     * metodo para eliminar um docente na base de dados
+     * @param id id do docente que vêm do client side
+     * @return retorna o momento em que foi eliminado
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String deleteDocente(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
@@ -61,6 +88,13 @@ public class DocenteService {
         return "docente não encontrado";
     }
 
+    /**
+     * metodo para retornar um docente atravès do id
+     * @param id id do docente que vêm do client side
+     * @return retorna o docente com o id dado
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public Docente getDocenteById(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
@@ -78,10 +112,10 @@ public class DocenteService {
 //     LER TODAS AS UC DO DOCENTE */
 
     /**
-     *
-     * @param id
-     * @param uc
-     * @return
+     * adiciona uma uc ao docente
+     * @param id id do docente
+     * @param uc nome da uc
+     * @return retorna o momento em que foi adicionado
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -99,10 +133,10 @@ public class DocenteService {
     }
 
     /**
-     *
-     * @param id
-     * @param uc
-     * @return
+     * remove uma uc ao docente
+     * @param id id do docente
+     * @param uc nome da uc
+     * @return retorna o momento em que foi removido
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -120,9 +154,9 @@ public class DocenteService {
     }
 
     /**
-     *
-     * @param id
-     * @param uc
+     * altera uma uc ao docente
+     * @param id id do docente
+     * @param uc nome da uc
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
@@ -141,9 +175,9 @@ public class DocenteService {
     }
 
     /**
-     *
-     * @param id
-     * @return
+     * retorna todas as uc do docente
+     * @param id id do docente
+     * @return retorna uma lista com todas as uc do docente
      * @throws ExecutionException
      * @throws InterruptedException
      */

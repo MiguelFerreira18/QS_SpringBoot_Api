@@ -13,6 +13,8 @@ public class Pedido {
     private int respostaId;
 
     /*!*NÃO ESQUECER DE PERGUNTAR AO QUENTAL*!*/
+
+    /*FAZER DEPOIS PEDIDOS ABSTRATOS*/
     public Pedido(int respostaId,int autorId,int pedidoId, int labId, boolean resposta, String tipoPedido) {
         this.autorId = autorId;
         this.labId = labId;
