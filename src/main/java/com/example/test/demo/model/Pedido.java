@@ -1,24 +1,24 @@
 package com.example.test.demo.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pedido {
-    private int autorId;
+public abstract class Pedido {
+
     private int pedidoId;
-    private int labId;
-    private List<String> etiquetas;
+    private String dataPedido;
+
     private boolean resposta;
     private String tipoPedido;
     private int respostaId;
 
-    /*!*NÃO ESQUECER DE PERGUNTAR AO QUENTAL*!*/
-    public Pedido(int respostaId,int autorId,int pedidoId, int labId, boolean resposta, String tipoPedido) {
-        this.autorId = autorId;
-        this.labId = labId;
-        this.etiquetas = new ArrayList<>();
-        this.resposta = resposta;
+    public Pedido(int respostaId,int pedidoId, String tipoPedido) {
+
+
+        this.resposta = false;
         this.tipoPedido = tipoPedido;
+        this.dataPedido = LocalDate.now().toString();
         this.pedidoId = pedidoId;
         this.respostaId = respostaId;
     }
@@ -34,28 +34,12 @@ public class Pedido {
         this.respostaId = respostaId;
     }
 
-    public int getAutorId() {
-        return autorId;
+    public String getDataPedido() {
+        return dataPedido;
     }
 
-    public void setAutorId(int autorId) {
-        this.autorId = autorId;
-    }
-
-    public int getLabId() {
-        return labId;
-    }
-
-    public void setLabId(int labId) {
-        this.labId = labId;
-    }
-
-    public List<String> getEtiquetas() {
-        return etiquetas;
-    }
-
-    public void setEtiquetas(List<String> etiquetas) {
-        this.etiquetas = etiquetas;
+    public void setDataPedido(String dataPedido) {
+        this.dataPedido = dataPedido;
     }
 
     public boolean isResposta() {
