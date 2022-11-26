@@ -8,14 +8,12 @@ public abstract class Pedido {
 
     private int pedidoId;
     private String dataPedido;
-
     private boolean resposta;
     private String tipoPedido;
     private int respostaId;
 
+
     public Pedido(int respostaId,int pedidoId, String tipoPedido) {
-
-
         this.resposta = false;
         this.tipoPedido = tipoPedido;
         this.dataPedido = LocalDate.now().toString();

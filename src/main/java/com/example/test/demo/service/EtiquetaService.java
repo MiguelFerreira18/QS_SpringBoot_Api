@@ -20,6 +20,13 @@ public class EtiquetaService {
 
     public static final String COL_NAME = "etiquetaMaterial";
 
+    /**
+     * Metodo cria uma nova etiqueta na base de dados
+     * @param etiquetaMaterial objeto enviado do client side
+     * @return retorna a data de criação da etiqueta
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String saveEtiqueta(EtiquetaMaterial etiquetaMaterial) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
@@ -42,6 +49,12 @@ public class EtiquetaService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
+    /**
+     * Metodo que retorna uma lista de etiquetas
+     * @return retorna uma lista de etiquetas
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<EtiquetaMaterial> getAllEtiquetas() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
@@ -57,6 +70,13 @@ public class EtiquetaService {
     }
 
 
+    /**
+     * metodo que atualiza uma etiqueta
+     * @param etiquetaMaterial objeto enviado do client side
+     * @return retorna a data de atualização da etiqueta
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updateEtiqueta(EtiquetaMaterial etiquetaMaterial) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("etiquetaId", etiquetaMaterial.getEtiquetaId()).get();
@@ -68,6 +88,13 @@ public class EtiquetaService {
         return apiFuture.get().getUpdateTime().toString();
     }
 
+    /**
+     * metodo que apaga uma etiqueta
+     * @param id id da etiqueta a ser apagada
+     * @return retorna a data de apagamento da etiquetas
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
 
     public String deleteEtiqueta(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -90,10 +117,10 @@ public class EtiquetaService {
      */
 
     /**
-     *
-     * @param idEtiqueta
-     * @param comp
-     * @return
+     * metodo que adiciona um componente a uma etiqueta
+     * @param idEtiqueta id da etiqueta
+     * @param comp componente a ser adicionado
+     * @return retorna a data de atualização da etiqueta
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -111,10 +138,10 @@ public class EtiquetaService {
     }
 
     /**
-     *
-     * @param idEtiqueta
-     * @param componente
-     * @return
+     * metodo apaga um componente de uma etiqueta
+     * @param idEtiqueta id da etiqueta
+     * @param componente componente a ser apagado
+     * @return retorna a data de atualização da etiqueta
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -137,9 +164,9 @@ public class EtiquetaService {
     }
 
     /**
-     *
-     * @param idEtiqueta
-     * @return
+     * metodo que devolve todos os componentes de uma etiqueta
+     * @param idEtiqueta id da etiqueta
+     * @return retorna uma lista de componentes
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -152,13 +179,13 @@ public class EtiquetaService {
         EtiquetaMaterial etiquetaMaterial = future.get().getDocuments().get(0).toObject(EtiquetaMaterial.class);
         return etiquetaMaterial.getComponentes();
     }
-    /*FIM DOS CASOS PARTICULARES DOS DOCUMENTOS*/
+    /*FIM DOS CASOS PARTICULARES DOS COMPONENTES*/
 
     /**
-     *
-     * @param idEtiqueta
-     * @param idMaterial
-     * @return
+     * metodo que adiciona um material a uma etiqueta
+     * @param idEtiqueta id da etiqueta
+     * @param idMaterial id do material a ser adicionado
+     * @return retorna a data de atualização da etiqueta
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -176,10 +203,10 @@ public class EtiquetaService {
     }
 
     /**
-     *
-     * @param idEtiqueta
-     * @param idMaterial
-     * @return
+     * metodo que apaga um material de uma etiqueta
+     * @param idEtiqueta id da etiqueta
+     * @param idMaterial id do material a ser apagado
+     * @return retorna a data de atualização da etiqueta
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -197,7 +224,7 @@ public class EtiquetaService {
     }
 
     /**
-     *
+     * metodo que devolve todos os materiais de uma etiqueta
      * @param idEtiqueta
      * @return
      * @throws ExecutionException
