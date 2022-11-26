@@ -1,13 +1,13 @@
 package com.example.test.demo.model;
 
-import java.util.List;
-
 public class PedidoLaboratorio extends Pedido {
     private int labId;
+    private int authorId;
 
-    public PedidoLaboratorio(int respostaId,int pedidoId, String tipoPedido, int labId) {
+    public PedidoLaboratorio(int respostaId,int pedidoId, String tipoPedido, int labId, int autorId) {
         super(respostaId,pedidoId,tipoPedido);
         this.labId = labId;
+        this.authorId = autorId;
     }
 
     public PedidoLaboratorio() {
@@ -21,4 +21,11 @@ public class PedidoLaboratorio extends Pedido {
         this.labId = labId;
     }
 
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
+    }
 }
