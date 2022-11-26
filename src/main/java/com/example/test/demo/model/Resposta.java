@@ -5,7 +5,6 @@ import java.util.List;
 public abstract class Resposta {
     private String data;
     private String descricao;
-
     private int respostaId;
     private int tipoResposta;
     private int utilizadorId;

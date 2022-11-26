@@ -18,20 +18,6 @@ public class RespostaService {
 
     private static final String COL_NAME = "resposta";
     /*RESPOSTA LABORATORIO*/
-  /*  public List<RespostaLaboratorio> getAllRespostasLaboratorio() throws ExecutionException, InterruptedException {
-
-        Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<RespostaLaboratorio> respostas = new ArrayList<>();
-        if (documents.size() > 0) {
-            for (QueryDocumentSnapshot doc : documents) {
-                respostas.add(doc.toObject(RespostaLaboratorio.class));
-            }
-            return respostas;
-        }
-        return null;
-    }*/
 
     public String createRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -48,9 +34,9 @@ public class RespostaService {
 
             }
         }
-        oldResposta.setRespostaId(biggest + 1);
+        resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(oldResposta);
+        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
         return colApiFuture.get().getUpdateTime().toString();
     }
 
@@ -64,20 +50,7 @@ public class RespostaService {
     }
 
     /*RESPOSTA MATERIAL*/
-//    public List<RespostaMaterial> getAllRespostasMaterial() throws ExecutionException, InterruptedException {
-//
-//        Firestore db = FirestoreClient.getFirestore();
-//        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
-//        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-//        List<RespostaMaterial> respostas = new ArrayList<>();
-//        if (documents.size() > 0) {
-//            for (QueryDocumentSnapshot doc : documents) {
-//                respostas.add(doc.toObject(RespostaMaterial.class));
-//            }
-//            return respostas;
-//        }
-//        return null;
-//    }
+
 
     public String createRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -94,9 +67,9 @@ public class RespostaService {
 
             }
         }
-        oldResposta.setRespostaId(biggest + 1);
+        resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(oldResposta);
+        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
         return colApiFuture.get().getUpdateTime().toString();
     }
 
@@ -110,20 +83,6 @@ public class RespostaService {
     }
 
     /*RESPOSTA UTILIZADOR*/
-  /*  public List<RespostaUtilizador> getAllRespostasUtilizador() throws ExecutionException, InterruptedException {
-
-        Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<RespostaUtilizador> respostas = new ArrayList<>();
-        if (documents.size() > 0) {
-            for (QueryDocumentSnapshot doc : documents) {
-                respostas.add(doc.toObject(RespostaUtilizador.class));
-            }
-            return respostas;
-        }
-        return null;
-    }*/
 
     public String createRespostaUtilizador(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -140,12 +99,28 @@ public class RespostaService {
 
             }
         }
-        oldResposta.setRespostaId(biggest + 1);
+        resposta.setRespostaId(biggest + 1);
 
 
         /*ADICIONA UM NOVO PEDIDO*/
 
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(oldResposta);
+        //SE A RESPOSTA TIVER A DIZRE QUE FOI ACEITE O ESTADO DO DOCENTE MUDA PARA 1 SE NÃO, MUDA PARA -1(DEVE SER ELIMINADO O DOCENTE)
+        if (resposta.isAceite()) {
+            ApiFuture<QuerySnapshot> docenteQuery = db.collection("Docente").whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+            Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
+            docenteWithAccess.setHasAccess(1);
+            db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
+
+        } else if (!resposta.isAceite()) {
+
+            /*!PERGUNTAR AO QUENTAL COMO PROCEDER (SE APAGA OU NÃO O DOCENTE AQUI)!*/
+            ApiFuture<QuerySnapshot> docenteQuery = db.collection("Docente").whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+            Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
+            docenteWithAccess.setHasAccess(-1);
+            db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
+        }
+
+        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
         return colApiFuture.get().getUpdateTime().toString();
     }
 
@@ -225,8 +200,6 @@ public class RespostaService {
         RespostaMaterial resposta = future.get().getDocuments().get(0).toObject(RespostaMaterial.class);
         return resposta.getMateriaisId();
     }
-
-
 
 
 }
