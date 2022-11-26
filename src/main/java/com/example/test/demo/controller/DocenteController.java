@@ -52,4 +52,11 @@ public class DocenteController {
     public List<String> getDocentesByUcs(@PathVariable int id) throws Exception {
         return docenteService.getAllUcFromDocente(id);
     }
+
+    /*!AUTH REQUEST!*/
+    @GetMapping("/auth")
+    public int authDocente(@RequestBody int numeroDocente, @RequestBody String password) throws Exception {
+        return docenteService.giveDocenteAccess(numeroDocente, password);
+    }
+
 }

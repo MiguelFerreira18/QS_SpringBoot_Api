@@ -10,26 +10,26 @@ public class Docente {
     private int docenteNumber;
     private List<String> unidadesCurriculares;
     private boolean isAdmin;
-    private boolean hasAccess;
+    private int hasAccess;
 
 
-    public Docente(boolean hasAccess,String docenteNome, String docenteEmail, String docentePassword, int docenteId, boolean isAdmin) {
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteId, boolean isAdmin) {
         this.docenteNome = docenteNome;
         this.docenteEmail = docenteEmail;
         this.docentePassword = docentePassword;
         this.docenteNumber = docenteId;
         this.unidadesCurriculares = new ArrayList<>() ;
         this.isAdmin = isAdmin;
-        this.hasAccess = hasAccess;
+        this.hasAccess = 0;
     }
     public Docente() {
     }
 
-    public boolean isHasAccess() {
+    public int getHasAccess() {
         return hasAccess;
     }
 
-    public void setHasAccess(boolean hasAccess) {
+    public void setHasAccess(int hasAccess) {
         this.hasAccess = hasAccess;
     }
 

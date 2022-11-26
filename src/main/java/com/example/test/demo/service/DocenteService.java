@@ -191,4 +191,18 @@ public class DocenteService {
         }
         return null;
     }
+
+    /*!AUTH REQUEST!*/
+    public int giveDocenteAccess(int docenteNumber, String password) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", docenteNumber).whereEqualTo("docentePassword",password).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.size() > 0) {
+            Docente docente = documents.get(0).toObject(Docente.class);
+            if (docente.getDocentePassword().equals(password)) {
+                return docente.getHasAccess();
+            }
+        }
+        return -1;
+    }
 }
