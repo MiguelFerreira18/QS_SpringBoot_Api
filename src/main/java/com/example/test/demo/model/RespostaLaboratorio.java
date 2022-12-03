@@ -5,11 +5,14 @@ public class RespostaLaboratorio extends Resposta{
     private String dataReservaInicio;
     private String dataReservaFim;
 
-    public RespostaLaboratorio(String data, String descricao, int respostaId, int tipoResposta, int laboratorioId, String dataReservaInicio,boolean isAceite ,String dataReservaFim,int utilizadorId) {
-        super(data, descricao, respostaId, tipoResposta,utilizadorId,isAceite);
+    public RespostaLaboratorio(String data, String descricao, int respostaId, int tipoResposta, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) {
+        super(data, descricao, respostaId, tipoResposta, utilizadorId);
         this.laboratorioId = laboratorioId;
         this.dataReservaInicio = dataReservaInicio;
         this.dataReservaFim = dataReservaFim;
+    }
+
+    public RespostaLaboratorio() {
     }
 
     public int getLaboratorioId() {
