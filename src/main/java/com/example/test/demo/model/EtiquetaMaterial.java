@@ -6,18 +6,20 @@ import java.util.List;
 public class EtiquetaMaterial {
     private List<Componente> componentes;
     private String etiqueta;
+    private String subEtiqueta;
     private List<Integer> materiaisId;
     private String descircaoMatetial;
     private int quantidade;
     private int etiquetaId;
 
-    public EtiquetaMaterial( String etiqueta,  String descircaoMatetial, int quantidade,int etiquetaId) {
+    public EtiquetaMaterial( String etiqueta,  String descircaoMatetial, int quantidade,int etiquetaId, String subEtiqueta) {
         this.componentes = new ArrayList<>();
         this.etiqueta = etiqueta;
         this.etiquetaId = etiquetaId;
         this.materiaisId = new ArrayList<>();
         this.descircaoMatetial = descircaoMatetial;
         this.quantidade = quantidade;
+        this.subEtiqueta = subEtiqueta;
     }
 
     public EtiquetaMaterial() {
@@ -69,5 +71,13 @@ public class EtiquetaMaterial {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getSubEtiqueta() {
+        return subEtiqueta;
+    }
+
+    public void setSubEtiqueta(String subEtiqueta) {
+        this.subEtiqueta = subEtiqueta;
     }
 }

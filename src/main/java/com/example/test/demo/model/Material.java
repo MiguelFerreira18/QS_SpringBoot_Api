@@ -10,7 +10,7 @@ public class Material {
     private boolean isAvariado;
     private int materialId;
     private int etiquetaId;
-
+    private ArrayList<String> uniadadesCurriculares;
     private List<Integer> respostasMaterial;
 
     public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId ){
@@ -21,6 +21,7 @@ public class Material {
         this.materialId = materialId;
         this.etiquetaId = etiquetaId;
         respostasMaterial = new ArrayList<>();
+        uniadadesCurriculares = new ArrayList<>();
     }
 
     public Material() {
@@ -82,4 +83,11 @@ public class Material {
         this.materialId = materialId;
     }
 
+    public ArrayList<String> getUniadadesCurriculares() {
+        return uniadadesCurriculares;
+    }
+
+    public void setUniadadesCurriculares(ArrayList<String> uniadadesCurriculares) {
+        this.uniadadesCurriculares = uniadadesCurriculares;
+    }
 }

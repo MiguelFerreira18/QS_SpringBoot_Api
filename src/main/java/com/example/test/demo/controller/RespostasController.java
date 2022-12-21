@@ -19,6 +19,7 @@ public class RespostasController {
 
     /*RESPOSTA LABORATORIO*/
 
+
     /*@GetMapping("/all")
     public String getRespostasLaboratorio() throws Exception {
         return respostaService.getAllRespostasLaboratorio().toString();
