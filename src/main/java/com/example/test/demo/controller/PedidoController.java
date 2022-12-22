@@ -20,8 +20,8 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-
     /*HTTP REQUESTS FOR PEIDDO UTILIZADOR*/
+
     @PostMapping("/utilizador")
     public void addPedidoUtilizador(@RequestBody PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
         pedidoService.createPedidoUtilizador(pedido);

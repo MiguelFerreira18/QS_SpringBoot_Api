@@ -48,9 +48,7 @@ public abstract class Pedido {
         this.resposta = resposta;
     }
 
-    public String getTipoPedido() {
-        return tipoPedido;
-    }
+    public abstract String getTipoPedido();
 
     public void setTipoPedido(String tipoPedido) {
         this.tipoPedido = tipoPedido;

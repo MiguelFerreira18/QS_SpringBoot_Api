@@ -30,9 +30,7 @@ public abstract class Resposta {
         this.utilizadorId = utilizadorId;
     }
 
-    public int getTipoResposta() {
-        return tipoResposta;
-    }
+    public abstract int getTipoResposta() ;
 
     public void setTipoResposta(int tipoResposta) {
         this.tipoResposta = tipoResposta;

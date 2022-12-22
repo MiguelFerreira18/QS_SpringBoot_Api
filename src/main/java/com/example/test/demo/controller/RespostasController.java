@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/resposta")
@@ -17,7 +18,14 @@ public class RespostasController {
     @Autowired
     private RespostaService respostaService;
 
+
+    @GetMapping("/all")
+    public List<Resposta> getRespostaLaboratorio() throws InterruptedException, ExecutionException {
+        return respostaService.getAllRespostas();
+    }
+
     /*RESPOSTA LABORATORIO*/
+
 
 
     /*@GetMapping("/all")

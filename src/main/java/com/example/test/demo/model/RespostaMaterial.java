@@ -7,9 +7,10 @@ public class RespostaMaterial extends Resposta {
     private List<Integer> materiaisId;
     private String dataReserva;
     private String dataEntrega;
+    private static final int TIPO_RESPOSTA = 2;
 
-    public RespostaMaterial(String data, String descricao, int respostaId, int tipoResposta, String dataReserva, String dataEntrega, int utilizadorId) {
-        super(data, descricao, respostaId, tipoResposta,utilizadorId);
+    public RespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) {
+        super(data, descricao, respostaId, TIPO_RESPOSTA,utilizadorId);
         this.materiaisId = new ArrayList<>();
         this.dataReserva = dataReserva;
         this.dataEntrega = dataEntrega;
@@ -37,5 +38,10 @@ public class RespostaMaterial extends Resposta {
 
     public void setDataEntrega(String dataEntrega) {
         this.dataEntrega = dataEntrega;
+    }
+
+    @Override
+    public int getTipoResposta() {
+        return TIPO_RESPOSTA;
     }
 }

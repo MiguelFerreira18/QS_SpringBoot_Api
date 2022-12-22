@@ -6,14 +6,21 @@ import java.util.List;
 public class PedidoMaterial extends Pedido{
     private List<String> etiquetas;
     private int authorId;
+    private final static String TIPO_MATERIAL = "pedidoMaterial";
 
-    public PedidoMaterial(int respostaId,int pedidoId, String tipoPedido, int autorId) {
-        super(respostaId,pedidoId,tipoPedido);
+    public PedidoMaterial(int respostaId,int pedidoId, int autorId) {
+        super(respostaId,pedidoId,TIPO_MATERIAL);
         etiquetas = new ArrayList<>();
         this.authorId = autorId;
     }
 
     public PedidoMaterial() {
+    }
+
+
+    @Override
+    public String getTipoPedido() {
+        return TIPO_MATERIAL;
     }
 
     public List<String> getEtiquetas() {
