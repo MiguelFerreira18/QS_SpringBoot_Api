@@ -5,6 +5,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.DataSnapshot;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ public class RespostaService {
 
 
     /*TODAS AS RESPOSTAS */
-    public List<Resposta> getAllRespostas() throws ExecutionException, InterruptedException {
-        List<Resposta> respostas = new ArrayList<>();
+    public List<Object> getAllRespostas() throws ExecutionException, InterruptedException {
+        List<Object> respostas = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for (QueryDocumentSnapshot document : documents) {
-            Resposta resposta = document.toObject(Resposta.class);
+            Object resposta = document.toObject(Object.class);
             respostas.add(resposta);
         }
         return respostas;
@@ -76,7 +77,7 @@ public class RespostaService {
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
-            oldResposta = doc.toObject(RespostaLaboratorio.class);
+            oldResposta = doc.toObject(RespostaMaterial.class);
             if (oldResposta.getRespostaId() > biggest) {
                 biggest = oldResposta.getRespostaId();
 

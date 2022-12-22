@@ -20,7 +20,7 @@ public class RespostasController {
 
 
     @GetMapping("/all")
-    public List<Resposta> getRespostaLaboratorio() throws InterruptedException, ExecutionException {
+    public List<Object> getRespostaLaboratorio() throws InterruptedException, ExecutionException {
         return respostaService.getAllRespostas();
     }
 

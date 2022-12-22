@@ -15,6 +15,8 @@ public class RespostaMaterial extends Resposta {
         this.dataReserva = dataReserva;
         this.dataEntrega = dataEntrega;
     }
+    public RespostaMaterial() {
+    }
 
     public List<Integer> getMateriaisId() {
         return materiaisId;
