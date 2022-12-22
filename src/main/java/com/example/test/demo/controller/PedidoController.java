@@ -24,7 +24,6 @@ public class PedidoController {
     public List<Object> getPedidoLaboratorio() throws InterruptedException, ExecutionException {
         return pedidoService.getAllPedidos();
     }
-
     /*HTTP REQUESTS FOR PEDIDO UTILIZADOR (ignore a gralha)*/
 
     @PostMapping("/utilizador")

@@ -10,21 +10,38 @@ import java.io.FileInputStream;
 
 @Service
 public class FBInitialize {
-    
+
 
     @PostConstruct
     public void Fbinit() {
-        try {
-            FileInputStream serviceAccount = new FileInputStream("serviceAccountKey.json");
+        boolean isTesting = true;//*?ALTERAR ESTA PARTE AQUI PARA TROCAR A BASE DE DADOS OU PARA TESTE OU PARA PRODUÇÃO?*/
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("firebase-adminsdk-r2dfq@methodstest-cf1a6.iam.gserviceaccount.com")
-                    .build();
+        if (isTesting) {
+            try {
+                FileInputStream serviceAccount = new FileInputStream("serviceAccountKeyTesting.json");
 
-            FirebaseApp.initializeApp(options);
-        } catch (Exception e) {
-            e.printStackTrace();
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setDatabaseUrl("firebase-adminsdk-r2dfq@methodstest-cf1a6.iam.gserviceaccount.com")
+                        .build();
+
+                FirebaseApp.initializeApp(options);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            try {
+                FileInputStream serviceAccount = new FileInputStream("serviceAccountKey.json");
+
+                FirebaseOptions options = new FirebaseOptions.Builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                        .setDatabaseUrl("firebase-adminsdk-r2dfq@methodstest-cf1a6.iam.gserviceaccount.com")
+                        .build();
+
+                FirebaseApp.initializeApp(options);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }
