@@ -44,6 +44,5 @@ class MaterialControlerTest {
         mockitoMvc.perform(get("/material/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].descricao").value("cenas"));
-
     }
 }

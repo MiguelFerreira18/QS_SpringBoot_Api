@@ -20,7 +20,12 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
-    /*HTTP REQUESTS FOR PEIDDO UTILIZADOR*/
+    @GetMapping("/all")
+    public List<Object> getPedidoLaboratorio() throws InterruptedException, ExecutionException {
+        return pedidoService.getAllPedidos();
+    }
+
+    /*HTTP REQUESTS FOR PEDIDO UTILIZADOR (ignore a gralha)*/
 
     @PostMapping("/utilizador")
     public void addPedidoUtilizador(@RequestBody PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
