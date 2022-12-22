@@ -45,6 +45,4 @@ class MaterialControlerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].descricao").value("cenas"));
     }
-    /*!FAZER TESTES NA BASE DE DADOS DIRETAMENTE*/
-
 }
