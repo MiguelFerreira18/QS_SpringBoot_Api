@@ -82,7 +82,10 @@ public class MaterialService {
     /*CASOS PARTICULARES*/
     /*
     * ADICIONAR RESPOSTA AO MATERIAL
-    * ALTERAR RESPOSTA NO MATERIAL*/
+    * ALTERAR RESPOSTA NO MATERIAL
+    * ADICIONA UMA UC NA QUAL O MATERIAL PODE SER USADO
+    * ALTERA UMA UC NA QUAL O MATERIAL PODE SER USADO
+    * APAGA UMA UC NA QUAL O MATERIAL PDOE SER USADO*/
 
     public String createRespostaToMaterial(int idResposta,int idMaterial) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -102,6 +105,38 @@ public class MaterialService {
         Material mat = future.get().getDocuments().get(0).toObject(Material.class);
         mat.getRespostasMaterial().remove(mat.getRespostasMaterial().indexOf(idResposta));
         mat.getRespostasMaterial().add(idResposta);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        return apiFuture.get().getUpdateTime().toString();
+    }
+
+    public String createUcToMaterial(String idUc,int idMaterial) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idMaterial).get();
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        Material mat = future.get().getDocuments().get(0).toObject(Material.class);
+        mat.getUniadadesCurriculares().add(idUc);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        return apiFuture.get().getUpdateTime().toString();
+    }
+    public String updateUcToMaterial(String idUc,int idMaterial) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idMaterial).get();
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        Material mat = future.get().getDocuments().get(0).toObject(Material.class);
+        mat.getUniadadesCurriculares().remove(mat.getUniadadesCurriculares().indexOf(idUc));
+        mat.getUniadadesCurriculares().add(idUc);
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        return apiFuture.get().getUpdateTime().toString();
+    }
+    public String deleteUcToMaterial(String idUc,int idMaterial) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idMaterial).get();
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        Material mat = future.get().getDocuments().get(0).toObject(Material.class);
+        mat.getUniadadesCurriculares().remove(mat.getUniadadesCurriculares().indexOf(idUc));
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
         return apiFuture.get().getUpdateTime().toString();
     }

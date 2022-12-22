@@ -2,11 +2,10 @@ package com.example.test.demo.service;
 
 import com.example.test.demo.model.*;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.DataSnapshot;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +16,24 @@ import java.util.concurrent.ExecutionException;
 public class RespostaService {
 
     private static final String COL_NAME = "resposta";
+
+
+    /*TODAS AS RESPOSTAS */
+    public List<Object> getAllRespostas() throws ExecutionException, InterruptedException {
+        List<Object> respostas = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            Object resposta = document.toObject(Object.class);
+            respostas.add(resposta);
+        }
+        return respostas;
+    }
+
+
     /*RESPOSTA LABORATORIO*/
+
 
     public String createRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -61,7 +77,7 @@ public class RespostaService {
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
-            oldResposta = doc.toObject(RespostaLaboratorio.class);
+            oldResposta = doc.toObject(RespostaMaterial.class);
             if (oldResposta.getRespostaId() > biggest) {
                 biggest = oldResposta.getRespostaId();
 

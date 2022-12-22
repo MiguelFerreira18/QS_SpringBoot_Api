@@ -20,7 +20,23 @@ import java.util.concurrent.ExecutionException;
 public class PedidoService {
 
     public static String COL_NAME = "pedido";
+    public static String PEDIDO_NAME_UTILIZADOR = "pedidoUtilizador";
+    public static String PEDIDO_NAME_MATERIAL = "pedidoMaterial";
+    public static String PEDIDO_NAME_LABORATORIO = "pedidoLaboratorio";
 
+
+
+    public List<Object> getAllPedidos() throws ExecutionException, InterruptedException {
+        List<Object> pedidos = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            Object resposta = document.toObject(Object.class);
+            pedidos.add(resposta);
+        }
+        return pedidos;
+    }
 
     /*PEDIDOS DO TIPO UTILIZADOR*/
 
@@ -54,7 +70,7 @@ public class PedidoService {
                 .collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedido.getPedidoId())
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido","Pedido Utilizador")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_UTILIZADOR)
                 .get();
 
 
@@ -71,7 +87,7 @@ public class PedidoService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido","Pedido Utilizador")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_UTILIZADOR)
                 .get();
         //delete a document from firestore
         if (future.get().size() <= 0)
@@ -111,7 +127,7 @@ public class PedidoService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedido.getPedidoId())
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido","Pedido Material")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", pedido.getAuthorId())
                 .get();
 
@@ -128,7 +144,7 @@ public class PedidoService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido","Pedido Material")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //delete a document from firestore
@@ -169,7 +185,7 @@ public class PedidoService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedido.getPedidoId())
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido","Pedido Laboratorio")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_LABORATORIO)
                 .whereEqualTo("authorId", pedido.getAuthorId())
                 .get();
         //update a document from firestore
@@ -185,7 +201,7 @@ public class PedidoService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido","Pedido Laboratorio")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_LABORATORIO)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //delete a document from firestore
@@ -214,7 +230,7 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
-                .whereEqualTo("tipoPedido", "Pedido Material")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //update a document from firestore
@@ -237,7 +253,7 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
-                .whereEqualTo("tipoPedido", "Pedido Material")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //update a document from firestore
@@ -259,7 +275,7 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
-                .whereEqualTo("tipoPedido", "Pedido Material")
+                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //update a document from firestore
