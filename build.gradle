@@ -28,11 +28,25 @@ jar {
 dependencies {
 	implementation 'com.google.firebase:firebase-admin:9.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation ('org.springframework.boot:spring-boot-starter-test'){
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	// https://mvnrepository.com/artifact/junit/junit
+	testImplementation 'junit:junit:4.13.2'
+
 	testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.12.4'
+
+
+
+
+
+
+
+
 }
 
 tasks.named('test') {
