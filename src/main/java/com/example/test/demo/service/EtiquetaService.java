@@ -124,7 +124,7 @@ public class EtiquetaService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String addComponente(int idEtiqueta, Componente comp) throws ExecutionException, InterruptedException {
+    public String addComponente(int idEtiqueta, int comp) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("etiquetaId", idEtiqueta).get();
         //update a document from firestore
@@ -145,16 +145,16 @@ public class EtiquetaService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String deleteComponente(int idEtiqueta, Componente componente) throws ExecutionException, InterruptedException {
+    public String deleteComponente(int idEtiqueta, int componente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("etiquetaId", idEtiqueta).get();
         //update a document from firestore
         if (future.get().size() <= 0)
             return "No elements to be queried";
         EtiquetaMaterial etiquetaMaterial = future.get().getDocuments().get(0).toObject(EtiquetaMaterial.class);
-        for (Componente comp : etiquetaMaterial.getComponentes()) {
-            if (comp.getDescricao() == componente.getDescricao()) {
-                etiquetaMaterial.getComponentes().remove(comp);
+        for (int i = 0; i < etiquetaMaterial.getComponentes().size(); i++) {
+            if (componente == etiquetaMaterial.getComponentes().get(i)) {
+                etiquetaMaterial.getComponentes().remove(componente);
                 break;
             }
         }
@@ -170,7 +170,7 @@ public class EtiquetaService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public List<Componente> getAllComponentes(int idEtiqueta) throws ExecutionException, InterruptedException {
+    public List<Integer> getAllComponentes(int idEtiqueta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("etiquetaId", idEtiqueta).get();
         //update a document from firestore

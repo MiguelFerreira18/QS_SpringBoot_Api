@@ -25,7 +25,12 @@ public class PedidoService {
     public static String PEDIDO_NAME_LABORATORIO = "pedidoLaboratorio";
 
 
-
+    /**
+     *
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<Object> getAllPedidos() throws ExecutionException, InterruptedException {
         List<Object> pedidos = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
@@ -40,7 +45,33 @@ public class PedidoService {
 
     /*PEDIDOS DO TIPO UTILIZADOR*/
 
-    //cria um novo pedido do tipo utilizador
+    /**
+     *  Método que retorna todos os pedidos do tipo utilizador
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public List<PedidoUtilizador> getAllPedidosUtilizador() throws ExecutionException, InterruptedException {
+        List<PedidoUtilizador> pedidos = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("tipoPedido", PEDIDO_NAME_UTILIZADOR).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            PedidoUtilizador resposta = document.toObject(PedidoUtilizador.class);
+            pedidos.add(resposta);
+        }
+        return pedidos;
+    }
+
+
+
+    /**
+     * cria um novo pedido do tipo utilizador
+     * @param pedido
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String createPedidoUtilizador(PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
@@ -63,7 +94,15 @@ public class PedidoService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
-    //altera um novo pedido do utilizador
+
+
+    /**
+     * altera um pedido do utlizador
+     * @param pedido
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updatePedidoUtilizador(PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db
@@ -81,7 +120,15 @@ public class PedidoService {
         return writeResult.get().getUpdateTime().toString();
     }
 
-    //elemina pedido do utlizador sem resposta
+
+
+    /**
+     * elimina um pedido do utilizador
+     * @param pedidoId
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String deletePedidoUtilizador(int pedidoId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
@@ -98,6 +145,19 @@ public class PedidoService {
 
 
     /*PEDIDOS DO TIPO MATERIAL*/
+    public List<PedidoMaterial> getAllPedidosMaterial() throws ExecutionException, InterruptedException {
+        List<PedidoMaterial> pedidoMaterials = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            PedidoMaterial resposta = document.toObject(PedidoMaterial.class);
+            pedidoMaterials.add(resposta);
+        }
+        return pedidoMaterials;
+
+    }
+
     //cria um pedido do tipo material
     public String createPedidoMaterial(PedidoMaterial pedido) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -155,7 +215,18 @@ public class PedidoService {
     }
 
     /*PEDIDOS DO TIPO LABORATÓRIO*/
+    public List<PedidoLaboratorio> getAllPedidosLaboratorio() throws ExecutionException, InterruptedException {
+        List<PedidoLaboratorio> pedidoLaboratorios = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("tipoPedido", PEDIDO_NAME_LABORATORIO).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            PedidoLaboratorio resposta = document.toObject(PedidoLaboratorio.class);
+            pedidoLaboratorios.add(resposta);
+        }
+        return pedidoLaboratorios;
 
+    }
     //cria um pedido do tipo laboratório
     public String createPedidoLaboratorio(PedidoLaboratorio pedido) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();

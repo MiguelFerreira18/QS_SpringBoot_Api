@@ -28,10 +28,10 @@ public class RespostasController {
 
 
 
-    /*@GetMapping("/all")
-    public String getRespostasLaboratorio() throws Exception {
-        return respostaService.getAllRespostasLaboratorio().toString();
-    }*/
+    @GetMapping("/allLaboratorios")
+    public List<RespostaLaboratorio> getRespostasLaboratorio() throws Exception {
+        return respostaService.getRespostaLaboratorio();
+    }
     @PostMapping("/createRespostaLaboratorio")
     public String createRespostaLaboratorio(@RequestBody RespostaLaboratorio resposta) throws Exception {
         return respostaService.createRespostaLaboratorio(resposta);
@@ -42,10 +42,10 @@ public class RespostasController {
     }
 
     /*RESPOSTA MATERIAL*/
-   /* @GetMapping("/all")
-    public String getRespostasMaterial() throws Exception {
-        return respostaService.getAllRespostasMaterial().toString();
-    }*/
+    @GetMapping("/allMateriais")
+    public List<RespostaMaterial> getRespostasMaterial() throws Exception {
+        return respostaService.getRespostaMaterial();
+    }
     @PostMapping("/createRespostaMaterial")
     public String createRespostaMaterial(@RequestBody RespostaMaterial resposta) throws Exception {
         return respostaService.createRespostaMaterial(resposta);
@@ -57,10 +57,10 @@ public class RespostasController {
 
     /*RESPOSTA UTILIZADOR*/
 
-  /*  @GetMapping("/allRespostasUtilizador")
-    public String getRespostasUtilizador() throws Exception {
-        return respostaService.getAllRespostasUtilizador().toString();
-    }*/
+    @GetMapping("/allUtilizadores")
+    public List<RespostaUtilizador> getRespostasUtilizador() throws Exception {
+        return respostaService.getRespostaUtilizador();
+    }
     @PostMapping("/createRespostaUtilizador")
     public String createRespostaUtilizador(@RequestBody RespostaUtilizador resposta) throws Exception {
         return respostaService.createRespostaUtilizador(resposta);

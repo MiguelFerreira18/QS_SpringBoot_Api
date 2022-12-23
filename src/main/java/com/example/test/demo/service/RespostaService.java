@@ -33,6 +33,17 @@ public class RespostaService {
 
 
     /*RESPOSTA LABORATORIO*/
+    public List<RespostaLaboratorio> getRespostaLaboratorio() throws ExecutionException, InterruptedException {
+        List<RespostaLaboratorio> respostasLaboratorio = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            RespostaLaboratorio resposta = document.toObject(RespostaLaboratorio.class);
+            respostasLaboratorio.add(resposta);
+        }
+        return respostasLaboratorio;
+    }
 
 
     public String createRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
@@ -66,6 +77,17 @@ public class RespostaService {
     }
 
     /*RESPOSTA MATERIAL*/
+    public List<RespostaMaterial> getRespostaMaterial() throws ExecutionException, InterruptedException {
+        List<RespostaMaterial> respostasMaterial = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            RespostaMaterial resposta = document.toObject(RespostaMaterial.class);
+            respostasMaterial.add(resposta);
+        }
+        return respostasMaterial;
+    }
 
 
     public String createRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
@@ -99,6 +121,17 @@ public class RespostaService {
     }
 
     /*RESPOSTA UTILIZADOR*/
+    public List<RespostaUtilizador> getRespostaUtilizador() throws ExecutionException, InterruptedException {
+        List<RespostaUtilizador> respostasUtilizador = new ArrayList<>();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            RespostaUtilizador resposta = document.toObject(RespostaUtilizador.class);
+            respostasUtilizador.add(resposta);
+        }
+        return respostasUtilizador;
+    }
 
     public String createRespostaUtilizador(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
