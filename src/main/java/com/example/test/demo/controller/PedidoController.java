@@ -89,7 +89,7 @@ public class PedidoController {
         return pedidoService.deleteMaterial(id,idMaterial,authorId);
     }
     @GetMapping("/getEtiquetasPedido/{id}")
-    public List<String> getEtiquetasPedido(@PathVariable int id,@RequestBody int authorId) throws Exception {
+    public List<Integer> getEtiquetasPedido(@PathVariable int id,@RequestBody int authorId) throws Exception {
         return pedidoService.getMateriais(id,authorId);
     }
 

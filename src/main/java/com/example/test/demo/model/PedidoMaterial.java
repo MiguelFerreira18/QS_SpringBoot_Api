@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoMaterial extends Pedido{
-        private List<Integer> materiais;
+    private List<Integer> materiais;
     private int authorId;
     private final static String TIPO_MATERIAL = "pedidoMaterial";
 
