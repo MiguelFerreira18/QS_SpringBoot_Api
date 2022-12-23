@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PedidoMaterial extends Pedido{
-    private List<String> etiquetas;
+        private List<Integer> materiais;
     private int authorId;
     private final static String TIPO_MATERIAL = "pedidoMaterial";
 
     public PedidoMaterial(int respostaId,int pedidoId, int autorId) {
         super(respostaId,pedidoId,TIPO_MATERIAL);
-        etiquetas = new ArrayList<>();
+        materiais = new ArrayList<>();
         this.authorId = autorId;
     }
 
@@ -23,12 +23,12 @@ public class PedidoMaterial extends Pedido{
         return TIPO_MATERIAL;
     }
 
-    public List<String> getEtiquetas() {
-        return etiquetas;
+    public List<Integer> getMateriais() {
+        return materiais;
     }
 
-    public void setEtiquetas(List<String> etiquetas) {
-        this.etiquetas = etiquetas;
+    public void setMateriais(List<Integer> materiais) {
+        this.materiais = materiais;
     }
 
     public int getAuthorId() {

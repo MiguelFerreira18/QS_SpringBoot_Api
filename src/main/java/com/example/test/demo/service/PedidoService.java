@@ -285,19 +285,19 @@ public class PedidoService {
 
     /*CASOS PARTICULARES*/
     /*
-     * ADICIONAR UMA NOVA ETIQUETA AO PEDIDO
-     * APAGAR ETIQUETA DO PEDIDO
-     * LER TODAS AS ETIQUETAS
+     * ADICIONAR UM MATERIAL AO PEDIDO
+     * APAGAR MATERIAL DO PEDIDO
+     * LER TODAS OS MATERIAIS DESSE PEDIDO
      */
 
     /**
      * @param idPedido
-     * @param nomeEtiquetas
+     * @param idMaterial
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String addEtiqueta(int idPedido, ArrayList<String> nomeEtiquetas,int authorId) throws ExecutionException, InterruptedException {
+    public String addMaterial(int idPedido, ArrayList<Integer> idMaterial, int authorId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
@@ -308,19 +308,19 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser atualizado";
         PedidoMaterial pedido = future.get().getDocuments().get(0).toObject(PedidoMaterial.class);
-        pedido.getEtiquetas().addAll(nomeEtiquetas);
+        pedido.getMateriais().addAll(idMaterial);
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
         return writeResult.get().getUpdateTime().toString();
     }
 
     /**
      * @param idPedido
-     * @param nomeEtiqueta
+     * @param idMaterial
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String deleteEtiqueta(int idPedido, String nomeEtiqueta,int authorId) throws ExecutionException, InterruptedException {
+    public String deleteMaterial(int idPedido, int idMaterial, int authorId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
@@ -331,7 +331,7 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser atualizado";
         PedidoMaterial pedido = future.get().getDocuments().get(0).toObject(PedidoMaterial.class);
-        pedido.getEtiquetas().remove(nomeEtiqueta);
+        pedido.getMateriais().remove(idMaterial);
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
         return writeResult.get().getUpdateTime().toString();
     }
@@ -342,7 +342,7 @@ public class PedidoService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public List<String> getEtiquetas(int idPedido,int authorId) throws ExecutionException, InterruptedException {
+    public List<Integer> getMateriais(int idPedido, int authorId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
@@ -353,6 +353,6 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return null;
         PedidoMaterial pedido = future.get().getDocuments().get(0).toObject(PedidoMaterial.class);
-        return pedido.getEtiquetas();
+        return pedido.getMateriais();
     }
 }
