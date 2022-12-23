@@ -8,10 +8,11 @@ public class PedidoMaterial extends Pedido{
     private int authorId;
     private final static String TIPO_MATERIAL = "pedidoMaterial";
 
-    public PedidoMaterial(int respostaId,int pedidoId, int autorId) {
+    public PedidoMaterial(int respostaId,int pedidoId, int authorId, ArrayList<>() materiais) {
         super(respostaId,pedidoId,TIPO_MATERIAL);
-        materiais = new ArrayList<>();
+        this.materiais = materiais;
         this.authorId = autorId;
+
     }
 
     public PedidoMaterial() {
