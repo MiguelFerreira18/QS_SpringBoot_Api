@@ -1,11 +1,9 @@
 package com.example.test.demo.controller;
 
-import com.example.test.demo.model.Pedido;
 import com.example.test.demo.model.PedidoLaboratorio;
 import com.example.test.demo.model.PedidoMaterial;
 import com.example.test.demo.model.PedidoUtilizador;
 import com.example.test.demo.service.PedidoService;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,16 +81,16 @@ public class PedidoController {
     /*CASOS PARTICULARES*/
 
     @PostMapping("/createEtiquetaPedido/{id}")
-    public String createEtiquetaPedido(@PathVariable int id, @RequestBody ArrayList<String> nomeEtiqueta, @RequestBody int authorId) throws Exception {
-        return pedidoService.addEtiqueta(id,nomeEtiqueta,authorId);
+    public String createEtiquetaPedido(@PathVariable int id, @RequestBody ArrayList<Integer> idMaterial, @RequestBody int authorId) throws Exception {
+        return pedidoService.addMaterial(id,idMaterial,authorId);
     }
     @DeleteMapping("/deleteEtiquetaPedido/{id}")
-    public String deleteEtiquetaPedido(@PathVariable int id,@RequestBody String nomeEtiqueta,@RequestBody int authorId) throws Exception {
-        return pedidoService.deleteEtiqueta(id,nomeEtiqueta,authorId);
+    public String deleteEtiquetaPedido(@PathVariable int id,@RequestBody Integer idMaterial,@RequestBody int authorId) throws Exception {
+        return pedidoService.deleteMaterial(id,idMaterial,authorId);
     }
     @GetMapping("/getEtiquetasPedido/{id}")
-    public List<String> getEtiquetasPedido(@PathVariable int id,@RequestBody int authorId) throws Exception {
-        return pedidoService.getEtiquetas(id,authorId);
+    public List<Integer> getEtiquetasPedido(@PathVariable int id,@RequestBody int authorId) throws Exception {
+        return pedidoService.getMateriais(id,authorId);
     }
 
 
