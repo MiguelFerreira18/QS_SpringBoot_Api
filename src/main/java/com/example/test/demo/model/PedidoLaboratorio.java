@@ -5,10 +5,10 @@ public class PedidoLaboratorio extends Pedido {
     private int authorId;
     private final static String TIPO_LABORATORIO = "pedidoLaboratorio";
 
-    public PedidoLaboratorio(int respostaId,int pedidoId, int labId, int autorId) {
+    public PedidoLaboratorio(int respostaId,int pedidoId, int labId, int authorId) {
         super(respostaId,pedidoId,TIPO_LABORATORIO);
         this.labId = labId;
-        this.authorId = autorId;
+        this.authorId = authorId;
     }
 
     public PedidoLaboratorio() {
