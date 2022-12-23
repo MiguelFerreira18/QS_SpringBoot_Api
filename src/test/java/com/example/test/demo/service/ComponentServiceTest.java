@@ -21,7 +21,7 @@ class ComponentServiceTest {
     private ComponentService myService;
 
     @Test
-    void test() {
+    void testSaveLaboratorio() {
         assertEquals(1, 1);
 
     }
