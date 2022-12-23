@@ -8,16 +8,16 @@ public class EtiquetaMaterial {
     private String etiqueta;
     private String subEtiqueta;
     private List<Integer> materiaisId;
-    private String descircaoMatetial;
+    private String descricaoMaterial;
     private int quantidade;
     private int etiquetaId;
 
-    public EtiquetaMaterial( String etiqueta,  String descircaoMatetial, int quantidade,int etiquetaId, String subEtiqueta) {
+    public EtiquetaMaterial(String etiqueta, String descricaoMaterial, int quantidade, int etiquetaId, String subEtiqueta) {
         this.componentes = new ArrayList<>();
         this.etiqueta = etiqueta;
         this.etiquetaId = etiquetaId;
         this.materiaisId = new ArrayList<>();
-        this.descircaoMatetial = descircaoMatetial;
+        this.descricaoMaterial = descricaoMaterial;
         this.quantidade = quantidade;
         this.subEtiqueta = subEtiqueta;
     }
@@ -57,12 +57,12 @@ public class EtiquetaMaterial {
         this.materiaisId = materiaisId;
     }
 
-    public String getDescircaoMatetial() {
-        return descircaoMatetial;
+    public String getDescricaoMaterial() {
+        return descricaoMaterial;
     }
 
-    public void setDescircaoMatetial(String descircaoMatetial) {
-        this.descircaoMatetial = descircaoMatetial;
+    public void setDescricaoMaterial(String descricaoMaterial) {
+        this.descricaoMaterial = descricaoMaterial;
     }
 
     public int getQuantidade() {
