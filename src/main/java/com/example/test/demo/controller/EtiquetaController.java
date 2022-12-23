@@ -35,15 +35,15 @@ public class EtiquetaController {
     /*CASOS PARTICULARES*/
 
     @PostMapping("/createComponenteEtiqueta/{id}")
-    public String createComponentesEtiqueta(@RequestBody Componente componente, @PathVariable int id) throws Exception {
+    public String createComponentesEtiqueta(@RequestBody int componente, @PathVariable int id) throws Exception {
         return etiquetaService.addComponente(id , componente);
     }
     @DeleteMapping("/deleteComponenteEtiqueta/{id}")
-    public String deleteComponentesEtiqueta(@RequestBody Componente componente, @PathVariable int id) throws Exception {
+    public String deleteComponentesEtiqueta(@RequestBody int componente, @PathVariable int id) throws Exception {
         return etiquetaService.deleteComponente(id , componente);
     }
     @GetMapping("/getComponentesEtiqueta/{id}")
-    public List<Componente> getComponentesEtiqueta(@PathVariable int id) throws Exception {
+    public List<Integer> getComponentesEtiqueta(@PathVariable int id) throws Exception {
         return etiquetaService.getAllComponentes(id);
     }
     @PostMapping("/createMaterialEtiqueta/{id}")
