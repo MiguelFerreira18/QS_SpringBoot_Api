@@ -26,6 +26,10 @@ public class PedidoController {
     }
     /*HTTP REQUESTS FOR PEDIDO UTILIZADOR (ignore a gralha)*/
 
+    @GetMapping("/allUtilizadores")
+    public List<PedidoUtilizador> getPedidosUtilizador() throws Exception {
+        return pedidoService.getAllPedidosUtilizador();
+    }
     @PostMapping("/utilizador")
     public void addPedidoUtilizador(@RequestBody PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
         pedidoService.createPedidoUtilizador(pedido);
@@ -40,6 +44,10 @@ public class PedidoController {
     }
 
     /*HTTP REQUESTS FOR PEDIDO MATERIAL*/
+    @GetMapping("/allMateriais")
+    public List<PedidoMaterial> getPedidosMaterial() throws Exception {
+        return pedidoService.getAllPedidosMaterial();
+    }
     @PostMapping("/material")
     public void addPedidoMaterial(@RequestBody PedidoMaterial pedido) throws ExecutionException, InterruptedException {
         pedidoService.createPedidoMaterial(pedido);
@@ -54,6 +62,10 @@ public class PedidoController {
     }
 
     /*HTTP REQUESTS FOR PEDIDO LABORATORIO*/
+    @GetMapping("/allLaboratorios")
+    public List<PedidoLaboratorio> getPedidosLaboratorio() throws Exception {
+        return pedidoService.getAllPedidosLaboratorio();
+    }
     @PostMapping("/laboratorio")
     public void addPedidoLaboratorio(@RequestBody PedidoLaboratorio pedido) throws ExecutionException, InterruptedException {
         pedidoService.createPedidoLaboratorio(pedido);

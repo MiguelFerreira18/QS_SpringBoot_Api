@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EtiquetaMaterial {
-    private List<Componente> componentes;
+    private List<Integer> componentes;
     private String etiqueta;
     private String subEtiqueta;
     private List<Integer> materiaisId;
@@ -33,11 +33,11 @@ public class EtiquetaMaterial {
         this.etiquetaId = etiquetaId;
     }
 
-    public List<Componente> getComponentes() {
+    public List<Integer> getComponentes() {
         return componentes;
     }
 
-    public void setComponentes(List<Componente> componentes) {
+    public void setComponentes(List<Integer> componentes) {
         this.componentes = componentes;
     }
 

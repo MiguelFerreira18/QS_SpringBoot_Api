@@ -9,12 +9,12 @@ public class Wish {
     private String descricaoMaterial;
     private String date;
 
-    public Wish(int idWish,String nomeMaterial, String descricaoMaterial,int idDocente) {
+    public Wish(int idWish,String nomeMaterial, String descricaoMaterial,int idDocente,String date) {
         this.idWish = idWish;
         this.idDocente = idDocente;
         this.nomeMaterial = nomeMaterial;
         this.descricaoMaterial = descricaoMaterial;
-        this.date = LocalDate.now().toString();
+        this.date = date;
 
     }
     public Wish() {
@@ -59,4 +59,5 @@ public class Wish {
     public void setIdWish(int idWish) {
         this.idWish = idWish;
     }
+
 }

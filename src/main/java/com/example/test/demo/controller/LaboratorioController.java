@@ -19,7 +19,7 @@ public class LaboratorioController {
         return laboratorioService.saveLaboratorio(lab);
     }
     @GetMapping("/all")
-    public List<Laboratorio> deleteLaboratorio() throws Exception {
+    public List<Laboratorio> getLaboratorio() throws Exception {
         return laboratorioService.getAllLabs();
     }
     @PutMapping("/update")
