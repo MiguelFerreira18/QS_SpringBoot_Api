@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Material {
+    private int materialId;
     private String dataEntrega;
     private String descricao;
     private boolean isDisponivel;
     private boolean isAvariado;
-    private int materialId;
-    private int etiquetaId;
+    private int etiquetaId;//È POSSIVEL QUE SEJA NECESSÀRIO REMOVER ESTA VARIAVEL; OU NA ETIQUETA A LISTA DE MATERIAIS
     private ArrayList<String> uniadadesCurriculares;
     private List<Integer> respostasMaterial;
 
     public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId ){
+        this.materialId = materialId;
         this.dataEntrega = dataEntrega;
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
         this.isAvariado = isAvariado;
-        this.materialId = materialId;
         this.etiquetaId = etiquetaId;
         respostasMaterial = new ArrayList<>();
         uniadadesCurriculares = new ArrayList<>();

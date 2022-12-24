@@ -26,17 +26,17 @@ public class WishListService {
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(wish);
         return colApiFuture.get().getUpdateTime().toString();
     }
-    public String deleteWish(String idWish) throws ExecutionException, InterruptedException {
-        Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(idWish).delete();
-        return "Document with Wish ID " + idWish + " has been deleted at " + writeResult.get().getUpdateTime();
-    }
-
     public List<Wish> getWishList() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         return documents.stream().map((document) -> document.toObject(Wish.class)).toList();
+    }
+
+    public String deleteWish(String idWish) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(idWish).delete();
+        return "Document with Wish ID " + idWish + " has been deleted at " + writeResult.get().getUpdateTime();
     }
 
 }

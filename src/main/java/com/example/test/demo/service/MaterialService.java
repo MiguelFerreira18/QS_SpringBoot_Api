@@ -41,15 +41,18 @@ public class MaterialService {
         return colApiFuture.get().getUpdateTime().toString();
     }
 
-
-    public String deleteMat(int id) throws InterruptedException, ExecutionException {
+    public List<Material> getMat() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("materialId",id).get();
-        if (future.get().size()<=0)
-            return "Material não encontrado para ser eleminado";
-        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return writeResult.get().getUpdateTime().toString();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        List<Material> mats = new ArrayList<>();
+        if(documents.size()>0){
+            for (QueryDocumentSnapshot doc: documents){
+                mats.add(doc.toObject(Material.class));
+            }
+            return mats;
+        }
+        return null;
     }
 
 
@@ -65,18 +68,14 @@ public class MaterialService {
 
     }
 
-    public List<Material> getMat() throws ExecutionException, InterruptedException {
+    public String deleteMat(int id) throws InterruptedException, ExecutionException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        List<Material> mats = new ArrayList<>();
-        if(documents.size()>0){
-            for (QueryDocumentSnapshot doc: documents){
-                mats.add(doc.toObject(Material.class));
-            }
-            return mats;
-        }
-        return null;
+        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("materialId",id).get();
+        if (future.get().size()<=0)
+            return "Material não encontrado para ser eleminado";
+        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return writeResult.get().getUpdateTime().toString();
     }
 
     /*CASOS PARTICULARES*/
