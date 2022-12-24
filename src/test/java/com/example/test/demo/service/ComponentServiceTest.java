@@ -91,7 +91,7 @@ class ComponentServiceTest {
             """)
     public void deleteComponent(int id) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteComponent(id);
-        assertNotNull(isDeleted);
+        assertNotEquals();
     }
 
 }

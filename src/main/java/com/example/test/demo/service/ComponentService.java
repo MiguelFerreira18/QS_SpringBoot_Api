@@ -69,6 +69,6 @@ public class ComponentService {
         System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
 
-        return "Document with ID " + id + " has been deleted";
+        return String.valueOf(id);
     }
 }
