@@ -72,7 +72,7 @@ class ComponentServiceTest {
         assertTrue(myService.getAllComponents().size() > 0);
     }
 
-    @ParameterizedTest//DEU ME UMA IPIFINIA ANTES DE ME IR DEITAR ISTO DEVE DAR
+    @ParameterizedTest//DEU ME UMA IPIFANIA ANTES DE ME IR DEITAR ISTO DEVE DAR
     @CsvSource(textBlock = """ 
             0,testeChange1,99
             1,testeChange2,99
@@ -81,11 +81,17 @@ class ComponentServiceTest {
         Componente componente = new Componente(id,descricaoChange, quantidadeChange);
         String isUpDated = myService.updateComponent(componente);
         assertNotNull(isUpDated);
-
     }
 
 
-    @Test
-    public void deleteComponent() {
+    @ParameterizedTest
+    @CsvSource(textBlock = """ 
+            0
+            1
+            """)
+    public void deleteComponent(int id) throws ExecutionException, InterruptedException {
+        String isDeleted = myService.deleteComponent(id);
+        assertNotNull(isDeleted);
     }
+
 }
