@@ -13,12 +13,21 @@ public class Docente {
     private int hasAccess;
 
 
-    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteId, boolean isAdmin) {
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber, boolean isAdmin) {
         this.docenteNome = docenteNome;
         this.docenteEmail = docenteEmail;
         this.docentePassword = docentePassword;
-        this.docenteNumber = docenteId;
+        this.docenteNumber = docenteNumber;
         this.unidadesCurriculares = new ArrayList<>() ;
+        this.isAdmin = isAdmin;
+        this.hasAccess = 0;
+    }
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber,ArrayList<String> unidadesCurriculares,boolean isAdmin) {
+        this.docenteNome = docenteNome;
+        this.docenteEmail = docenteEmail;
+        this.docentePassword = docentePassword;
+        this.docenteNumber = docenteNumber;
+        this.unidadesCurriculares = unidadesCurriculares;
         this.isAdmin = isAdmin;
         this.hasAccess = 0;
     }

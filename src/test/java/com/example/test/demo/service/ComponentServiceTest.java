@@ -40,11 +40,9 @@ class ComponentServiceTest {
     @BeforeEach
     void setUp()  {
         db = FirestoreClient.getFirestore();
-
     }
 
     @Test
-
     public void shouldTestCreateComponentIsSent() throws ExecutionException, InterruptedException {
         Componente componente = new Componente(0,"teste1", 1);
         String result = myService.createComponent(componente);
@@ -57,7 +55,6 @@ class ComponentServiceTest {
     public void shouldTestCreateComponentIsInDataBase(int id) throws ExecutionException, InterruptedException {
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("id", id).get();
-
         assertNotEquals(0, future.get().getDocuments().size());
     }
 
@@ -75,19 +72,18 @@ class ComponentServiceTest {
             0,testeChange1,99
             1,testeChange2,99
             """)
-    public void updateComponent(int id,String descricaoChange,int quantidadeChange) throws ExecutionException, InterruptedException {
+    public void shouldTestIfUpdateComponentWorks(int id,String descricaoChange,int quantidadeChange) throws ExecutionException, InterruptedException {
         Componente componente = new Componente(id,descricaoChange, quantidadeChange);
         String isUpDated = myService.updateComponent(componente);
         assertNotNull(isUpDated);
     }
-
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
             0
             1
             """)
-    public void deleteComponent(int id) throws ExecutionException, InterruptedException {
+    public void shouldTestIfDeleteComponentIsWorking(int id) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteComponent(id);
         assertEquals(id, Integer.parseInt(isDeleted));
     }

@@ -19,6 +19,13 @@ public class Laboratorio {
         this.refAdmin = refAdmin;
         respostasLaboratorio = new ArrayList<>();
     }
+    public Laboratorio(ArrayList<String> logs,int laboratorioId,  ArrayList<Integer> materiaisId,int refAdmin,ArrayList<Integer> respostasLaboratorio) {
+        this.logs = logs;
+        this.laboratorioId = laboratorioId;
+        this.materiaisId = materiaisId;
+        this.refAdmin = refAdmin;
+        this.respostasLaboratorio = respostasLaboratorio;
+    }
 
 
     public Laboratorio() {
