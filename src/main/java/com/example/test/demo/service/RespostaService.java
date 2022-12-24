@@ -18,6 +18,7 @@ public class RespostaService {
     private static final String COL_NAME = "resposta";
 
 
+
     /*TODAS AS RESPOSTAS */
     public List<Object> getAllRespostas() throws ExecutionException, InterruptedException {
         List<Object> respostas = new ArrayList<>();
@@ -156,6 +157,7 @@ public class RespostaService {
         //SE A RESPOSTA TIVER A DIZRE QUE FOI ACEITE O ESTADO DO DOCENTE MUDA PARA 1 SE NÃO, MUDA PARA -1(DEVE SER ELIMINADO O DOCENTE)
         if (resposta.isAceite()) {
             ApiFuture<QuerySnapshot> docenteQuery = db.collection("Docente").whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(1);
             db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
