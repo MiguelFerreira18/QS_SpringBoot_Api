@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class RespostaService {
 
     private static final String COL_NAME = "resposta";
-
+    private static final String PATH_QUARY_DOCENTE = "docente";
 
 
     /*TODAS AS RESPOSTAS */
@@ -156,8 +156,7 @@ public class RespostaService {
 
         //SE A RESPOSTA TIVER A DIZRE QUE FOI ACEITE O ESTADO DO DOCENTE MUDA PARA 1 SE NÃO, MUDA PARA -1(DEVE SER ELIMINADO O DOCENTE)
         if (resposta.isAceite()) {
-            ApiFuture<QuerySnapshot> docenteQuery = db.collection("Docente").whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
-
+            ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(1);
             db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
@@ -165,7 +164,7 @@ public class RespostaService {
         } else if (!resposta.isAceite()) {
 
             /*!PERGUNTAR AO QUENTAL COMO PROCEDER (SE APAGA OU NÃO O DOCENTE AQUI)!*/
-            ApiFuture<QuerySnapshot> docenteQuery = db.collection("Docente").whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+            ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(-1);
             db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
