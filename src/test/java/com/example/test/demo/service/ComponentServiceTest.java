@@ -7,6 +7,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -36,24 +38,22 @@ class ComponentServiceTest {
     private static final String COL_NAME = "component";
 
     @BeforeEach
-    void setUp()/* throws ExecutionException, InterruptedException*/ {
-//        Componente componente = new Componente(0,"teste", 1);
-//        myService.createComponent(componente);
-//        componente = new Componente(1,"teste", 1);
-//        myService.createComponent(componente);
+    void setUp()  {
         db = FirestoreClient.getFirestore();
 
     }
+
     @Test
-    @Disabled
+
     public void shouldTestCreateComponentIsSent() throws ExecutionException, InterruptedException {
-        Componente componente = new Componente(0,"teste", 1);
+        Componente componente = new Componente(0,"teste1", 1);
         String result = myService.createComponent(componente);
+        componente = new Componente(0,"teste2", 1);
+        myService.createComponent(componente);
         assertNotNull(result);
     }
     @ParameterizedTest
-    @ValueSource(ints = {1, 2})
-    @Disabled
+    @ValueSource(ints = {0, 1})
     public void shouldTestCreateComponentIsInDataBase(int id) throws ExecutionException, InterruptedException {
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("id", id).get();
@@ -62,12 +62,10 @@ class ComponentServiceTest {
     }
 
     @Test
-    @Disabled
     public void shouldTestIfGetAllComponentsIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllComponents());
     }
     @Test
-    @Disabled
     public void shouldTestIfGetAllComponentsIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllComponents().size() > 0);
     }
@@ -91,7 +89,7 @@ class ComponentServiceTest {
             """)
     public void deleteComponent(int id) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteComponent(id);
-        assertNotEquals();
+        assertEquals(id, Integer.parseInt(isDeleted));
     }
 
 }
