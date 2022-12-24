@@ -21,7 +21,7 @@ public class MaterialControler {
     }
     @GetMapping("/all")
     public List<Material> getMaterial() throws ExecutionException, InterruptedException {
-        return materialService.getMat();
+        return materialService.getAllMAts();
     }
     @PutMapping("/update")
     public String updateMaterial(@RequestBody Material mat)throws ExecutionException, InterruptedException{
