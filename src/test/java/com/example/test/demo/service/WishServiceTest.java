@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @RunWith(SpringRunner.class)
@@ -79,7 +78,7 @@ public final class WishServiceTest {
     public void shouldTestIfUpdateWishWorks(int id, String nomeMaterial, String descMaterial, int idDocente, String date) throws Exception {
         Wish wish = new Wish(id, nomeMaterial, descMaterial, idDocente, date);
         String result = myService.updateWish(wish);
-        assertNotNull(result, result);
+        assertEquals(result, "updated",result);
     }
 
 

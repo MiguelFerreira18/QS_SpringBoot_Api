@@ -66,7 +66,7 @@ public class WishListService {
             return "No elements to be queried";
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(wish);
 
-        return apiFuture.get().getUpdateTime().toString();
+        return "updated";
 
     }
 
