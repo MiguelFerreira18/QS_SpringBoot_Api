@@ -65,7 +65,7 @@ public class MaterialService {
 
     }
 
-    public List<Material> getAllMAts() throws ExecutionException, InterruptedException {
+    public List<Material> getMat() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();

@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -44,7 +45,11 @@ class DocenteServiceTest {
             """)
    @Disabled
     void shouldTestIfSaveDocenteIsSent(String nome, String email, String password, int id, boolean isAdmin) throws ExecutionException, InterruptedException {
-        Docente docente = new Docente(nome, email, password, id, isAdmin);
+        ArrayList<String> ucs = new ArrayList<>();
+        ucs.add("UC1");
+        ucs.add("UC2");
+        ucs.add("UC3");
+        Docente docente = new Docente(nome, email, password, id,ucs ,isAdmin);
         String result = myService.saveDocente(docente);
         assertNotNull(result);
 
@@ -85,7 +90,11 @@ class DocenteServiceTest {
             """)
     @DependsOn("shouldTestSaveDocenteIsInDataBase")
     void shouldTestIfUpdateDocenteWorks(int id, String nomeDocente, String email, String pass, boolean isAdmin) throws ExecutionException, InterruptedException {
-        Docente docente = new Docente(nomeDocente, email, pass, id, isAdmin);
+        ArrayList<String> ucs = new ArrayList<>();
+        ucs.add("UC1");
+        ucs.add("UC2");
+        ucs.add("UC3");
+        Docente docente = new Docente(nomeDocente, email, pass, id,ucs,isAdmin);
         String isUpDated = myService.updateDocente(docente);
         assertNotNull(isUpDated);
     }
