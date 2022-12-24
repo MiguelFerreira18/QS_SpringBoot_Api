@@ -1,6 +1,7 @@
 package com.example.test.demo.service;
 
 
+import com.example.test.demo.model.Material;
 import com.example.test.demo.model.Resposta;
 import com.example.test.demo.model.RespostaLaboratorio;
 import com.example.test.demo.model.Wish;
@@ -21,15 +22,33 @@ public class WishListService {
 
     public String createWish(Wish wish) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        int biggest = -1;
+        Wish oldWish = null;
 
-        /*ADICIONA UM NOVO WISH*/
+        /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
+        for (QueryDocumentSnapshot doc : documents) {
+            oldWish = doc.toObject(Wish.class);
+            if (oldWish.getIdWish() > biggest) {
+                biggest = oldWish.getIdWish();
+
+            }
+        }
+        wish.setIdWish(biggest + 1);
+        /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(wish);
         return colApiFuture.get().getUpdateTime().toString();
+
     }
-    public String deleteWish(String idWish) throws ExecutionException, InterruptedException {
+    public String deleteWish(int idWish) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(idWish).delete();
-        return "Document with Wish ID " + idWish + " has been deleted at " + writeResult.get().getUpdateTime();
+        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("idWish",idWish).get();
+        if (future.get().size()<=0)
+            return "Wish não encontrada para ser eleminado";
+        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return writeResult.get().getUpdateTime().toString();
     }
 
     public List<Wish> getWishList() throws ExecutionException, InterruptedException {
@@ -38,5 +57,18 @@ public class WishListService {
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         return documents.stream().map((document) -> document.toObject(Wish.class)).toList();
     }
+
+    public String updateWish(Wish wish) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("idWish", wish.getIdWish()).get();
+        //update a document from firestore
+        if(future.get().size()<=0)
+            return "No elements to be queried";
+        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(wish);
+
+        return apiFuture.get().getUpdateTime().toString();
+
+    }
+
 
 }

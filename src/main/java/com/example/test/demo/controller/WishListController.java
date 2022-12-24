@@ -23,7 +23,7 @@ public class WishListController {
         return wishListService.createWish(wish);
     }
     @PutMapping("/delete")
-    public String deleteWishList(@RequestBody String id) throws Exception {
+    public String deleteWishList(@RequestBody int id) throws Exception {
         return wishListService.deleteWish(id);
     }
 }
