@@ -32,13 +32,13 @@ public class EtiquetaService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
-        Material oldMat = null;
+        EtiquetaMaterial oldEtiqueta = null;
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
-            oldMat = doc.toObject(Material.class);
-            if (oldMat.getMaterialId() > biggest) {
-                biggest = oldMat.getMaterialId();
+            oldEtiqueta = doc.toObject(EtiquetaMaterial.class);
+            if (oldEtiqueta.getEtiquetaId() > biggest) {
+                biggest = oldEtiqueta.getEtiquetaId();
 
             }
         }
@@ -85,7 +85,7 @@ public class EtiquetaService {
             return "No elements to be queried";
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(etiquetaMaterial);
 
-        return apiFuture.get().getUpdateTime().toString();
+        return "updated";
     }
 
     /**
