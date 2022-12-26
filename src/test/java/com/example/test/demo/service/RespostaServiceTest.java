@@ -259,4 +259,7 @@ class RespostaServiceTest
     {
         assertNotEquals("Resposta não encontrada para ser eleminada",myService.deleteResposta(id));
     }
+    // TODO: 26/12/2022 TESTAR LIMITES DE CRIAÇÃO DE RESPOSTAS PARA OS 3
+    // TODO: 26/12/2022 TESTAR LIMITES NA ATUALIZAÇÃO DE RESPOSTAS PARA OS 3
+    // TODO: 26/12/2022 TESTAR SE APAGAR PEDIDOS ACEITA NEGATIVOS
 }

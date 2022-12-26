@@ -97,4 +97,8 @@ class ComponentServiceTest {
         String isDeleted = myService.deleteComponent(id);
         assertEquals(id, Integer.parseInt(isDeleted));
     }
+
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE COMPONENTES ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE COMPONENTES ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
 }

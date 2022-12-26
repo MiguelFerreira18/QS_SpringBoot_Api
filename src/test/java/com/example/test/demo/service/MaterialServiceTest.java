@@ -99,7 +99,7 @@ class MaterialServiceTest
     }
 
     @Test
-    void testGetAllMats() throws ExecutionException, InterruptedException
+    void testGetMat() throws ExecutionException, InterruptedException
     {
         assertNotNull(myService.getMat());
     }
@@ -109,6 +109,8 @@ class MaterialServiceTest
     {
         assertNotEquals(0,myService.getMat());
     }
-
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE MATERIAIS ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE MATERIAIS ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
 
 }

@@ -90,4 +90,7 @@ public final class WishServiceTest {
         String result = myService.deleteWish(id);
         assertNotNull(result, result);
     }
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE WISHES ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE UM WISH ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
 }

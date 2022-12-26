@@ -89,4 +89,7 @@ public class EtiquetaServiceTest {
         String result = myService.deleteEtiqueta(id);
         assertNotNull(result, result);
     }
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE ETIQUETAS ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE ETIQUETAS ESTÃO A FUNCIONAR
+    // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
 }
