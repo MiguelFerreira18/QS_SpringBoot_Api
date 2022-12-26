@@ -36,7 +36,8 @@ public class ComponentService {
         componente.setId(biggest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(componente);
-        return colApiFuture.get().getUpdateTime().toString();
+
+        return "componente created";
     }
     public List<Componente> getAllComponents() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();

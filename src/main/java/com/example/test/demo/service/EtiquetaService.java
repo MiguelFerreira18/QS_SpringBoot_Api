@@ -46,7 +46,7 @@ public class EtiquetaService {
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(etiquetaMaterial);
 
-        return colApiFuture.get().getUpdateTime().toString();
+        return "etiqueta created";
     }
 
     /**

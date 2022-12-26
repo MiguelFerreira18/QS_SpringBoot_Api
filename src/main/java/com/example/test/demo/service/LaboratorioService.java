@@ -24,7 +24,7 @@ public class LaboratorioService {
         /*ADICIONA UM NOVO MATERIAL*/
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(laboratorio);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "laboratorio created";
     }
 
     public List<Laboratorio> getAllLabs() throws ExecutionException, InterruptedException {
