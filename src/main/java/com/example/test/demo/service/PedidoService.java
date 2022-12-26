@@ -91,7 +91,7 @@ public class PedidoService {
         /*ADICIONA UM NOVO PEDIDO*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(pedido);
 
-        return colApiFuture.get().getUpdateTime().toString();
+        return "pedidoUtilizador created";
     }
 
 
@@ -178,7 +178,7 @@ public class PedidoService {
         /*ADICIONA UM NOVO PEDIDO*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(pedido);
 
-        return colApiFuture.get().getUpdateTime().toString();
+        return "pedidoMaterial created";
     }
 
     //altera um pedido do tipo material
@@ -247,7 +247,7 @@ public class PedidoService {
         /*ADICIONA UM NOVO PEDIDO*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(pedido);
 
-        return colApiFuture.get().getUpdateTime().toString();
+        return "pedidoLaboratorio created";
     }
 
     //altera um pedido do tipo laboratório

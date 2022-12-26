@@ -29,7 +29,7 @@ public class DocenteService {
         Firestore db = FirestoreClient.getFirestore();
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(docente);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "docente created";
     }
 
     /**

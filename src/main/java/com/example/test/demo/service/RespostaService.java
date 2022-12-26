@@ -64,7 +64,7 @@ public class RespostaService {
         resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "respostaLaboratorio created";
     }
 
     public String updateRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
@@ -108,7 +108,7 @@ public class RespostaService {
         resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "respostaMaterial created";
     }
 
     public String updateRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
