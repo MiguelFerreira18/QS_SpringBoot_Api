@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Laboratorio {
-    private List<String> logs;
     private int laboratorioId;
+    private List<String> logs;
     private List<Integer> materiaisId;
     private int refAdmin;
     private List<Integer> respostasLaboratorio;
 
 
 
-    public Laboratorio( int laboratorioId, int refAdmin) {
-        this.logs = new ArrayList<>();
+    public Laboratorio(ArrayList<String> logs,int laboratorioId,  ArrayList<Integer> materiaisId,int refAdmin,ArrayList<Integer> respostasLaboratorio) {
         this.laboratorioId = laboratorioId;
-        this.materiaisId = new ArrayList<>();
+        this.logs = logs;
+        this.materiaisId = materiaisId;
         this.refAdmin = refAdmin;
-        respostasLaboratorio = new ArrayList<>();
+        this.respostasLaboratorio = respostasLaboratorio;
     }
 
 

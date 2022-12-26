@@ -13,12 +13,12 @@ public class Docente {
     private int hasAccess;
 
 
-    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteId, boolean isAdmin) {
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber,ArrayList<String> unidadesCurriculares,boolean isAdmin) {
         this.docenteNome = docenteNome;
         this.docenteEmail = docenteEmail;
         this.docentePassword = docentePassword;
-        this.docenteNumber = docenteId;
-        this.unidadesCurriculares = new ArrayList<>() ;
+        this.docenteNumber = docenteNumber;
+        this.unidadesCurriculares = unidadesCurriculares;
         this.isAdmin = isAdmin;
         this.hasAccess = 0;
     }

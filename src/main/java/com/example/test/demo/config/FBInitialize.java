@@ -21,8 +21,14 @@ public class FBInitialize {
 
     @PostConstruct
     public void Fbinit() {
-        int port = serverProperties.getPort();
-        System.out.println(port + " port ESTA È A MINHA PORTA PAH");
+        int port = 0;
+        try{
+            port = serverProperties.getPort();
+            System.out.println(port + " port ESTA È A MINHA PORTA PAH");
+        }catch(Exception e){
+            port= 8080;
+        }
+
 
         if (port== 8080) {
             try {

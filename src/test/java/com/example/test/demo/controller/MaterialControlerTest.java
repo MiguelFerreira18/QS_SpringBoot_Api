@@ -15,13 +15,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.example.test.demo.service.MaterialService;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 @ExtendWith(SpringExtension.class)
@@ -40,7 +35,7 @@ class MaterialControlerTest {
         mat.setMaterialId(1);
         mat.setDescricao("cenas");
         List<Material> allMaterial= Arrays.asList(mat);
-        Mockito.when(materialService.getMat()).thenReturn(allMaterial);
+        Mockito.when(materialService.getAllMAts()).thenReturn(allMaterial);
         mockitoMvc.perform(get("/material/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].descricao").value("cenas"));

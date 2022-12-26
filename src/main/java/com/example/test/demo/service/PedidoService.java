@@ -26,7 +26,6 @@ public class PedidoService {
 
 
     /**
-     *
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
@@ -46,7 +45,8 @@ public class PedidoService {
     /*PEDIDOS DO TIPO UTILIZADOR*/
 
     /**
-     *  Método que retorna todos os pedidos do tipo utilizador
+     * Método que retorna todos os pedidos do tipo utilizador
+     *
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
@@ -64,9 +64,9 @@ public class PedidoService {
     }
 
 
-
     /**
      * cria um novo pedido do tipo utilizador
+     *
      * @param pedido
      * @return
      * @throws ExecutionException
@@ -95,9 +95,9 @@ public class PedidoService {
     }
 
 
-
     /**
      * altera um pedido do utlizador
+     *
      * @param pedido
      * @return
      * @throws ExecutionException
@@ -117,13 +117,13 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser atualizado";
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
-        return writeResult.get().getUpdateTime().toString();
+        return "updated with: " + pedido.getPedidoId();
     }
-
 
 
     /**
      * elimina um pedido do utilizador
+     *
      * @param pedidoId
      * @return
      * @throws ExecutionException
@@ -140,7 +140,7 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser eliminado ou já foi respondido";
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return writeResult.get().getUpdateTime().toString();
+        return "deleted with:" + pedidoId;
     }
 
 
@@ -199,7 +199,7 @@ public class PedidoService {
     }
 
     //elimina pedido do tipo material sem resposta
-    public String deletePedidoMaterial(int pedidoId,int authorId) throws ExecutionException, InterruptedException {
+    public String deletePedidoMaterial(int pedidoId, int authorId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
@@ -211,7 +211,7 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser eliminado ou já foi respondido";
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return writeResult.get().getUpdateTime().toString();
+        return "deleted with:" + pedidoId;
     }
 
     /*PEDIDOS DO TIPO LABORATÓRIO*/
@@ -227,6 +227,7 @@ public class PedidoService {
         return pedidoLaboratorios;
 
     }
+
     //cria um pedido do tipo laboratório
     public String createPedidoLaboratorio(PedidoLaboratorio pedido) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
@@ -263,11 +264,11 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser atualizado";
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
-        return writeResult.get().getUpdateTime().toString();
+        return "updated with:" + pedido.getPedidoId();
     }
 
     //elimina pedido do tipo laboratório sem resposta
-    public String deletePedidoLaboratorio(int pedidoId,int authorId) throws ExecutionException, InterruptedException {
+    public String deletePedidoLaboratorio(int pedidoId, int authorId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
@@ -279,7 +280,7 @@ public class PedidoService {
         if (future.get().size() <= 0)
             return "Pedido não encontrado para ser eliminado ou já foi respondido";
         ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return writeResult.get().getUpdateTime().toString();
+        return "deleted with:" + pedidoId;
     }
 
 

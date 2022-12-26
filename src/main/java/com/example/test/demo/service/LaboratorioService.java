@@ -21,8 +21,8 @@ public class LaboratorioService {
     private static final String COL_NAME = "laboratorio";
 
     public String saveLaboratorio(Laboratorio laboratorio) throws ExecutionException, InterruptedException {
-        Firestore db = FirestoreClient.getFirestore();
         /*ADICIONA UM NOVO MATERIAL*/
+        Firestore db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(laboratorio);
         return "laboratorio created";
     }

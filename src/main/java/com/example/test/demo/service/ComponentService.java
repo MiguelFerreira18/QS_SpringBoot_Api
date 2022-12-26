@@ -54,12 +54,22 @@ public class ComponentService {
     }
     public String updateComponent(Componente componente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(componente);
-        return colApiFuture.get().getUpdateTime().toString();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("id", componente.getId()).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.size() > 0) {
+            ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).set(componente);
+            return writeResultApiFuture.get().getUpdateTime().toString();
+        }
+        return "Not found";
     }
     public String deleteComponent(int id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(String.valueOf(id)).delete();
-        return "Document with ID " + id + " has been deleted";
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("id", id).get();
+        if (future.get().size() <= 0)
+            return "Material não encontrado para ser eleminado";
+        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
+        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+
+        return String.valueOf(id);
     }
 }

@@ -27,7 +27,7 @@ public class DocenteService {
      */
     public String saveDocente(Docente docente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        /*ADICIONA UM NOVO MATERIAL*/
+        /*ADICIONA UM NOVO Docente*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(docente);
         return "docente created";
     }
@@ -83,9 +83,9 @@ public class DocenteService {
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         if (documents.size() > 0) {
             ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).delete();
-            return writeResultApiFuture.get().getUpdateTime().toString();
+            return "deleted with id:"+ id;
         }
-        return "docente não encontrado";
+        return "docente not found";
     }
 
     /**
