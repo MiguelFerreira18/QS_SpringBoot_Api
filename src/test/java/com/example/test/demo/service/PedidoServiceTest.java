@@ -41,6 +41,7 @@ class PedidoServiceTest {
                 1,1,0,0,1,2
             """)
     @Order(1)
+    @DisplayName("Deve testar se o pedidoMaterial foi inserido na base de dadaos")
     void shouldTestIfCreatePedidoMaterialIsSent(int respostaId, int pedidoId, int authorId, int idMat1, int idMat2, int idMat3) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
         idMateriais.add(idMat1);
@@ -58,6 +59,7 @@ class PedidoServiceTest {
                 3,3,xyz
             """)
     @Order(2)
+    @DisplayName("Deve testar se o pedidoUtilizador foi inserido na base de dadaos")
     void shouldTestIfCreatePedidoUtilizadorIsSent(int respostaId, int pedidoId, String descricao) throws ExecutionException, InterruptedException {
 
         PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(respostaId, pedidoId, descricao);
@@ -72,6 +74,7 @@ class PedidoServiceTest {
                 5,5,1,0
             """)
     @Order(3)
+    @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
     void shouldTestIfCreatePedidoLaboratorioIsSent(int respostaId, int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
 
         PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(respostaId, pedidoId, labId, authorId);
@@ -85,24 +88,28 @@ class PedidoServiceTest {
      **/
     @Test
     @Order(4)
+    @DisplayName("Deve testar se a lista de pedidos não é nula")
     void shouldTestIfGetAllPedidosIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllPedidos());
     }
 
     @Test
     @Order(5)
+    @DisplayName("Deve testar se a lista de pedidos não é vazia")
     void shouldTestIfGetAllPedidosIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllPedidos().size() > 0);
     }
 
     @Test
     @Order(6)
+    @DisplayName("Deve testar se a lista de pedidos de Utilizador não é nula")
     void shouldTestIfGetAllPedidosUtilizadorIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllPedidosUtilizador());
     }
 
     @Test
     @Order(7)
+    @DisplayName("Deve testar se a lista de pedidos de Utilizador não é nula")
     void shouldTestIfGetAllPedidosUtilizadorIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllPedidosUtilizador().size() > 0);
     }

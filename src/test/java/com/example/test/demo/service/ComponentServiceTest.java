@@ -42,6 +42,7 @@ class ComponentServiceTest {
 
     @Test
     @Order(1)
+    @DisplayName("Deve testar se um componente é criado na base de dados")
     public void shouldTestCreateComponentIsSent() throws ExecutionException, InterruptedException {
         Componente componente = new Componente(0,"teste1", 1);
         String result = myService.createComponent(componente);
@@ -52,6 +53,7 @@ class ComponentServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     @Order(2)
+    @DisplayName("Deve testar se um componente é encontrado na base de dados")
     public void shouldTestCreateComponentIsInDataBase(int id) throws ExecutionException, InterruptedException {
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("id", id).get();
@@ -60,11 +62,13 @@ class ComponentServiceTest {
 
     @Test
     @Order(3)
+    @DisplayName("Deve testar se a lista de componentes não é nula na base de dados")
     public void shouldTestIfGetAllComponentsIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllComponents());
     }
     @Test
     @Order(4)
+    @DisplayName("Deve testar se a lista de componentes não é menor que 0")
     public void shouldTestIfGetAllComponentsIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllComponents().size() > 0);
     }
@@ -75,6 +79,7 @@ class ComponentServiceTest {
             1,testeChange2,99
             """)
     @Order(5)
+    @DisplayName("Deve testar se um componente é alterado na base de dados")
     public void shouldTestIfUpdateComponentWorks(int id,String descricaoChange,int quantidadeChange) throws ExecutionException, InterruptedException {
         Componente componente = new Componente(id,descricaoChange, quantidadeChange);
         String isUpDated = myService.updateComponent(componente);
@@ -87,6 +92,7 @@ class ComponentServiceTest {
             1
             """)
     @Order(6)
+    @DisplayName("Deve testar se um componente é apagado na base de dados")
     public void shouldTestIfDeleteComponentIsWorking(int id) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteComponent(id);
         assertEquals(id, Integer.parseInt(isDeleted));

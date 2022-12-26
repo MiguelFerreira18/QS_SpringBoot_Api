@@ -42,7 +42,7 @@ class DocenteServiceTest {
                 Ruan carlos3,123.@upt.pt,123456789,1,false
             """)
    @Order(1)
-    @DisplayName("Deve testar se armazenar um docente devolve ")
+    @DisplayName("Deve testar se armazena um docente na base de dados")
     void shouldTestIfSaveDocenteIsSent(String nome, String email, String password, int id, boolean isAdmin) throws ExecutionException, InterruptedException {
         ArrayList<String> ucs = new ArrayList<>();
         ucs.add("UC1");
@@ -57,6 +57,7 @@ class DocenteServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     @Order(2)
+    @DisplayName("Deve testar se o docente está na base de dados")
     void shouldTestSaveDocenteIsInDataBase(int id) throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
         assertNotEquals(0, future.get().getDocuments().size());
@@ -65,6 +66,7 @@ class DocenteServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     @Order(3)
+    @DisplayName("Deve testar se o docente é unico na base de dados")
     void shouldTestSaveDocenteCannotHaveEquals(int id) throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
         assertTrue(future.get().getDocuments().size() == 1);
@@ -72,12 +74,14 @@ class DocenteServiceTest {
 
     @Test
     @Order(4)
+    @DisplayName("Deve testar se a lista de docentes está nulla")
     void shouldTestIfGetAlDocentesIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllDocentes());
     }
 
     @Test
     @Order(5)
+    @DisplayName("Deve testar se a lista de docentes não é menor que 0")
     void shouldTestIfGetAllDocentesIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllDocentes().size() > 0);
     }
@@ -88,6 +92,7 @@ class DocenteServiceTest {
             1,Ruan carlosChanged1,1234.@upt.pt,1234567899,false
             """)
     @Order(6)
+    @DisplayName("Deve testar se o docente foi atualizado na base de dados")
     void shouldTestIfUpdateDocenteWorks(int id, String nomeDocente, String email, String pass, boolean isAdmin) throws ExecutionException, InterruptedException {
         ArrayList<String> ucs = new ArrayList<>();
         ucs.add("UC1");
@@ -101,6 +106,7 @@ class DocenteServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
     @Order(7)
+    @DisplayName("Deve testar se o docente foi apagado da base de dados")
     void shouldDeleteDocenteFromDataBase(int docenteNumber) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteDocente(docenteNumber);
         String[] isDeletedArray = isDeleted.split(":");
@@ -110,6 +116,7 @@ class DocenteServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {3, 4})
     @Order(8)
+    @DisplayName("Deve testar se o docente que não existe retorna a mensagem correta")
     void shouldNotdeleteDocente(int docenteNumber) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteDocente(docenteNumber);
         String[] isDeletedArray = isDeleted.split(":");

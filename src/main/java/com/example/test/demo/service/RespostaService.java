@@ -167,7 +167,7 @@ public class RespostaService {
             ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(-1);
-            db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
+            db.collection(PATH_QUARY_DOCENTE).document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
         }
 
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
