@@ -101,13 +101,13 @@ class MaterialServiceTest
     @Test
     void testGetAllMats() throws ExecutionException, InterruptedException
     {
-        assertNotNull(myService.getAllMAts());
+        assertNotNull(myService.getMat());
     }
 
     @Test
     void testGetAllMatsSize() throws ExecutionException, InterruptedException
     {
-        assertNotEquals(0,myService.getAllMAts());
+        assertNotEquals(0,myService.getMat());
     }
 
 

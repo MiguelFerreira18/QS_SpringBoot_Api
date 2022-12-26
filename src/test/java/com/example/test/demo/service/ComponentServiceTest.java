@@ -41,6 +41,7 @@ class ComponentServiceTest {
     }
 
     @Test
+    @Order(1)
     public void shouldTestCreateComponentIsSent() throws ExecutionException, InterruptedException {
         Componente componente = new Componente(0,"teste1", 1);
         String result = myService.createComponent(componente);
@@ -50,6 +51,7 @@ class ComponentServiceTest {
     }
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
+    @Order(2)
     public void shouldTestCreateComponentIsInDataBase(int id) throws ExecutionException, InterruptedException {
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("id", id).get();
@@ -57,10 +59,12 @@ class ComponentServiceTest {
     }
 
     @Test
+    @Order(3)
     public void shouldTestIfGetAllComponentsIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllComponents());
     }
     @Test
+    @Order(4)
     public void shouldTestIfGetAllComponentsIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllComponents().size() > 0);
     }
@@ -70,6 +74,7 @@ class ComponentServiceTest {
             0,testeChange1,99
             1,testeChange2,99
             """)
+    @Order(5)
     public void shouldTestIfUpdateComponentWorks(int id,String descricaoChange,int quantidadeChange) throws ExecutionException, InterruptedException {
         Componente componente = new Componente(id,descricaoChange, quantidadeChange);
         String isUpDated = myService.updateComponent(componente);
@@ -81,9 +86,9 @@ class ComponentServiceTest {
             0
             1
             """)
+    @Order(6)
     public void shouldTestIfDeleteComponentIsWorking(int id) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteComponent(id);
         assertEquals(id, Integer.parseInt(isDeleted));
     }
-
 }

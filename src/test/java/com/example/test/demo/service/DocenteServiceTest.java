@@ -6,9 +6,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -43,7 +41,8 @@ class DocenteServiceTest {
                 Ruan carlos2,123.@upt.pt,123456789,0,false
                 Ruan carlos3,123.@upt.pt,123456789,1,false
             """)
-   @Disabled
+   @Order(1)
+    @DisplayName("Deve testar se armazenar um docente devolve ")
     void shouldTestIfSaveDocenteIsSent(String nome, String email, String password, int id, boolean isAdmin) throws ExecutionException, InterruptedException {
         ArrayList<String> ucs = new ArrayList<>();
         ucs.add("UC1");
@@ -57,7 +56,7 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
-    @DependsOn("shouldTestIfSaveDocenteIsSent")
+    @Order(2)
     void shouldTestSaveDocenteIsInDataBase(int id) throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
         assertNotEquals(0, future.get().getDocuments().size());
@@ -65,20 +64,20 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
-    @DependsOn("shouldTestIfSaveDocenteIsSent")
+    @Order(3)
     void shouldTestSaveDocenteCannotHaveEquals(int id) throws ExecutionException, InterruptedException {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
         assertTrue(future.get().getDocuments().size() == 1);
     }
 
     @Test
-    @DependsOn("shouldTestIfSaveDocenteIsSent")
+    @Order(4)
     void shouldTestIfGetAlDocentesIsNotNull() throws ExecutionException, InterruptedException {
         assertNotNull(myService.getAllDocentes());
     }
 
     @Test
-    @DependsOn("shouldTestIfSaveDocenteIsSent")
+    @Order(5)
     void shouldTestIfGetAllDocentesIsNotLessThanZero() throws ExecutionException, InterruptedException {
         assertTrue(myService.getAllDocentes().size() > 0);
     }
@@ -88,7 +87,7 @@ class DocenteServiceTest {
             0,Ruan carlosChanged0,123.@upt.pt,12345678910,false
             1,Ruan carlosChanged1,1234.@upt.pt,1234567899,false
             """)
-    @DependsOn("shouldTestSaveDocenteIsInDataBase")
+    @Order(6)
     void shouldTestIfUpdateDocenteWorks(int id, String nomeDocente, String email, String pass, boolean isAdmin) throws ExecutionException, InterruptedException {
         ArrayList<String> ucs = new ArrayList<>();
         ucs.add("UC1");
@@ -101,7 +100,7 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1})
-    @DependsOn("shouldTestSaveDocenteIsInDataBase")
+    @Order(7)
     void shouldDeleteDocenteFromDataBase(int docenteNumber) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteDocente(docenteNumber);
         String[] isDeletedArray = isDeleted.split(":");
@@ -110,6 +109,7 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @ValueSource(ints = {3, 4})
+    @Order(8)
     void shouldNotdeleteDocente(int docenteNumber) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteDocente(docenteNumber);
         String[] isDeletedArray = isDeleted.split(":");
