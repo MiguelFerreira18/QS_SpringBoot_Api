@@ -17,14 +17,27 @@ public class RespostaService {
 
     private static final String COL_NAME = "resposta";
     private static final String PATH_QUARY_DOCENTE = "docente";
+    private static final String COL_NAME_LAB = "laboratorio";
+    private static final String COL_NAME_MATERIAL = "material";
 
 
     /*TODAS AS RESPOSTAS */
+
+    /**
+     * Metodo que retorna todas as respostas
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<Object> getAllRespostas() throws ExecutionException, InterruptedException {
         List<Object> respostas = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if(documents.isEmpty())
+        {
+            return null;
+        }
         for (QueryDocumentSnapshot document : documents) {
             Object resposta = document.toObject(Object.class);
             respostas.add(resposta);
@@ -34,11 +47,22 @@ public class RespostaService {
 
 
     /*RESPOSTA LABORATORIO*/
+
+    /**
+     * Metodo que retorna apenas as respostas de laboratorio
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<RespostaLaboratorio> getRespostaLaboratorio() throws ExecutionException, InterruptedException {
         List<RespostaLaboratorio> respostasLaboratorio = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if(documents.isEmpty())
+        {
+            return null;
+        }
         for (QueryDocumentSnapshot document : documents) {
             RespostaLaboratorio resposta = document.toObject(RespostaLaboratorio.class);
             respostasLaboratorio.add(resposta);
@@ -46,14 +70,44 @@ public class RespostaService {
         return respostasLaboratorio;
     }
 
-
-    public String createRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
+    /**
+     * Metodo para inserir uma respostaLaboratorio na base de dados
+     * @param resposta resposta a ser inserida na base de dados
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String createRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException
+    {
+        if(checkRespostaLab(resposta))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+        //Docente tem de existir
+        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
+        //Lab tem de existir
+        ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_LAB).whereEqualTo("laboratorioId",resposta.getLaboratorioId()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if(documents3.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
         Resposta oldResposta = null;
 
+        if(documents.isEmpty())
+        {
+            return null;
+        }
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
             oldResposta = doc.toObject(RespostaLaboratorio.class);
@@ -64,25 +118,64 @@ public class RespostaService {
         }
         resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
-        return "respostaLaboratorio created";
+        db.collection(COL_NAME).document().set(resposta);
+        return "RespostaLaboratorio created";
     }
 
+    /**
+     * Metodo para atualizar uma RespostaLaboratorio na base de dados
+     * @param resposta resposta recebida como parametro para substituir uma resposta na base de dados
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updateRespostaLaboratorio(RespostaLaboratorio resposta) throws ExecutionException, InterruptedException {
+        if(checkRespostaLab(resposta))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+        //Docente tem de existir
+        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
+        //Lab tem de existir
+        ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_LAB).whereEqualTo("laboratorioId",resposta.getLaboratorioId()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if(documents3.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
-        if (future.get().size() <= 0)
-            return "Resposta não encontrada para ser atualizada";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
-        return writeResult.get().getUpdateTime().toString();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return "RespostaLaboratorio updated with:"+resposta.getRespostaId();
     }
 
     /*RESPOSTA MATERIAL*/
+
+    /**
+     * Metodo que retorna todas as respostas do tipo RespostaMaterial
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<RespostaMaterial> getRespostaMaterial() throws ExecutionException, InterruptedException {
+
         List<RespostaMaterial> respostasMaterial = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if(documents.isEmpty())
+        {
+            return null;
+        }
         for (QueryDocumentSnapshot document : documents) {
             RespostaMaterial resposta = document.toObject(RespostaMaterial.class);
             respostasMaterial.add(resposta);
@@ -91,10 +184,33 @@ public class RespostaService {
     }
 
 
+    /**
+     * Metodo para criar uma RespostaMaterial na base de dados
+     * @param resposta resposta do tipo material a receber como parametro para ser adicionada na base de dados
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String createRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
+        if(checkRespostaMaterial(resposta))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+        //Material tem de existir
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereIn("materialId",resposta.getMateriaisId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if(documents.isEmpty())
+        {
+            return null;
+        }
         int biggest = -1;
         Resposta oldResposta = null;
 
@@ -113,20 +229,45 @@ public class RespostaService {
     }
 
     public String updateRespostaMaterial(RespostaMaterial resposta) throws ExecutionException, InterruptedException {
+        if(checkRespostaMaterial(resposta))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+        //Material tem de existir
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereIn("materialId",resposta.getMateriaisId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
-        if (future.get().size() <= 0)
-            return "Resposta não encontrada para ser atualizada";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
-        return writeResult.get().getUpdateTime().toString();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
+
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return "RespostaMaterial updated with:"+resposta.getRespostaId();
     }
 
     /*RESPOSTA UTILIZADOR*/
+
+    /**
+     * Metodo que retorna todas as RespostasUtilziador
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<RespostaUtilizador> getRespostaUtilizador() throws ExecutionException, InterruptedException {
         List<RespostaUtilizador> respostasUtilizador = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if(documents.isEmpty())
+        {
+            return null;
+        }
         for (QueryDocumentSnapshot document : documents) {
             RespostaUtilizador resposta = document.toObject(RespostaUtilizador.class);
             respostasUtilizador.add(resposta);
@@ -134,12 +275,34 @@ public class RespostaService {
         return respostasUtilizador;
     }
 
+    /**
+     * Metodo para criar uma RespostaUtilizador na base de dados
+     * @param resposta RespostaUtilizador recebida como parametro para substituir uma RespostaUtilizador na base de dados
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String createRespostaUtilizador(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
+        if(checkRespostaUtilizador(resposta))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+        //Tem de existir Utilizador/Docente
+        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
         Resposta oldResposta = null;
+        if(documents.isEmpty())
+        {
+            return null;
+        }
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
@@ -170,26 +333,59 @@ public class RespostaService {
             db.collection(PATH_QUARY_DOCENTE).document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
         }
 
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
-        return colApiFuture.get().getUpdateTime().toString();
+        db.collection(COL_NAME).document().set(resposta);
+        return "RespostaUtilizador created";
     }
 
+    /**
+     * Metodo para eliminar qualquer resposta da base de dados
+     * @param id identificador da resposta a eliminar
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String deleteResposta(int id) throws ExecutionException, InterruptedException {
+        if(id<0)
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", id).get();
-        if (future.get().size() <= 0)
-            return "Resposta não encontrada para ser eleminada";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return writeResult.get().getUpdateTime().toString();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        if (documents.isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return "RespostaUtilizador deleted with:"+id;
     }
 
+    /**
+     * Metodo para atualizar uma RespostaUtilizador
+     * @param resposta RespostaUtilizador a receber como parametro para substituir a RespostaUtilziador da base de dados
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updateRespostaUtilizador(RespostaUtilizador resposta) throws ExecutionException, InterruptedException {
+        if(checkRespostaUtilizador(resposta))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+        //Tem de existir Utilizador/Docente
+        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("respostaId", resposta.getRespostaId()).get();
-        if (future.get().size() <= 0)
-            return "Resposta não encontrada para ser atualizada";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
-        return writeResult.get().getUpdateTime().toString();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(resposta);
+        return "RespostaUtilizador updated with:"+resposta.getRespostaId();
     }
     /*CASOS PARTICULARES*/
     /*
@@ -251,5 +447,62 @@ public class RespostaService {
         return resposta.getMateriaisId();
     }
 
+    //Metodos auxiliares
 
+    private boolean checkRespostaLab(RespostaLaboratorio respostaLaboratorio)
+    {
+         if(respostaLaboratorio.getDescricao().equalsIgnoreCase("")
+                || respostaLaboratorio.getDescricao().length() > 64
+                || respostaLaboratorio.getDescricao().length() < 8
+                || respostaLaboratorio.getDescricao() == null
+                || respostaLaboratorio.getUtilizadorId() < 0
+                || respostaLaboratorio.getRespostaId() < 0
+                || respostaLaboratorio.getLaboratorioId() < 0
+                || respostaLaboratorio.getData() == null || respostaLaboratorio.getData().equalsIgnoreCase("")
+                || respostaLaboratorio.getDataReservaInicio() == null || respostaLaboratorio.getDataReservaInicio().equalsIgnoreCase("")
+                || respostaLaboratorio.getDataReservaFim() == null || respostaLaboratorio.getDataReservaFim().equalsIgnoreCase(""))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkRespostaMaterial(RespostaMaterial resMat)
+    {
+        for (int i = 0; i < resMat.getMateriaisId().size(); i++)
+        {
+            if(resMat.getMateriaisId().get(i) < 0 )
+            {
+                return true;
+            }
+        }
+        if(resMat.getRespostaId()<0
+                || resMat.getUtilizadorId() < 0
+                || resMat.getDataEntrega() == null || resMat.getDataEntrega().equalsIgnoreCase("")
+                || resMat.getDataReserva() == null || resMat.getDataReserva().equalsIgnoreCase("")
+                || resMat.getData() == null || resMat.getData().equalsIgnoreCase("")
+                || resMat.getDescricao().equalsIgnoreCase( "") || resMat.getDescricao() == null
+                || resMat.getDescricao().length() < 8 || resMat.getDescricao().length()>64)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean checkRespostaUtilizador(RespostaUtilizador resUti)
+    {
+        if(resUti.getUtilizadorId() < 0
+                || resUti.getNomeUtilizador().equalsIgnoreCase("")
+                || resUti.getNomeUtilizador() == null
+                || resUti.getNomeUtilizador().length() > 32
+                || resUti.getRespostaId() < 0
+                || resUti.getData() == null || resUti.getData().equalsIgnoreCase("")
+                || resUti.getDescricao().equalsIgnoreCase("") || resUti.getDescricao() == null
+                || resUti.getDescricao().length() < 8 || resUti.getDescricao().length() > 64)
+        {
+            return true;
+        }
+        return false;
+    }
 }

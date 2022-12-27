@@ -58,14 +58,14 @@ public final class WishServiceTest {
     @DisplayName("Testa se vem null ao procurar todas as wishes, presumindo que existem wishes")
     @Order(3)
     public void shouldTestIfGetAllWishesIsNotNull() throws Exception {
-        assertNotNull(myService.getWishList());
+        assertNotNull(myService.getAllWishes());
     }
 
     @Test
     @DisplayName("Testa se getAllWishes não tem resultado menor que zero")
     @Order(4)
     public void shouldTestIfGetAllWishesHasNotLessThanZero() throws Exception {
-        assertTrue(myService.getWishList().size() >= 0);
+        assertTrue(myService.getAllWishes().size() >= 0);
     }
 
     //Wish não dá erro ao fazer update de id que não existe, mas não adiciona na base de dados

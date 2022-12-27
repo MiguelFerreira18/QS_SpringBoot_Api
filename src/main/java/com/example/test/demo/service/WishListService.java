@@ -1,9 +1,6 @@
 package com.example.test.demo.service;
 
 
-import com.example.test.demo.model.Material;
-import com.example.test.demo.model.Resposta;
-import com.example.test.demo.model.RespostaLaboratorio;
 import com.example.test.demo.model.Wish;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -92,7 +89,7 @@ public class WishListService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public List<Wish> getWishList() throws ExecutionException, InterruptedException {
+    public List<Wish> getAllWishes() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
