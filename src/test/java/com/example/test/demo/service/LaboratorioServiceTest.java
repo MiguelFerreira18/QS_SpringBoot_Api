@@ -94,7 +94,7 @@ class LaboratorioServiceTest {
 
         //Altera o laboratorio de id 1 para ref 5
         Laboratorio h = new Laboratorio(1,5);
-        assertNotEquals("laboratorio não encontrado",myService.updateLab(h));
+        assertNotEquals("laboratorio não encontrado",myService.updateLaboratorio(h));
 
     }
 
@@ -102,7 +102,7 @@ class LaboratorioServiceTest {
     void testUpdateLabInexistent() throws ExecutionException, InterruptedException
     {
         Laboratorio l = new Laboratorio(-1,-1);
-        assertEquals("laboratorio não encontrado",myService.updateLab(l));
+        assertEquals("laboratorio não encontrado",myService.updateLaboratorio(l));
     }
 
     //Fim de testes de caso nao particulares

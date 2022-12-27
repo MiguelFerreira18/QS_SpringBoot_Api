@@ -53,10 +53,10 @@ class MaterialServiceTest
     }
 
     @ParameterizedTest
-    @CsvSource({"28/12/22,carrinho,false,false,0,6","29/12/22,carrinho,true,false,0,6"})
-    void testSaveMatSameId(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) throws ExecutionException,InterruptedException
+    @CsvSource({"carrinho,false,false,0,6","carrinho,true,false,0,6"})
+    void testSaveMatSameId( String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) throws ExecutionException,InterruptedException
     {
-        Material m = new Material(dataEntrega,descricao,isDisponivel,isAvariado,materialId,etiquetaId);
+        Material m = new Material(descricao,isDisponivel,isAvariado,materialId,etiquetaId);
         myService.createMaterial(m);
 
         //A base de dados ja contem 2 objetos do tipo material inseridos anteriormente
@@ -68,7 +68,7 @@ class MaterialServiceTest
     @Test
     void testDeleteMat() throws ExecutionException, InterruptedException
     {
-        Material m = new Material("10/10/22","drone",true,false,0,6);
+        Material m = new Material("drone",true,false,0,6);
         myService.createMaterial(m);
         assertNotEquals("Material não encontrado para ser eleminado", myService.deleteMateriais(0));
     }
@@ -82,17 +82,17 @@ class MaterialServiceTest
     @Test
     void testUpdateMat() throws ExecutionException, InterruptedException
     {
-        Material m = new Material("10/10/22","drone",true,false,0,6);
+        Material m = new Material("drone",true,false,0,6);
         myService.createMaterial(m);
 
-        Material h = new Material("10/10/22","droneA",false,true,0,6);
+        Material h = new Material("droneA",false,true,0,6);
         assertNotEquals("No elements to be queried",myService.updateMat(h));
     }
 
     @Test
     void testUpdateMatInexistent() throws ExecutionException, InterruptedException
     {
-        Material m = new Material("10/10/22","drone",true,false,-20,6);
+        Material m = new Material("drone",true,false,-20,6);
         assertEquals("No elements to be queried",myService.updateMat(m));
     }
 
