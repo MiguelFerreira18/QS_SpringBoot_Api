@@ -14,7 +14,7 @@ public class LaboratorioController {
     @Autowired
     LaboratorioService laboratorioService;
 
-    @GetMapping("/create")
+    @PostMapping("/create")
     public String createLaboratorio(@RequestBody Laboratorio lab) throws Exception {
         return laboratorioService.saveLaboratorio(lab);
     }

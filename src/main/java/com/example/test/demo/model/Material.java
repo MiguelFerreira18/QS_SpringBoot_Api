@@ -13,9 +13,9 @@ public class Material {
     private ArrayList<String> uniadadesCurriculares;
     private List<Integer> respostasMaterial;
 
-    public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId ){
-        this.materialId = materialId;
-        this.dataEntrega = dataEntrega;
+    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int etiquetaId ){
+        this.materialId = 0;
+        this.dataEntrega = "null";
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
         this.isAvariado = isAvariado;

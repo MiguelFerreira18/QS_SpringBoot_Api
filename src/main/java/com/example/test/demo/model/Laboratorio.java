@@ -20,6 +20,13 @@ public class Laboratorio {
         this.respostasLaboratorio = respostasLaboratorio;
     }
 
+    public Laboratorio(int laboratorioId, int refAdmin) {
+        this.laboratorioId = laboratorioId;
+        this.refAdmin = refAdmin;
+        this.logs = new ArrayList<>();
+        this.materiaisId = new ArrayList<>();
+        this.respostasLaboratorio = new ArrayList<>();
+    }
 
     public Laboratorio() {
     }
