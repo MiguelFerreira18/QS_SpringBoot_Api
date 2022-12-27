@@ -14,6 +14,12 @@ public class DocenteController {
     @Autowired
     DocenteService docenteService;
 
+//    @GetMapping("/TESTING")
+//    public String requestTest(@RequestParam String password) {
+//       return docenteService.requestTest(password);
+//    }
+
+
     @GetMapping("/all")
     public List<Docente> getDocentes() throws Exception {
         return docenteService.getAllDocentes();
@@ -21,7 +27,7 @@ public class DocenteController {
 
     @PostMapping("/create")
     public String createDocente(@RequestBody Docente docente) throws Exception {
-        return docenteService.saveDocente(docente);
+        return docenteService.createDocentes(docente);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -55,8 +61,9 @@ public class DocenteController {
 
     /*!AUTH REQUEST!*/
     @GetMapping("/auth")
-    public int authDocente(@RequestBody int numeroDocente, @RequestBody String password) throws Exception {
-        return docenteService.giveDocenteAccess(numeroDocente, password);
+    public Docente authDocente(@RequestBody int numeroDocente, @RequestBody String password) throws Exception {
+        return docenteService.loginDocente(numeroDocente, password);
     }
+
 
 }

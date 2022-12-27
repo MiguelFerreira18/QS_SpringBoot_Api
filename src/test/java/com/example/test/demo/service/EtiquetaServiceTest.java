@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -39,7 +41,13 @@ public class EtiquetaServiceTest {
     @CsvSource(value = {"nao consumivel,drones,5,0,drone", "nao consumivel, impressoras, 5, 1, impressora", "consumivel, canetas, 5, 2, caneta" })
     @Order(1)
     public void shouldTestCreateEtiquetaIsSent(String etiqueta, String descricaoMaterial, int quantidade, int etiquetaId, String subEtiqueta) throws Exception {
-        EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta);
+        ArrayList<Integer> componentes = new ArrayList<>();
+        componentes.add(1);
+        componentes.add(2);
+        ArrayList<Integer> materiaisId = new ArrayList<>();
+        materiaisId.add(1);
+        materiaisId.add(2);
+        EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
         String result = myService.saveEtiqueta(etiquetaMaterial);
         assertNotNull(result, result);
     }
@@ -75,7 +83,13 @@ public class EtiquetaServiceTest {
     @CsvSource(value = {"nao consumivelUPD,dronesUPD,9,0,droneUPD", "nao consumivelUPD, impressorasUPD, 7, 1, impressoraUPD", "consumivelUPD, canetasUPD, 2, 2, canetaUPD" })
     @Order(5)
     public void shouldTestIfUpdateEtiquetaWorks(String etiqueta, String descricaoMaterial, int quantidade, int etiquetaId, String subEtiqueta) throws Exception {
-       EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta);
+        ArrayList<Integer> componentes = new ArrayList<>();
+        componentes.add(1);
+        componentes.add(2);
+        ArrayList<Integer> materiaisId = new ArrayList<>();
+        materiaisId.add(1);
+        materiaisId.add(2);
+       EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
         String result = myService.updateEtiqueta(etiquetaMaterial);
         assertEquals(result, "updated",result);
     }

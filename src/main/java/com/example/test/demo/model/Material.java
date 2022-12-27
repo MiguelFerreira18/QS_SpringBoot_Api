@@ -10,18 +10,17 @@ public class Material {
     private boolean isDisponivel;
     private boolean isAvariado;
     private int etiquetaId;//È POSSIVEL QUE SEJA NECESSÀRIO REMOVER ESTA VARIAVEL; OU NA ETIQUETA A LISTA DE MATERIAIS
-    private ArrayList<String> uniadadesCurriculares;
+    private List<String> uniadadesCurriculares;
     private List<Integer> respostasMaterial;
 
-    public Material(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId ){
+    public Material( String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId, ArrayList<String> uniadadesCurriculares, ArrayList<Integer> respostasMaterial) {
         this.materialId = materialId;
-        this.dataEntrega = dataEntrega;
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
         this.isAvariado = isAvariado;
         this.etiquetaId = etiquetaId;
-        respostasMaterial = new ArrayList<>();
-        uniadadesCurriculares = new ArrayList<>();
+        uniadadesCurriculares = uniadadesCurriculares;
+        respostasMaterial = respostasMaterial;
     }
 
     public Material() {
@@ -83,7 +82,7 @@ public class Material {
         this.materialId = materialId;
     }
 
-    public ArrayList<String> getUniadadesCurriculares() {
+    public List<String> getUniadadesCurriculares() {
         return uniadadesCurriculares;
     }
 

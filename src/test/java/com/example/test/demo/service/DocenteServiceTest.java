@@ -1,6 +1,5 @@
 package com.example.test.demo.service;
 
-import com.example.test.demo.model.Componente;
 import com.example.test.demo.model.Docente;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -13,7 +12,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ class DocenteServiceTest {
         ucs.add("UC2");
         ucs.add("UC3");
         Docente docente = new Docente(nome, email, password, id,ucs ,isAdmin);
-        String result = myService.saveDocente(docente);
+        String result = myService.createDocentes(docente);
         assertNotNull(result);
 
     }
