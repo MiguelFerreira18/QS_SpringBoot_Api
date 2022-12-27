@@ -5,21 +5,20 @@ import java.util.List;
 
 public class Material {
     private int materialId;
-    private String dataEntrega;
     private String descricao;
     private boolean isDisponivel;
     private boolean isAvariado;
     private int etiquetaId;//È POSSIVEL QUE SEJA NECESSÀRIO REMOVER ESTA VARIAVEL; OU NA ETIQUETA A LISTA DE MATERIAIS
-    private List<String> uniadadesCurriculares;
+    private List<String> unidadesCurriculares;
     private List<Integer> respostasMaterial;
 
-    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId, ArrayList<String> uniadadesCurriculares, ArrayList<Integer> respostasMaterial) {
+    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId, ArrayList<String> unidadesCurriculares, ArrayList<Integer> respostasMaterial) {
         this.materialId = materialId;
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
         this.isAvariado = isAvariado;
         this.etiquetaId = etiquetaId;
-        uniadadesCurriculares = uniadadesCurriculares;
+        unidadesCurriculares = unidadesCurriculares;
         respostasMaterial = respostasMaterial;
     }
 
@@ -29,7 +28,7 @@ public class Material {
         this.isDisponivel = isDisponivel;
         this.isAvariado = isAvariado;
         this.etiquetaId = etiquetaId;
-        this.uniadadesCurriculares = new ArrayList<>();
+        this.unidadesCurriculares = new ArrayList<>();
         this.respostasMaterial = new ArrayList<>();
     }
 
@@ -50,14 +49,6 @@ public class Material {
 
     public void setRespostasMaterial(List<Integer> respostasMaterial) {
         this.respostasMaterial = respostasMaterial;
-    }
-
-    public String getDataEntrega() {
-        return dataEntrega;
-    }
-
-    public void setDataEntrega(String dataEntrega) {
-        this.dataEntrega = dataEntrega;
     }
 
     public String getDescricao() {
@@ -92,11 +83,11 @@ public class Material {
         this.materialId = materialId;
     }
 
-    public List<String> getUniadadesCurriculares() {
-        return uniadadesCurriculares;
+    public List<String> getUnidadesCurriculares() {
+        return unidadesCurriculares;
     }
 
-    public void setUniadadesCurriculares(ArrayList<String> uniadadesCurriculares) {
-        this.uniadadesCurriculares = uniadadesCurriculares;
+    public void setUnidadesCurriculares(ArrayList<String> unidadesCurriculares) {
+        this.unidadesCurriculares = unidadesCurriculares;
     }
 }

@@ -35,7 +35,7 @@ class MaterialControlerTest {
         mat.setMaterialId(1);
         mat.setDescricao("cenas");
         List<Material> allMaterial= Arrays.asList(mat);
-        Mockito.when(materialService.getAllMAts()).thenReturn(allMaterial);
+        Mockito.when(materialService.getAllMateriais()).thenReturn(allMaterial);
         mockitoMvc.perform(get("/material/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].descricao").value("cenas"));

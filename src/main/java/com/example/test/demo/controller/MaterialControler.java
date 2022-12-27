@@ -17,11 +17,11 @@ public class MaterialControler {
 
     @PostMapping("/create")
     public String createMaterial(@RequestBody Material mat) throws InterruptedException, ExecutionException {
-        return materialService.saveMat(mat);
+        return materialService.createMaterial(mat);
     }
     @GetMapping("/all")
     public List<Material> getMaterial() throws ExecutionException, InterruptedException {
-        return materialService.getMat();
+        return materialService.getAllMateriais();
     }
     @PutMapping("/update")
     public String updateMaterial(@RequestBody Material mat)throws ExecutionException, InterruptedException{
@@ -29,7 +29,7 @@ public class MaterialControler {
     }
     @DeleteMapping("/delete/{id}}")
     public String deleteMaterial(@PathVariable int id)throws ExecutionException, InterruptedException{
-        return materialService.deleteMat(id);
+        return materialService.deleteMateriais(id);
     }
     /*CASOS PARTICULARES*/
 
