@@ -1,12 +1,10 @@
 package com.example.test.demo.service;
 
-import com.example.test.demo.model.Laboratorio;
 import com.example.test.demo.model.Material;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,12 +35,12 @@ class MaterialServiceTest
         db = FirestoreClient.getFirestore();
     }
     @ParameterizedTest
-    @CsvSource({"25/12/22,carrinho,true,false,1,1","26/12/22,helicoptero,false,true,2,2"})
-    void testSaveMat(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) throws ExecutionException, InterruptedException
+    @CsvSource({"carrinho,true,false,1,1","helicoptero,false,true,2,2"})
+    void testSaveMat(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) throws ExecutionException, InterruptedException
     {
         //Criei 2 materiais com id 1
-        Material m = new Material(dataEntrega,descricao,isDisponivel,isAvariado,materialId,etiquetaId);
-        String result = myService.saveMat(m);
+        Material m = new Material(descricao,isDisponivel,isAvariado,materialId,etiquetaId);
+        String result = myService.createMaterial(m);
         assertNotNull(result);
     }
 
@@ -59,7 +57,7 @@ class MaterialServiceTest
     void testSaveMatSameId(String dataEntrega, String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) throws ExecutionException,InterruptedException
     {
         Material m = new Material(dataEntrega,descricao,isDisponivel,isAvariado,materialId,etiquetaId);
-        myService.saveMat(m);
+        myService.createMaterial(m);
 
         //A base de dados ja contem 2 objetos do tipo material inseridos anteriormente
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId",0).get();
@@ -71,21 +69,21 @@ class MaterialServiceTest
     void testDeleteMat() throws ExecutionException, InterruptedException
     {
         Material m = new Material("10/10/22","drone",true,false,0,6);
-        myService.saveMat(m);
-        assertNotEquals("Material não encontrado para ser eleminado", myService.deleteMat(0));
+        myService.createMaterial(m);
+        assertNotEquals("Material não encontrado para ser eleminado", myService.deleteMateriais(0));
     }
 
     @Test
     void testDeleteMatInexistent() throws ExecutionException, InterruptedException
     {
-        assertEquals("Material não encontrado para ser eleminado", myService.deleteMat(-1));
+        assertEquals("Material não encontrado para ser eleminado", myService.deleteMateriais(-1));
     }
 
     @Test
     void testUpdateMat() throws ExecutionException, InterruptedException
     {
         Material m = new Material("10/10/22","drone",true,false,0,6);
-        myService.saveMat(m);
+        myService.createMaterial(m);
 
         Material h = new Material("10/10/22","droneA",false,true,0,6);
         assertNotEquals("No elements to be queried",myService.updateMat(h));
@@ -101,13 +99,13 @@ class MaterialServiceTest
     @Test
     void testGetMat() throws ExecutionException, InterruptedException
     {
-        assertNotNull(myService.getMat());
+        assertNotNull(myService.getAllMateriais());
     }
 
     @Test
     void testGetAllMatsSize() throws ExecutionException, InterruptedException
     {
-        assertNotEquals(0,myService.getMat());
+        assertNotEquals(0,myService.getAllMateriais());
     }
     // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE MATERIAIS ESTÃO A FUNCIONAR
     // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE MATERIAIS ESTÃO A FUNCIONAR

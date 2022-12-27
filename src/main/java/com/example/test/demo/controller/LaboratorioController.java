@@ -16,19 +16,19 @@ public class LaboratorioController {
 
     @PostMapping("/create")
     public String createLaboratorio(@RequestBody Laboratorio lab) throws Exception {
-        return laboratorioService.saveLaboratorio(lab);
+        return laboratorioService.createLaboratorio(lab);
     }
     @GetMapping("/all")
     public List<Laboratorio> getLaboratorio() throws Exception {
-        return laboratorioService.getAllLabs();
+        return laboratorioService.getAllLaboratorios();
     }
     @PutMapping("/update")
     public String updateLaboratorio(@RequestBody Laboratorio lab) throws Exception {
-        return laboratorioService.updateLab(lab);
+        return laboratorioService.updateLaboratorio(lab);
     }
     @DeleteMapping("/delete/{id}")
     public String deleteLaboratorio(@PathVariable int id) throws Exception {
-        return laboratorioService.deleteLab(id);
+        return laboratorioService.deleteLaboratorio(id);
     }
     /*CASOS PARTICULARES*/
 

@@ -20,6 +20,7 @@ public class DocenteController {
 //    }
 
 
+
     @GetMapping("/all")
     public List<Docente> getDocentes() throws Exception {
         return docenteService.getAllDocentes();
