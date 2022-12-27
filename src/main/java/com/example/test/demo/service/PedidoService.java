@@ -19,10 +19,14 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class PedidoService {
 
-    public static String COL_NAME = "pedido";
-    public static String PEDIDO_NAME_UTILIZADOR = "pedidoUtilizador";
-    public static String PEDIDO_NAME_MATERIAL = "pedidoMaterial";
-    public static String PEDIDO_NAME_LABORATORIO = "pedidoLaboratorio";
+
+    private static final String COL_NAME = "pedido";
+    private static final String COL_NAME_MATERIAL = "material";
+    private static final String COL_NAME_LABORATORIO = "laboratorio";
+    private static final String PEDIDO_NAME_UTILIZADOR = "pedidoUtilizador";
+    private static final String PEDIDO_NAME_MATERIAL = "pedidoMaterial";
+    private static final String PEDIDO_NAME_LABORATORIO = "pedidoLaboratorio";
+    private static final String STRING_LITERAL_TIPO = "tipoPedido";
 
 
     /**
@@ -35,6 +39,8 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
         for (QueryDocumentSnapshot document : documents) {
             Object resposta = document.toObject(Object.class);
             pedidos.add(resposta);
@@ -54,8 +60,10 @@ public class PedidoService {
     public List<PedidoUtilizador> getAllPedidosUtilizador() throws ExecutionException, InterruptedException {
         List<PedidoUtilizador> pedidos = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("tipoPedido", PEDIDO_NAME_UTILIZADOR).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_UTILIZADOR).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
         for (QueryDocumentSnapshot document : documents) {
             PedidoUtilizador resposta = document.toObject(PedidoUtilizador.class);
             pedidos.add(resposta);
@@ -65,14 +73,16 @@ public class PedidoService {
 
 
     /**
-     * cria um novo pedido do tipo utilizador
+     * Metodo cria pedido do tipo PedidoUtilizador na base de dados
      *
-     * @param pedido
-     * @return
+     * @param pedido pedido a ser inserido
+     * @return pedidoUtilizador created
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public String createPedidoUtilizador(PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
+        if (verifyPedidoUtilizador(pedido))
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -89,7 +99,7 @@ public class PedidoService {
         }
         pedido.setPedidoId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(pedido);
+        db.collection(COL_NAME).document().set(pedido);
 
         return "pedidoUtilizador created";
     }
@@ -98,58 +108,71 @@ public class PedidoService {
     /**
      * altera um pedido do utlizador
      *
-     * @param pedido
-     * @return
+     * @param pedido pedido a ser alterado com valores novos
+     * @return pedidoUtilizador updated
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public String updatePedidoUtilizador(PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
+        if (verifyPedidoUtilizador(pedido))
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db
                 .collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedido.getPedidoId())
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_UTILIZADOR)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_UTILIZADOR)
                 .get();
 
-
         //update a document from firestore
-        if (future.get().size() <= 0)
-            return "Pedido não encontrado para ser atualizado";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
-        return "updated with: " + pedido.getPedidoId();
+        if (future.get().isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
+        return "PedidoUtilizador updated with: " + pedido.getPedidoId();
     }
 
 
     /**
      * elimina um pedido do utilizador
      *
-     * @param pedidoId
-     * @return
+     * @param pedidoId id do pedido a ser eliminado
+     * @return pedidoUtilizador deleted
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public String deletePedidoUtilizador(int pedidoId) throws ExecutionException, InterruptedException {
+        if (pedidoId < 0)
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_UTILIZADOR)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_UTILIZADOR)
                 .get();
         //delete a document from firestore
-        if (future.get().size() <= 0)
-            return "Pedido não encontrado para ser eliminado ou já foi respondido";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return "deleted with:" + pedidoId;
+        if (future.get().isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return "PedidoUtilizador deleted with:" + pedidoId;
     }
 
 
     /*PEDIDOS DO TIPO MATERIAL*/
+
+    /**
+     * Método que retorna todos os pedidos do tipo PedidoMaterial
+     *
+     * @return lista de pedidos do tipo PedidoMaterial
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<PedidoMaterial> getAllPedidosMaterial() throws ExecutionException, InterruptedException {
         List<PedidoMaterial> pedidoMaterials = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_MATERIAL).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
         for (QueryDocumentSnapshot document : documents) {
             PedidoMaterial resposta = document.toObject(PedidoMaterial.class);
             pedidoMaterials.add(resposta);
@@ -159,7 +182,18 @@ public class PedidoService {
     }
 
     //cria um pedido do tipo material
+
+    /**
+     * Metodo cria um pedido do tipo PedidoMaterial na base de dados
+     * @param pedido pedido a ser inserido
+     * @return pedidoMaterial created
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String createPedidoMaterial(PedidoMaterial pedido) throws ExecutionException, InterruptedException {
+        if (verifyPedidoMaterial(pedido)) {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -176,50 +210,80 @@ public class PedidoService {
         }
         pedido.setPedidoId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(pedido);
+        db.collection(COL_NAME).document().set(pedido);
 
         return "pedidoMaterial created";
     }
 
     //altera um pedido do tipo material
+
+    /**
+     * altera um pedido do tipo PedidoMaterial
+     * @param pedido pedido a ser alterado com valores novos
+     * @return pedidoMaterial updated
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updatePedidoMaterial(PedidoMaterial pedido) throws ExecutionException, InterruptedException {
+        if (verifyPedidoMaterial(pedido))
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedido.getPedidoId())
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", pedido.getAuthorId())
                 .get();
 
         //update a document from firestore
         if (future.get().size() <= 0)
-            return "Pedido não encontrado para ser atualizado";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
-        return writeResult.get().getUpdateTime().toString();
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
+        return "PedidoMaterial updated with: " + pedido.getPedidoId();
     }
 
     //elimina pedido do tipo material sem resposta
+
+    /**
+     * elimina um pedido do tipo PedidoMaterial
+     * @param pedidoId id do pedido a ser eliminado
+     * @param authorId id do utilizador que criou o pedido
+     * @return pedidoMaterial deleted
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String deletePedidoMaterial(int pedidoId, int authorId) throws ExecutionException, InterruptedException {
+        if (pedidoId < 0 || authorId < 0)
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //delete a document from firestore
-        if (future.get().size() <= 0)
-            return "Pedido não encontrado para ser eliminado ou já foi respondido";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return "deleted with:" + pedidoId;
+        if (future.get().isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return "PedidoMaterial deleted with:" + pedidoId;
     }
 
     /*PEDIDOS DO TIPO LABORATÓRIO*/
+
+    /**
+     * Método que retorna todos os pedidos do tipo PedidoLaboratorio
+     * @return lista de pedidos do tipo PedidoLaboratorio
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public List<PedidoLaboratorio> getAllPedidosLaboratorio() throws ExecutionException, InterruptedException {
         List<PedidoLaboratorio> pedidoLaboratorios = new ArrayList<>();
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("tipoPedido", PEDIDO_NAME_LABORATORIO).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_LABORATORIO).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
         for (QueryDocumentSnapshot document : documents) {
             PedidoLaboratorio resposta = document.toObject(PedidoLaboratorio.class);
             pedidoLaboratorios.add(resposta);
@@ -229,7 +293,18 @@ public class PedidoService {
     }
 
     //cria um pedido do tipo laboratório
+
+    /**
+     * Metodo cria um pedido do tipo PedidoLaboratorio na base de dados
+     * @param pedido pedido a ser inserido
+     * @return pedidoLaboratorio created
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String createPedidoLaboratorio(PedidoLaboratorio pedido) throws ExecutionException, InterruptedException {
+        if (verifyPedidoLaboratorio(pedido)) {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -246,41 +321,63 @@ public class PedidoService {
         }
         pedido.setPedidoId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(pedido);
+        db.collection(COL_NAME).document().set(pedido);
 
         return "pedidoLaboratorio created";
     }
 
+
     //altera um pedido do tipo laboratório
+
+    /**
+     * altera um pedido do tipo PedidoLaboratorio
+     * @param pedido pedido a ser alterado com valores novos
+     * @return pedidoLaboratorio updated
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updatePedidoLaboratorio(PedidoLaboratorio pedido) throws ExecutionException, InterruptedException {
+        if (verifyPedidoLaboratorio(pedido))
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedido.getPedidoId())
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_LABORATORIO)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_LABORATORIO)
                 .whereEqualTo("authorId", pedido.getAuthorId())
                 .get();
         //update a document from firestore
-        if (future.get().size() <= 0)
-            return "Pedido não encontrado para ser atualizado";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
-        return "updated with:" + pedido.getPedidoId();
+        if (future.get().isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
+        return "PedidoLaboratorio updated with:" + pedido.getPedidoId();
     }
 
     //elimina pedido do tipo laboratório sem resposta
+
+    /**
+     * elimina um pedido do tipo PedidoLaboratorio
+     * @param pedidoId id do pedido a ser eliminado
+     * @param authorId id do utilizador que criou o pedido
+     * @return pedidoLaboratorio deleted
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String deletePedidoLaboratorio(int pedidoId, int authorId) throws ExecutionException, InterruptedException {
+        if (pedidoId < 0 || authorId < 0)
+            return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", pedidoId)
                 .whereEqualTo("resposta", false)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_LABORATORIO)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_LABORATORIO)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //delete a document from firestore
-        if (future.get().size() <= 0)
-            return "Pedido não encontrado para ser eliminado ou já foi respondido";
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return "deleted with:" + pedidoId;
+        if (future.get().isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return "PedidoLaboratorio deleted with:" + pedidoId;
     }
 
 
@@ -298,11 +395,11 @@ public class PedidoService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String addMaterial(int idPedido, ArrayList<Integer> idMaterial, int authorId) throws ExecutionException, InterruptedException {
+    public String addMaterial(int idPedido, List<Integer> idMaterial, int authorId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //update a document from firestore
@@ -325,7 +422,7 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //update a document from firestore
@@ -347,7 +444,7 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
-                .whereEqualTo("tipoPedido", PEDIDO_NAME_MATERIAL)
+                .whereEqualTo(STRING_LITERAL_TIPO, PEDIDO_NAME_MATERIAL)
                 .whereEqualTo("authorId", authorId)
                 .get();
         //update a document from firestore
@@ -356,4 +453,85 @@ public class PedidoService {
         PedidoMaterial pedido = future.get().getDocuments().get(0).toObject(PedidoMaterial.class);
         return pedido.getMateriais();
     }
+
+    /*METODOS AUXILIARES*/
+
+    /**
+     * Metodo para verificar se o material existe
+     * @param materiais lista de materiais
+     * @return true se não existir, false se existir
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private boolean checkMaterials(List<Integer> materiais) throws ExecutionException, InterruptedException {
+        for (int i = 0; i < materiais.size(); i++) {
+            Firestore db = FirestoreClient.getFirestore();
+            ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_MATERIAL)
+                    .whereEqualTo("materialId", materiais.get(i))
+                    .get();
+            if (materiais.get(i) < 0 || future.get().isEmpty())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Metodo para verificar se o Pedido do tipo PedidoUtilizador é valido
+     * @param pedido pedido a ser verificado
+     * @return true se não for valido, false for valido
+     */
+    private boolean verifyPedidoUtilizador(PedidoUtilizador pedido){
+        return pedido == null
+                || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
+                || pedido.getDataPedido() == null
+                || pedido.getRespostaId() < 0 || pedido.getPedidoId() < 0
+                || pedido.getDescricao() == null || pedido.getDescricao().length() > 64 || pedido.getDescricao().length() < 8;
+    }
+
+    /**
+     * Metodo para verificar se o Pedido do tipo PedidoMaterial é valido
+     * @param pedido pedido a ser verificado
+     * @return true se não for valido, false for valido
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private boolean verifyPedidoMaterial(PedidoMaterial pedido) throws ExecutionException, InterruptedException {
+        return pedido == null
+                || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
+                || pedido.getDataPedido() == null
+                || pedido.getAuthorId() < 0 || pedido.getRespostaId() < 0 || pedido.getPedidoId() < 0
+                || checkMaterials(pedido.getMateriais());
+    }
+
+    /**
+     * Metodo para verificar se o Pedido do tipo PedidoLaboratorio é valido
+     * @param pedido pedido a ser verificado
+     * @return true se não for valido, false for valido
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private boolean verifyPedidoLaboratorio(PedidoLaboratorio pedido) throws ExecutionException, InterruptedException {
+        return pedido == null
+                || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
+                || pedido.getDataPedido() == null
+                || pedido.getPedidoId() < 0 || pedido.getRespostaId() < 0
+                || pedido.getAuthorId() < 0 || pedido.getLabId() < 0
+                || checkIfLaboratorio(pedido.getLabId());
+    }
+
+    /**
+     * Metodo para verificar se o Laboratorio existe
+     * @param labId id do laboratorio
+     * @return true se não existir, false se existir
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private boolean checkIfLaboratorio(int labId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_LABORATORIO)
+                .whereEqualTo("laboratorioId", labId)
+                .get();
+        return future.get().isEmpty();
+    }
+
 }
