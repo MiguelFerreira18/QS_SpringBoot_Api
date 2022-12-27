@@ -1,7 +1,6 @@
 package com.example.test.demo.service;
 
 import com.example.test.demo.model.EtiquetaMaterial;
-import com.example.test.demo.model.Wish;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -48,7 +47,7 @@ public class EtiquetaServiceTest {
         materiaisId.add(1);
         materiaisId.add(2);
         EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
-        String result = myService.saveEtiqueta(etiquetaMaterial);
+        String result = myService.createEtiqueta(etiquetaMaterial);
         assertNotNull(result, result);
     }
 

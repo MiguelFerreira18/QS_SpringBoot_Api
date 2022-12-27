@@ -63,17 +63,16 @@ public class ComponentService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<Componente> componentes = new ArrayList<>();
-        if (documents.size() < 0) {
+        if (documents.isEmpty())
             return null;
-        }
-        for (QueryDocumentSnapshot doc : documents) {
+        for (QueryDocumentSnapshot doc : documents)
             componentes.add(doc.toObject(Componente.class));
-        }
         return componentes;
     }
 
     /**
      * Este metodo atualiza um componente na base de dados dado um objeto Componente
+     *
      * @param componente objeto do tipo Componente
      * @return retorna o id do componente se for concluido com sucesso
      * @throws ExecutionException
@@ -95,6 +94,7 @@ public class ComponentService {
 
     /**
      * Este metodo apaga um componente na base de dados dado um id
+     *
      * @param id id do componente a ser apagado
      * @return retorna o id do componente se for concluido com sucesso
      * @throws ExecutionException
@@ -112,6 +112,7 @@ public class ComponentService {
 
     /**
      * Este metodo apaga todos os componentes da base de dados
+     *
      * @return retorna que apagou todos os componentes se for concluido com sucesso
      * @throws ExecutionException
      * @throws InterruptedException
