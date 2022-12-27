@@ -13,7 +13,7 @@ public class Material {
     private List<String> uniadadesCurriculares;
     private List<Integer> respostasMaterial;
 
-    public Material( String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId, ArrayList<String> uniadadesCurriculares, ArrayList<Integer> respostasMaterial) {
+    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId, ArrayList<String> uniadadesCurriculares, ArrayList<Integer> respostasMaterial) {
         this.materialId = materialId;
         this.descricao = descricao;
         this.isDisponivel = isDisponivel;
@@ -21,6 +21,16 @@ public class Material {
         this.etiquetaId = etiquetaId;
         uniadadesCurriculares = uniadadesCurriculares;
         respostasMaterial = respostasMaterial;
+    }
+
+    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) {
+        this.materialId = materialId;
+        this.descricao = descricao;
+        this.isDisponivel = isDisponivel;
+        this.isAvariado = isAvariado;
+        this.etiquetaId = etiquetaId;
+        this.uniadadesCurriculares = new ArrayList<>();
+        this.respostasMaterial = new ArrayList<>();
     }
 
     public Material() {

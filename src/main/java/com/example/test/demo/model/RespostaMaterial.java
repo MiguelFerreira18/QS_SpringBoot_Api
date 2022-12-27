@@ -15,6 +15,12 @@ public class RespostaMaterial extends Resposta {
         this.dataReserva = dataReserva;
         this.dataEntrega = dataEntrega;
     }
+    public RespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) {
+        super(data, descricao, respostaId, TIPO_RESPOSTA,utilizadorId);
+        this.materiaisId = new ArrayList<>();
+        this.dataReserva = dataReserva;
+        this.dataEntrega = dataEntrega;
+    }
     public RespostaMaterial() {
     }
 

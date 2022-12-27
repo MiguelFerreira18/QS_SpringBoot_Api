@@ -7,7 +7,6 @@ public class PedidoUtilizador extends Pedido{
 
     public PedidoUtilizador(int respostaId,int pedidoId,String descricao) {
         super(respostaId,pedidoId,TIPO_UTILIZADOR);
-
         this.descricao = descricao;
     }
 

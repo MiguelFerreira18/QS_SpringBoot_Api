@@ -22,6 +22,16 @@ public class EtiquetaMaterial {
         this.subEtiqueta = subEtiqueta;
     }
 
+    public EtiquetaMaterial(String etiqueta, String subEtiqueta, String descricaoMaterial, int quantidade, int etiquetaId) {
+        this.componentes = new ArrayList<>();
+        this.etiqueta = etiqueta;
+        this.subEtiqueta = subEtiqueta;
+        this.materiaisId = new ArrayList<>();
+        this.descricaoMaterial = descricaoMaterial;
+        this.quantidade = quantidade;
+        this.etiquetaId = etiquetaId;
+    }
+
     public EtiquetaMaterial() {
     }
 

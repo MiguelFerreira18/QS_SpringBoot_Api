@@ -22,6 +22,17 @@ public class Docente {
         this.isAdmin = isAdmin;
         this.hasAccess = 0;
     }
+
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber, boolean isAdmin, int hasAccess) {
+        this.docenteNome = docenteNome;
+        this.docenteEmail = docenteEmail;
+        this.docentePassword = docentePassword;
+        this.docenteNumber = docenteNumber;
+        this.unidadesCurriculares = new ArrayList<>();
+        this.isAdmin = isAdmin;
+        this.hasAccess = hasAccess;
+    }
+
     public Docente() {
     }
 
