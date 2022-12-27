@@ -96,7 +96,7 @@ public class DocenteService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", docente.getDocenteNumber()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        if (documents.size() < 0)
+        if (documents.isEmpty())
             return null;
 
         ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).set(docente);
@@ -118,7 +118,7 @@ public class DocenteService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        if (documents.size() < 0)
+        if (documents.isEmpty())
             return null;
 
         ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).delete();
@@ -245,6 +245,13 @@ public class DocenteService {
     }
     /*!METODOS AUXILIARES!*/
 
+    /**
+     * metodo para verificar se um docente existe
+     * @param docente docente a verificar
+     * @return retorna verdadeiro se o docente não está correto
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private boolean checkDocente(Docente docente) {
         return docente == null
                 || docente.getDocenteNome() == null
@@ -255,6 +262,11 @@ public class DocenteService {
                 || docente.getHasAccess() > 1;
     }
 
+    /**
+     * metodo para verificar se um docente existe
+     * @param docente docente a verificar
+     * @return retorna verdadeiro se o docente não está correto
+     */
     private boolean checkPassword(Docente docente) {
         return docente.getDocentePassword() == null
                 || docente.getDocentePassword().equals("")
@@ -265,13 +277,24 @@ public class DocenteService {
                 || !Pattern.compile("[0-9]").matcher(docente.getDocentePassword()).find();
     }
 
+    /**
+     * metodo para verificar se um docente existe
+     * @param email email a verificar
+     * @return retorna verdadeiro se o email não é valido
+     */
     private boolean checkEmail(String email) {
-        return !Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+").matcher(email).find()
+        return email == null || !Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+").matcher(email).find()
                 || email.length() > 32
-                || email == null
                 || email.equals("");
     }
 
+    /**
+     * metodo para verificar por docentes duplicados
+     * @param docente docente a verificar
+     * @return retorna verdadeiro se o docente já existe
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private boolean checkForDuplicates(Docente docente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", docente.getDocenteNumber()).get();
@@ -279,6 +302,11 @@ public class DocenteService {
         return documents.size() > 0;
     }
 
+    /**
+     * metodo para verificar se as ucs do docete são validas
+     * @param docente docente a verificar
+     * @return retorna verdadeiro se as ucs não são validas
+     */
     private boolean checkUcsDocente(Docente docente) {
         for (String uc : docente.getUnidadesCurriculares())
             if (uc == null || uc.equals("") || uc.length() > 32 || uc.length() < 2)
@@ -286,6 +314,11 @@ public class DocenteService {
         return false;
     }
 
+    /**
+     * metodo verifica se o docente é admin e tem acesso
+     * @param docente docente a verificar
+     * @return retona verdadeiro se houver uma incongruencia
+     */
     private boolean checkIsAdmin(Docente docente) {
         return docente.getHasAccess() == 0 && docente.isAdmin();
     }

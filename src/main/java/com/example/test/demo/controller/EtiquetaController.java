@@ -1,12 +1,10 @@
 package com.example.test.demo.controller;
 
 
-import com.example.test.demo.model.Componente;
 import com.example.test.demo.model.EtiquetaMaterial;
 import com.example.test.demo.service.EtiquetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class EtiquetaController {
     }
     @PostMapping("/create")
     public String createEtiqueta(@RequestBody EtiquetaMaterial etiqueta) throws Exception {
-        return etiquetaService.saveEtiqueta(etiqueta);
+        return etiquetaService.createEtiqueta(etiqueta);
     }
     @DeleteMapping("/delete/{id}")
     public String deleteEtiqueta(@PathVariable int id) throws Exception {
