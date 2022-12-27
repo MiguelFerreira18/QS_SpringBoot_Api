@@ -5,7 +5,6 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,7 +38,7 @@ class LaboratorioServiceTest {
     void testSaveLaboratorio() throws ExecutionException, InterruptedException
     {
         Laboratorio l = new Laboratorio(1,1);
-        String result = myService.saveLaboratorio(l);
+        String result = myService.createLaboratorio(l);
         assertNotNull(result);
     }
 
@@ -56,7 +55,7 @@ class LaboratorioServiceTest {
     void testSaveLaboratorioSameId(int id,int ref) throws ExecutionException,InterruptedException
     {
         Laboratorio l = new Laboratorio(id,ref);
-        myService.saveLaboratorio(l);
+        myService.createLaboratorio(l);
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId",1).get();
         //Se future.get().size() for diferente de 1 significa que criou laboratorios com o mesmo id, o que nao pode acontecer
         assertEquals(1,future.get().size());
@@ -65,28 +64,28 @@ class LaboratorioServiceTest {
     @Test
     void testGetAllLAbs() throws ExecutionException, InterruptedException
     {
-        assertNotNull(myService.getAllLabs());
+        assertNotNull(myService.getAllLaboratorios());
     }
 
     @Test
     void testGetAllLabsSize() throws ExecutionException, InterruptedException
     {
-        assertNotEquals(0,myService.getAllLabs().size());
+        assertNotEquals(0,myService.getAllLaboratorios().size());
     }
 
     @ParameterizedTest
     @CsvSource({"400,5","700,20"})
     void testDeleteLab(int id,int ref) throws ExecutionException, InterruptedException
     {
-        myService.saveLaboratorio(new Laboratorio(id,ref));
-        assertNotEquals("laboratorio não encontrado",myService.deleteLab(id));
+        myService.createLaboratorio(new Laboratorio(id,ref));
+        assertNotEquals("laboratorio não encontrado",myService.deleteLaboratorio(id));
 
     }
 
     @Test
     void testDeleteLabInexistent() throws ExecutionException, InterruptedException
     {
-        assertEquals("laboratorio não encontrado",myService.deleteLab(-1));
+        assertEquals("laboratorio não encontrado",myService.deleteLaboratorio(-1));
     }
 
     @Test

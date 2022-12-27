@@ -17,10 +17,33 @@ import java.util.concurrent.ExecutionException;
 public class MaterialService {
 
     public static final String COL_NAME = "material";
+    public static final String COL_NAME_RESPOSTA = "resposta";
 
 
-    public String saveMat(Material mat) throws InterruptedException, ExecutionException {
+    /**
+     * Metodo para inserir um material na base de dados
+     * @param mat  Material a receber para ser criado
+     * @return
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public String createMaterial(Material mat) throws InterruptedException, ExecutionException {
+        if(mat.getMaterialId()<0)
+        {
+            return null;
+        }else if(checkAll(mat))
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
+
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaID",mat.getRespostasMaterial()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.size() != mat.getRespostasMaterial().size())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
@@ -42,30 +65,70 @@ public class MaterialService {
     }
 
 
-    public String deleteMat(int id) throws InterruptedException, ExecutionException {
+    /**
+     * Metodo para eliminar um material da base de dados
+     * @param id Identificacao do material
+     * @return
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
+    public String deleteMateriais(int id) throws InterruptedException, ExecutionException {
+        if(id<0)
+        {
+            return null;
+        }
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("materialId",id).get();
-        if (future.get().size()<=0)
-            return "Material não encontrado para ser eleminado";
-        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()));
-        ApiFuture<WriteResult> writeResult = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return writeResult.get().getUpdateTime().toString();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if (documents.isEmpty())
+            return null;
+
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
+        return "deleted material with:"+id;
     }
 
 
+    /**
+     * Metodo para atualizar um material existente na base de dados
+     * @param mat Material que ira substituir o material a atualizar
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public String updateMat(Material mat) throws ExecutionException, InterruptedException {
-        Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", mat.getMaterialId()).get();
-        //update a document from firestore
-        if(future.get().size()<=0)
-            return "No elements to be queried";
-        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        if(mat.getMaterialId()<0)
+        {
+            return null;
+        }else if(checkAll(mat))
+        {
+            return null;
+        }
 
-        return apiFuture.get().getUpdateTime().toString();
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaID",mat.getRespostasMaterial()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.size() != mat.getRespostasMaterial().size())
+        {
+            return null;
+        }
+
+
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", mat.getMaterialId()).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        if(documents.isEmpty())
+            return null;
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        return "material updated with:"+mat.getMaterialId();
 
     }
 
-    public List<Material> getMat() throws ExecutionException, InterruptedException {
+    /**
+     * Metodo para retornar uma lista de materiais
+     * @return
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public List<Material> getAllMateriais() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -115,7 +178,7 @@ public class MaterialService {
         if(future.get().size()<=0)
             return "No elements to be queried";
         Material mat = future.get().getDocuments().get(0).toObject(Material.class);
-        mat.getUniadadesCurriculares().add(idUc);
+        mat.getUnidadesCurriculares().add(idUc);
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
         return apiFuture.get().getUpdateTime().toString();
     }
@@ -125,8 +188,8 @@ public class MaterialService {
         if(future.get().size()<=0)
             return "No elements to be queried";
         Material mat = future.get().getDocuments().get(0).toObject(Material.class);
-        mat.getUniadadesCurriculares().remove(mat.getUniadadesCurriculares().indexOf(idUc));
-        mat.getUniadadesCurriculares().add(idUc);
+        mat.getUnidadesCurriculares().remove(mat.getUnidadesCurriculares().indexOf(idUc));
+        mat.getUnidadesCurriculares().add(idUc);
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
         return apiFuture.get().getUpdateTime().toString();
     }
@@ -136,9 +199,54 @@ public class MaterialService {
         if(future.get().size()<=0)
             return "No elements to be queried";
         Material mat = future.get().getDocuments().get(0).toObject(Material.class);
-        mat.getUniadadesCurriculares().remove(mat.getUniadadesCurriculares().indexOf(idUc));
+        mat.getUnidadesCurriculares().remove(mat.getUnidadesCurriculares().indexOf(idUc));
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
         return apiFuture.get().getUpdateTime().toString();
+    }
+
+    //metodos auxiliares
+
+    /**
+     * Metodo para auxiliar na verificacao da criacao e atualizacao dos materiais
+     * @param material material a receber como parametro para ser verificado
+     * @return
+     */
+    public boolean checkAll(Material material)
+    {
+        if(material.getDescricao() == null
+                || material.getDescricao().equalsIgnoreCase("")
+                || material.getDescricao().length() < 8
+                || material.getDescricao().length() > 128)
+        {
+            return true;
+        }else if(material.isAvariado()  && material.isDisponivel()) //material avariado nao pode estar disponivel
+        {
+            return true;
+        }else if(material.getEtiquetaId() < 0)
+        {
+            return true;
+        }
+
+        for (int i = 0; i < material.getUnidadesCurriculares().size(); i++)
+        {
+            if(material.getUnidadesCurriculares().get(i) == null
+                    || material.getUnidadesCurriculares().get(i).equalsIgnoreCase("")
+                    || material.getUnidadesCurriculares().get(i).length() < 4
+                    || material.getUnidadesCurriculares().get(i).length() > 128)
+            {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < material.getRespostasMaterial().size(); i++)
+        {
+            if(material.getRespostasMaterial().get(i) == null //verificar se funciona para respostas null
+                    || material.getRespostasMaterial().get(i) < 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

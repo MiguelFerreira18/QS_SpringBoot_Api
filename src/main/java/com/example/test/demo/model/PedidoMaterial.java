@@ -12,7 +12,13 @@ public class PedidoMaterial extends Pedido{
         super(respostaId,pedidoId,TIPO_MATERIAL);
         this.materiais = materiais;
         this.authorId = authorId;
+    }
 
+
+    public PedidoMaterial(int respostaId,int pedidoId, int authorId) {
+        super(respostaId,pedidoId,TIPO_MATERIAL);
+        this.materiais = new ArrayList<>();
+        this.authorId = authorId;
     }
 
     public PedidoMaterial() {
