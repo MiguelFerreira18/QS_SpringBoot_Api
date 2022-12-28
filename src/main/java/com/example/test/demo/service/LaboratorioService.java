@@ -41,6 +41,14 @@ public class LaboratorioService {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
+
+        ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", laboratorio.getRefAdmin()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if (documents3.size() != 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         db.collection(COL_NAME).document().set(laboratorio);
@@ -106,23 +114,9 @@ public class LaboratorioService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAIS).whereIn("materialId", laboratorio.getMateriaisId()).get();
-        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if (documents2.size() < 1) //tem de existir pelo menos 1 id de material na base de dados
-        {
-            return null;
-        }
-
         ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", laboratorio.getRefAdmin()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
         if (documents3.size() != 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
-        {
-            return null;
-        }
-
-        ApiFuture<QuerySnapshot> future4 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaId", laboratorio.getRespostasLaboratorio()).get();
-        List<QueryDocumentSnapshot> documents4 = future4.get().getDocuments();
-        if (documents4.size() != laboratorio.getRespostasLaboratorio().size()) //se as respostas n existirem na db da return null
         {
             return null;
         }

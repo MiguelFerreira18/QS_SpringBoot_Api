@@ -38,13 +38,6 @@ public class MaterialService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaId",mat.getRespostasMaterial()).get();
-        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if(documents2.size() != mat.getRespostasMaterial().size())
-        {
-            return null;
-        }
-
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
@@ -105,12 +98,6 @@ public class MaterialService {
         }
 
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaID", mat.getRespostasMaterial()).get();
-        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if (documents2.size() != mat.getRespostasMaterial().size()) {
-            return null;
-        }
-
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", mat.getMaterialId()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -227,7 +214,8 @@ public class MaterialService {
         } else if (material.getEtiquetaId() < 0) {
             return true;
         }
-
+        if(material.getUnidadesCurriculares().size()>0)
+        {
         for (int i = 0; i < material.getUnidadesCurriculares().size(); i++) {
             if (material.getUnidadesCurriculares().get(i) == null
                     || material.getUnidadesCurriculares().get(i).equalsIgnoreCase("")
@@ -235,13 +223,16 @@ public class MaterialService {
                     || material.getUnidadesCurriculares().get(i).length() > 128) {
                 return true;
             }
+          }
         }
 
+        if(material.getRespostasMaterial().size()>0){
         for (int i = 0; i < material.getRespostasMaterial().size(); i++) {
-            if (material.getRespostasMaterial().get(i) == null //verificar se funciona para respostas null
+            if (material.getRespostasMaterial().get(i) == null
                     || material.getRespostasMaterial().get(i) < 0) {
                 return true;
             }
+          }
         }
         return false;
     }
