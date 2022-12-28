@@ -136,7 +136,7 @@ class MaterialServiceTest
 
     @Test
     @Order(8)
-    @DisplayName("Testa se e possivel atualizar um material")
+    @DisplayName("Testa se e possivel atualizar um material existente ")
     void testUpdateMat() throws ExecutionException, InterruptedException
     {
         Material m = new Material("droneComMaisChars",true,false,0,6);
@@ -189,8 +189,8 @@ class MaterialServiceTest
 
     @Test
     @Order(15)
-    @DisplayName("Testa se e possivel obter todos os materiais")
-    void testGetMat() throws ExecutionException, InterruptedException
+    @DisplayName("Testa se vem null ao procurar todos os materiais, presumindo que ha materiais")
+    void testGetMatNotNull() throws ExecutionException, InterruptedException
     {
         assertNotNull(myService.getAllMateriais());
     }

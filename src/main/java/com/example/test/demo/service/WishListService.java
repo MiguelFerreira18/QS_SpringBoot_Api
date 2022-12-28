@@ -54,7 +54,7 @@ public class WishListService {
         wish.setIdWish(biggest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(wish);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "wish created";
 
     }
 
@@ -135,8 +135,8 @@ public class WishListService {
     public boolean checkAll(Wish wish) {
         if (wish.getDescricaoMaterial().equalsIgnoreCase("")
                 || wish.getDescricaoMaterial() == null
-                || wish.getDescricaoMaterial().length() > 252
-                || wish.getDescricaoMaterial().length() < 16) {
+                || wish.getDescricaoMaterial().length() > 64
+                || wish.getDescricaoMaterial().length() < 8) {
             return true;
         } else if (wish.getIdDocente() < 0) {
             return true;
@@ -147,7 +147,10 @@ public class WishListService {
             return true;
         } else if (wish.getIdWish() < 0) {
             return true;
-        } else if (wish.getDate() == null) {
+            //10-11-20 10 - 11 - 1212
+        } else if (wish.getDate() == null
+                || wish.getDate().isEmpty()
+                ||wish.getDate().length() < 8 ||wish.getDate().length() > 14 ) {
             return true;
         }
         //A DATA N FOI AVALIADO PQ DEPENDE DA INTERFACE DO ANDROID STUDIO; VALIDAR NO FIM DO PROJETO
