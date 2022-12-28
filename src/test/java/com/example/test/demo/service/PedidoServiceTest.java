@@ -42,11 +42,9 @@ class PedidoServiceTest {
             """)
     @Order(1)
     @DisplayName("Deve testar se o pedidoMaterial foi inserido na base de dadaos")
-    void shouldTestIfCreatePedidoMaterialIsSent(int respostaId, int pedidoId, int authorId, int idMat1, int idMat2, int idMat3) throws ExecutionException, InterruptedException {
+    void shouldTestIfCreatePedidoMaterialIsSent(int respostaId, int pedidoId, int authorId) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
-        idMateriais.add(idMat1);
-        idMateriais.add(idMat2);
-        idMateriais.add(idMat3);
+
         PedidoMaterial PedidoMaterial = new PedidoMaterial(respostaId, pedidoId, authorId, idMateriais);
         String result = myService.createPedidoMaterial(PedidoMaterial);
         assertNotNull(result);
@@ -70,8 +68,8 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                4,4,0,0
-                5,5,1,1
+                4,4,4,0
+                5,5,8,1
             """)
     @Order(3)
     @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
@@ -143,15 +141,14 @@ class PedidoServiceTest {
     }
 
     /*TESTES DE ATUALIZAÇÂO DE PEDIDOS*/
-    // TODO: 24/12/2022 TESTES DE ATUALIZAÇÂO DE PEDIDOS
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            0,0,pwp
-            1,1,dc
+            2,2,pwpasdads
+            3,3,dcasdada
             """)
     @Order(12)
-    @DisplayName("Deve testar se o pedido de utilizador foi atualizado na base de dadaos")
+    @DisplayName("Deve testar se o pedido de utilizador foi atualizado na base de dados")
     void shouldTestIfUpdatePedidoUtilizadorWorks(int respostaId, int pedidoId, String descricao) throws ExecutionException, InterruptedException {
         PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(respostaId, pedidoId, descricao);
         String isUpDated = myService.updatePedidoUtilizador(pedidoUtilizador);
@@ -160,8 +157,8 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            2,0,4,2
-            3,1,8,3
+            4,4,4,0
+            5,5,8,1
             """)
     @Order(13)
     @DisplayName("Deve testar se o pedido de laboratorio foi atualizado na base de dadaos")
@@ -173,16 +170,15 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            4,4,6,3,4,5
-            5,5,8,5,6,7
+            0,0,0,3,4,5
+            1,1,0,5,6,7
             """)
     @Order(14)
     @DisplayName("Deve testar se o pedido de material foi atualizado na base de dadaos")
-    void shouldTestIfUpdatePedidoMaterialWorks(int respostaId, int pedidoId,int author,int mat,int mat2,int mat3) throws ExecutionException, InterruptedException {
+    void shouldTestIfUpdatePedidoMaterialWorks(int respostaId, int pedidoId,int author,int mat,int mat2) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
         idMateriais.add(mat);
         idMateriais.add(mat2);
-        idMateriais.add(mat3);
         PedidoMaterial pedidoMaterial = new PedidoMaterial(respostaId, pedidoId,author, idMateriais);
         String isUpDated = myService.updatePedidoMaterial(pedidoMaterial);
         assertNotNull(isUpDated);
@@ -208,14 +204,13 @@ class PedidoServiceTest {
     @DisplayName("Deve testar se o pedido de utilizador que não existe não foi removido da base de dados")
     void shouldNotDeletePedidoUtilizador(int idPedidoUtilizador) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deletePedidoUtilizador(idPedidoUtilizador);
-        String[] isDeletedArray = isDeleted.split(":");
-        assertEquals("Pedido não encontrado para ser eliminado ou já foi respondido", isDeletedArray[0]);
+        assertNull(isDeleted);
     }
 
     @ParameterizedTest
     @CsvSource(textBlock = """
             4,0
-            5,0
+            5,1
             """)
     @Order(17)
     @DisplayName("Deve testar se o pedido de laboratorio foi removido da base de dados")
@@ -235,8 +230,7 @@ class PedidoServiceTest {
     @DisplayName("Deve testar se o pedido de laboratorio que não existe não foi removido da base de dados")
     void shouldNotDeletePedidoLaboratorio(int idPedidoLaboratorio,int author) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deletePedidoLaboratorio(idPedidoLaboratorio,author);
-        String[] isDeletedArray = isDeleted.split(":");
-        assertEquals("Pedido não encontrado para ser eliminado ou já foi respondido", isDeletedArray[0]);
+        assertNull(isDeleted);
     }
 
     @ParameterizedTest
@@ -261,8 +255,7 @@ class PedidoServiceTest {
     @DisplayName("Deve testar se o pedido de material que não existe não foi removido da base de dados")
     void shouldNotDeletePedidoMaterial(int idPedidoMaterial,int idAuthor) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deletePedidoMaterial(idPedidoMaterial,idAuthor);
-        String[] isDeletedArray = isDeleted.split(":");
-        assertEquals("Pedido não encontrado para ser eliminado ou já foi respondido", isDeletedArray[0]);
+        assertNull(isDeleted);
     }
 
     // TODO: 26/12/2022 TESTAR LIMITES DE CRIAÇÃO DE PEDIDOS PARA OS 3

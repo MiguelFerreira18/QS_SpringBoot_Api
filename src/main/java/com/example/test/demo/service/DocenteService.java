@@ -268,7 +268,7 @@ public class DocenteService {
                 || docente.getDocenteNome() == null
                 || docente.getDocenteNome().equals("")
                 || docente.getDocenteNome().length() > 32
-                || docente.getDocenteNumber() <= 0
+                || docente.getDocenteNumber() < 0
                 || docente.getHasAccess() < -1
                 || docente.getHasAccess() > 1;
     }

@@ -35,11 +35,11 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                Ruan carlosChanged6,asd@upt.pt,SD_@6789F,19,true
-                Ruan carlosChanged7,asd@upt.pt,SD_@6789F,12,true
-                Ruan carlosChanged8,asd@upt.pt,SD_@6789F,13,false
-                Ruan carlosChanged9,asd@upt.pt,SD_@6789F,14,false
-                Ruan carlosChanged10,asd@upt.pt,SD_@6789F,99,true
+                Ruan carlosChanged6,asd@upt.pt,SD_@6789F,0,true
+                Ruan carlosChanged7,asd@upt.pt,SD_@6789F,1,true
+                Ruan carlosChanged8,asd@upt.pt,SD_@6789F,2,false
+                Ruan carlosChanged9,asd@upt.pt,SD_@6789F,3,false
+                Ruan carlosChanged10,asd@upt.pt,SD_@6789F,4,true
             """)
     @Order(1)
     @DisplayName("Deve testar se armazena um docente na base de dados")
