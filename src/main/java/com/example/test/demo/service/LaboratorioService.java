@@ -42,6 +42,7 @@ public class LaboratorioService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
+
         ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", laboratorio.getRefAdmin()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
         if (documents3.size() != 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
@@ -51,6 +52,11 @@ public class LaboratorioService {
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        //Se ja existir lab com o mesmo id
+        if(documents.size()  == 1)
+        {
+            return null;
+        }
         db.collection(COL_NAME).document().set(laboratorio);
         return "laboratorio created";
     }
@@ -110,6 +116,9 @@ public class LaboratorioService {
         if (laboratorio.getLaboratorioId() < 0) {
             return null;
         } else if (checkAll(laboratorio)) {
+            return null;
+        }else if(laboratorio.getRefAdmin()<0)
+        {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();

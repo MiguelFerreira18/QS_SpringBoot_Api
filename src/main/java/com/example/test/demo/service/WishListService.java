@@ -54,7 +54,7 @@ public class WishListService {
         wish.setIdWish(biggest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(wish);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "wish created";
 
     }
 

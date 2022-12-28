@@ -208,9 +208,6 @@ public class MaterialService {
                 || material.getDescricao().length() < 8
                 || material.getDescricao().length() > 128) {
             return true;
-        } else if (material.isAvariado() && material.isDisponivel()) //material avariado nao pode estar disponivel
-        {
-            return true;
         } else if (material.getEtiquetaId() < 0) {
             return true;
         }

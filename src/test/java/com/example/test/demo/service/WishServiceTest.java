@@ -39,7 +39,7 @@ public final class WishServiceTest {
     public void shouldTestCreateWishIsSent(int id, String nomeMaterial, String descMaterial, int idDocente, String date) throws Exception {
         Wish wish = new Wish(id, nomeMaterial, descMaterial, idDocente, date);
         String result = myService.createWish(wish);
-        assertNotNull(result);
+        assertEquals(result,"wish created");
     }
 
     @ParameterizedTest
@@ -196,7 +196,7 @@ public final class WishServiceTest {
     @Order(17)
     public void shouldTestIfDeleteWishWorks(int id) throws Exception {
         String result = myService.deleteWish(id);
-        assertNotNull(result, result);
+        assertEquals(result,"wish deleted with:" + id);
     }
     // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE WISHES ESTÃO A FUNCIONAR
     // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE UM WISH ESTÃO A FUNCIONAR
