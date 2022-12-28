@@ -136,6 +136,7 @@ class DocenteServiceTest {
             4,Ruan carlosChanged4,1234.@upt.pt,"",false
             5,Ruan carlosChanged5,1234.@upt.pt,askjdbnsdjkbnfadjsnbvcxjknabsdhbjjk,false
             6,Ruan carlosChanged6,@upt.pt,SD_@6789F,true
+            0, Ruan carlosChanged10,asd@upt.pt,SD_@6789F,true
             """)
     @Order(9)
     @DisplayName("Deve testar se os limites de inserção para a base de dados estão a funcionar")
