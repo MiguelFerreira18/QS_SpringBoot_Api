@@ -5,20 +5,26 @@ import java.util.List;
 
 public class PedidoMaterial extends Pedido{
     private List<Integer> materiais;
+    private String dataDeInicio;
+    private String dataFim;
     private int authorId;
     private final static String TIPO_MATERIAL = "pedidoMaterial";
 
-    public PedidoMaterial(int respostaId,int pedidoId, int authorId, ArrayList<Integer> materiais) {
+    public PedidoMaterial(int respostaId,int pedidoId, int authorId, ArrayList<Integer> materiais, String dataDeInicio, String dataFim) {
         super(respostaId,pedidoId,TIPO_MATERIAL);
         this.materiais = materiais;
         this.authorId = authorId;
+        this.dataDeInicio = dataDeInicio;
+        this.dataFim = dataFim;
     }
 
 
-    public PedidoMaterial(int respostaId,int pedidoId, int authorId) {
+    public PedidoMaterial(int respostaId,int pedidoId, int authorId, String dataDeInicio, String dataFim) {
         super(respostaId,pedidoId,TIPO_MATERIAL);
         this.materiais = new ArrayList<>();
         this.authorId = authorId;
+        this.dataDeInicio = dataDeInicio;
+        this.dataFim = dataFim;
     }
 
     public PedidoMaterial() {

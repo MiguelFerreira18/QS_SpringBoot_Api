@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DocenteServiceTest {
 
     @Autowired
@@ -35,18 +36,20 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                Ruan carlos,123.@upt.pt,123456789,0,false
-                Ruan carlos2,123.@upt.pt,123456789,0,false
-                Ruan carlos3,123.@upt.pt,123456789,1,false
+                Ruan carlosChanged6,asd@upt.pt,SD_@6789F,0,true
+                Ruan carlosChanged7,asd@upt.pt,SD_@6789F,1,true
+                Ruan carlosChanged8,asd@upt.pt,SD_@6789F,2,false
+                Ruan carlosChanged9,asd@upt.pt,SD_@6789F,3,false
+                Ruan carlosChanged10,asd@upt.pt,SD_@6789F,4,true
             """)
-   @Order(1)
+    @Order(1)
     @DisplayName("Deve testar se armazena um docente na base de dados")
     void shouldTestIfSaveDocenteIsSent(String nome, String email, String password, int id, boolean isAdmin) throws ExecutionException, InterruptedException {
         ArrayList<String> ucs = new ArrayList<>();
         ucs.add("UC1");
         ucs.add("UC2");
         ucs.add("UC3");
-        Docente docente = new Docente(nome, email, password, id,ucs ,isAdmin);
+        Docente docente = new Docente(nome, email, password, id, ucs, isAdmin);
         String result = myService.createDocentes(docente);
         assertNotNull(result);
 
@@ -86,8 +89,8 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            0,Ruan carlosChanged0,123.@upt.pt,12345678910,false
-            1,Ruan carlosChanged1,1234.@upt.pt,1234567899,false
+            0,Ruan carlosChanged0,123@upt.pt,SD_@6789Fff,false
+            1,Ruan carlosChanged1,1234.asd@upt.pt,SD_@6789Fasd,false
             """)
     @Order(6)
     @DisplayName("Deve testar se o docente foi atualizado na base de dados")
@@ -96,13 +99,13 @@ class DocenteServiceTest {
         ucs.add("UC1");
         ucs.add("UC2");
         ucs.add("UC3");
-        Docente docente = new Docente(nomeDocente, email, pass, id,ucs,isAdmin);
+        Docente docente = new Docente(nomeDocente, email, pass, id, ucs, isAdmin);
         String isUpDated = myService.updateDocente(docente);
         assertNotNull(isUpDated);
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1})
+    @ValueSource(ints = {0, 1,2,3,4})
     @Order(7)
     @DisplayName("Deve testar se o docente foi apagado da base de dados")
     void shouldDeleteDocenteFromDataBase(int docenteNumber) throws ExecutionException, InterruptedException {
@@ -112,16 +115,44 @@ class DocenteServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {3, 4})
+    @ValueSource(ints = {124, -2344,-123,341,124,345,40,123,129012490,-3124124,-124123})
     @Order(8)
     @DisplayName("Deve testar se o docente que não existe retorna a mensagem correta")
     void shouldNotdeleteDocente(int docenteNumber) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteDocente(docenteNumber);
-        String[] isDeletedArray = isDeleted.split(":");
-        assertEquals("docente not found", isDeletedArray[0]);
+        assertNull(isDeleted);
     }
 
     // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE DOCENTES ESTÃO A FUNCIONAR
     // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE DOCENTES ESTÃO A FUNCIONAR
     // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            0,null,null,null,false
+            1,"",1234.@upt.pt,1234567899,false
+            2,Ruan carlosChanged2,1234.upt.pt,null,false
+            3,Ruan carlosChanged3,1234.@uptpt,1234567899,false
+            4,Ruan carlosChanged4,1234.@upt.pt,"",false
+            5,Ruan carlosChanged5,1234.@upt.pt,askjdbnsdjkbnfadjsnbvcxjknabsdhbjjk,false
+            6,Ruan carlosChanged6,@upt.pt,SD_@6789F,true
+            0, Ruan carlosChanged10,asd@upt.pt,SD_@6789F,true
+            """)
+    @Order(9)
+    @DisplayName("Deve testar se os limites de inserção para a base de dados estão a funcionar")
+    void shouldTestIfLimitsAreWorking(int id, String nomeDocente, String email, String pass, boolean isAdmin) throws ExecutionException, InterruptedException {
+        ArrayList<String> ucs = new ArrayList<>();
+        ucs.add("UC1");
+        ucs.add("UC2");
+        ucs.add("UC3");
+        Docente docente = new Docente(nomeDocente, email, pass, id, ucs, isAdmin);
+        String isUpDated = myService.updateDocente(docente);
+        assertNull(isUpDated);
+    }
+
+
+    @Test
+    void getStatus() {
+        myService.getStatus();
+    }
 }

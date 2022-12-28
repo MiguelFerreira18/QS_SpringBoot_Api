@@ -23,6 +23,7 @@ public class LaboratorioService {
 
     /**
      * Metodo para inserir um laboratorio na base de dados
+     *
      * @param laboratorio Laboratorio a receber para ser criado
      * @return
      * @throws ExecutionException
@@ -30,52 +31,39 @@ public class LaboratorioService {
      */
     public String createLaboratorio(Laboratorio laboratorio) throws ExecutionException, InterruptedException {
         /*ADICIONA UM NOVO MATERIAL*/
-        if(laboratorio.getLaboratorioId() < 0) //id laboratorio tem  de ser maior ou igual a 0
+        if (laboratorio.getLaboratorioId() < 0) //id laboratorio tem  de ser maior ou igual a 0
         {
             return null;
-        }else if(laboratorio.getRefAdmin() < 0)//refAdmin nao pode ser menor que 0
+        } else if (laboratorio.getRefAdmin() < 0)//refAdmin nao pode ser menor que 0
         {
             return null;
-        }else if(checkAll(laboratorio))
-        {
+        } else if (checkAll(laboratorio)) {
             return null;
         }
-
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
-        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        if(documents.size() >= 1) //nao pode haver labs com o mesmo id
-        {
-            return null;
-        }
 
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAIS).whereIn("materialId", laboratorio.getMateriaisId()).get();
-        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if(documents2.size() < 1) //tem de existir pelo menos 1 id de material na base de dados
-        {
-            return null;
-        }
 
         ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", laboratorio.getRefAdmin()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
-        if(documents3.size()!= 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
+        if (documents3.size() != 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
         {
             return null;
         }
 
-        ApiFuture<QuerySnapshot> future4 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaId", laboratorio.getRespostasLaboratorio()).get();
-        List<QueryDocumentSnapshot> documents4 = future4.get().getDocuments();
-        if(documents4.size() != laboratorio.getRespostasLaboratorio().size()) //se as respostas n existirem na db da return null
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        //Se ja existir lab com o mesmo id
+        if(documents.size()  == 1)
         {
             return null;
         }
-
         db.collection(COL_NAME).document().set(laboratorio);
         return "laboratorio created";
     }
 
     /**
      * Metodo que retorna uma lista de Laboratorios
+     *
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
@@ -85,8 +73,7 @@ public class LaboratorioService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         List<Laboratorio> laboratorios = new ArrayList<>();
-        if (documents.isEmpty())
-        {
+        if (documents.isEmpty()) {
             return null;
         }
         for (QueryDocumentSnapshot doc : documents) {
@@ -97,74 +84,59 @@ public class LaboratorioService {
 
     /**
      * Metodo para eliminar um laboratorio da base de dados
+     *
      * @param id Identificacao do laboratorio
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String deleteLaboratorio(int id) throws ExecutionException, InterruptedException
-    {
-        if(id<0)
-        {
+    public String deleteLaboratorio(int id) throws ExecutionException, InterruptedException {
+        if (id < 0) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        if (documents.isEmpty())
-        {
+        if (documents.isEmpty()) {
             return null;
         }
         db.collection(COL_NAME).document(documents.get(0).getId()).delete();
-        return "laboratorio deleted with:"+id;
+        return "laboratorio deleted with:" + id;
     }
 
     /**
      * Metodo para atualizar um laboratorio existente na base de dados
+     *
      * @param laboratorio Laboratorio que ira substituir o Laboratorio a atualizar
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public String updateLaboratorio(Laboratorio laboratorio) throws ExecutionException, InterruptedException {
-        if(laboratorio.getLaboratorioId() < 0)
-        {
+        if (laboratorio.getLaboratorioId() < 0) {
             return null;
-        }else if(checkAll(laboratorio))
+        } else if (checkAll(laboratorio)) {
+            return null;
+        }else if(laboratorio.getRefAdmin()<0)
         {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAIS).whereIn("materialId", laboratorio.getMateriaisId()).get();
-        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if(documents2.size() < 1) //tem de existir pelo menos 1 id de material na base de dados
-        {
-            return null;
-        }
-
         ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", laboratorio.getRefAdmin()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
-        if(documents3.size()!= 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
-        {
-            return null;
-        }
-
-        ApiFuture<QuerySnapshot> future4 = db.collection(COL_NAME_RESPOSTA).whereIn("respostaId", laboratorio.getRespostasLaboratorio()).get();
-        List<QueryDocumentSnapshot> documents4 = future4.get().getDocuments();
-        if(documents4.size() != laboratorio.getRespostasLaboratorio().size()) //se as respostas n existirem na db da return null
+        if (documents3.size() != 1)//se o numeroDocente nao existir na db e so pode haver 1 docente com o mesmo numero
         {
             return null;
         }
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        if (documents.isEmpty())
-        {
+        if (documents.isEmpty()) {
             return null;
         }
         db.collection(COL_NAME).document(documents.get(0).getId()).set(laboratorio);
-        return "laboratorio updated with:"+laboratorio.getLaboratorioId();
+        return "laboratorio updated with:" + laboratorio.getLaboratorioId();
     }
 
     /*CASOS PARTICULARES*/
@@ -236,9 +208,9 @@ public class LaboratorioService {
 
     /*CASOS PARTICULARES*/
     /*
-    * Cria resposta no laboratorio
-    * altera resposta no laboratorio
-    */
+     * Cria resposta no laboratorio
+     * altera resposta no laboratorio
+     */
 
 
     public String createRespostaLaboratorio(int labId, int respostaId) throws ExecutionException, InterruptedException {
@@ -257,10 +229,10 @@ public class LaboratorioService {
 
     }
 
-    public String updateRespostaLaboratório(int idResposta,int idLaboratorio) throws ExecutionException, InterruptedException {
+    public String updateRespostaLaboratório(int idResposta, int idLaboratorio) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idLaboratorio).get();
-        if(future.get().size()<=0)
+        if (future.get().size() <= 0)
             return "No elements to be queried";
         Laboratorio laboratorio = future.get().getDocuments().get(0).toObject(Laboratorio.class);
         laboratorio.getRespostasLaboratorio().remove(laboratorio.getRespostasLaboratorio().indexOf(idResposta));
@@ -274,43 +246,42 @@ public class LaboratorioService {
 
     /**
      * Metodo para auxiliar na validacao na criacao e atualizacao do Laboratorio
+     *
      * @param laboratorio Laboratorio a receber como parametro para ser verificado
      * @return
      */
-    private boolean checkAll(Laboratorio laboratorio)
-    {
-        for(int i=0;i<laboratorio.getLogs().size();i++)
-        {
-            if(laboratorio.getLogs().get(i).length() < 8
-                    || laboratorio.getLogs().get(i).length() >128
-                    || laboratorio.getLogs().get(i).equalsIgnoreCase("")
-                    || laboratorio.getLogs().get(i) == null)
-            {
-                return true;
+    private boolean checkAll(Laboratorio laboratorio) {
+
+        if (laboratorio.getLogs().size() > 0) {
+            for (int i = 0; i < laboratorio.getLogs().size(); i++) {
+                if (laboratorio.getLogs().get(i).length() < 8
+                        || laboratorio.getLogs().get(i).length() > 128
+                        || laboratorio.getLogs().get(i).equalsIgnoreCase("")
+                        || laboratorio.getLogs().get(i) == null) {
+                    return true;
+                }
             }
         }
 
-        for(int i=0;i<laboratorio.getMateriaisId().size();i++)
-        {
-            if(laboratorio.getMateriaisId().get(i) < 0) //id material nao pode ser menor que zero
-            {
-                return true;
+        if (laboratorio.getMateriaisId().size() > 0) {
+            for (int i = 0; i < laboratorio.getMateriaisId().size(); i++) {
+                if (laboratorio.getMateriaisId().get(i) < 0) //id material nao pode ser menor que zero
+                {
+                    return true;
+                }
             }
         }
-
-        for(int i=0;i<laboratorio.getRespostasLaboratorio().size();i++)
-        {
-            if(laboratorio.getRespostasLaboratorio().get(i) < 0) //id resposta n pode ser menor q zero
-            {
-                return true;
+        if (laboratorio.getRespostasLaboratorio().size() > 0) {
+            for (int i = 0; i < laboratorio.getRespostasLaboratorio().size(); i++) {
+                if (laboratorio.getRespostasLaboratorio().get(i) < 0) //id resposta n pode ser menor q zero
+                {
+                    return true;
+                }
             }
         }
 
         return false;
     }
-
-
-
 
 
 }

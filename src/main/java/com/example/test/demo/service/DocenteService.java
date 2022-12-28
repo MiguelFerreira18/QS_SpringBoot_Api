@@ -1,6 +1,7 @@
 package com.example.test.demo.service;
 
 import com.example.test.demo.model.Docente;
+import com.example.test.demo.model.PedidoUtilizador;
 import com.example.test.demo.util.AESUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -9,6 +10,7 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,8 +22,11 @@ import java.util.regex.Pattern;
 public class DocenteService {
     @Autowired
     private AESUtil aesUtil;
+    @Autowired
+    private PedidoService pedidoService;
 
     private static final String COL_NAME = "docente";
+    private static final String COL_NAME_PEDIDO = "pedido";
 
 //    public String requestTest(String password) {
 //        byte[] pwd = aesUtil.encrypt(password.getBytes());
@@ -30,6 +35,10 @@ public class DocenteService {
 //        System.out.println(decrypted);
 //        return decrypted;
 //    }
+
+    public ResponseEntity<String> getStatus() {
+        return ResponseEntity.badRequest().build();
+    }
 
 
     /**
@@ -51,6 +60,8 @@ public class DocenteService {
         docente.setDocentePassword(new String(pwd));
 
         Firestore db = FirestoreClient.getFirestore();
+        db.collection(COL_NAME_PEDIDO).document().set(new PedidoUtilizador(0, 0, docente.toString()));
+
         /*ADICIONA UM NOVO Docente*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(docente);
         return "docente created";
@@ -86,7 +97,7 @@ public class DocenteService {
      * @throws InterruptedException
      */
     public String updateDocente(Docente docente) throws ExecutionException, InterruptedException {
-        if (checkDocente(docente) || checkPassword(docente) || checkEmail(docente.getDocenteEmail()) || checkUcsDocente(docente)) {
+        if (checkDocente(docente) || checkPassword(docente) ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
             return null;
         }
 
@@ -257,7 +268,7 @@ public class DocenteService {
                 || docente.getDocenteNome() == null
                 || docente.getDocenteNome().equals("")
                 || docente.getDocenteNome().length() > 32
-                || docente.getDocenteNumber() <= 0
+                || docente.getDocenteNumber() < 0
                 || docente.getHasAccess() < -1
                 || docente.getHasAccess() > 1;
     }
@@ -283,7 +294,7 @@ public class DocenteService {
      * @return retorna verdadeiro se o email não é valido
      */
     private boolean checkEmail(String email) {
-        return email == null || !Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+").matcher(email).find()
+        return email == null || !Pattern.compile("[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+").matcher(email).find()
                 || email.length() > 32
                 || email.equals("");
     }

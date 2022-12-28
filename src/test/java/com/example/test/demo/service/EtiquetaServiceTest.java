@@ -37,18 +37,14 @@ public class EtiquetaServiceTest {
 
     @ParameterizedTest
     @DisplayName("Teste para inserir uma etiqueta")
-    @CsvSource(value = {"nao consumivel,drones,5,0,drone", "nao consumivel, impressoras, 5, 1, impressora", "consumivel, canetas, 5, 2, caneta" })
+    @CsvSource(value = {"não consumivel,drones,5,0,drone", "nao consumivel, impressoras, 5, 1, impressora", "consumivel, canetas, 5, 2, caneta" })
     @Order(1)
     public void shouldTestCreateEtiquetaIsSent(String etiqueta, String descricaoMaterial, int quantidade, int etiquetaId, String subEtiqueta) throws Exception {
         ArrayList<Integer> componentes = new ArrayList<>();
-        componentes.add(1);
-        componentes.add(2);
         ArrayList<Integer> materiaisId = new ArrayList<>();
-        materiaisId.add(1);
-        materiaisId.add(2);
         EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
         String result = myService.createEtiqueta(etiquetaMaterial);
-        assertNotNull(result, result);
+        assertNotNull(result);
     }
 
 
@@ -90,7 +86,7 @@ public class EtiquetaServiceTest {
         materiaisId.add(2);
        EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
         String result = myService.updateEtiqueta(etiquetaMaterial);
-        assertEquals(result, "updated",result);
+        assertEquals(result, "etiqueta updated:"+etiquetaId,result);
     }
 
 
@@ -105,4 +101,18 @@ public class EtiquetaServiceTest {
     // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE ETIQUETAS ESTÃO A FUNCIONAR
     // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE ETIQUETAS ESTÃO A FUNCIONAR
     // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
+    @ParameterizedTest
+    @DisplayName("Testa que não é possível criar uma Etiqueta com limites")
+    @CsvSource(textBlock = """
+            nao consumivel,null,-5,0,drone
+            n, aa, 5, -1231, null
+            null, canetas, 5, 2, canetasdadsasdadadsadadadadadadaddadaddsjhbhjabjhsda
+            """)
+    void shouldTestIfCreateEtiquetaWithLimits(String etiqueta, String descricaoMaterial, int quantidade, int etiquetaId, String subEtiqueta) throws Exception {
+        ArrayList<Integer> componentes = new ArrayList<>();
+        ArrayList<Integer> materiaisId = new ArrayList<>();
+        EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
+        String result = myService.createEtiqueta(etiquetaMaterial);
+        assertNull(result);
+    }
 }

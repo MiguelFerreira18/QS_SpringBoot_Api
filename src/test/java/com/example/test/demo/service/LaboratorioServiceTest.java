@@ -5,8 +5,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.runner.RunWith;
@@ -20,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LaboratorioServiceTest {
     private Firestore db;
     private String COL_NAME = "laboratorio";
@@ -34,76 +34,128 @@ class LaboratorioServiceTest {
 
 
     @ParameterizedTest
-    @CsvSource({"1,1","2,1"})
-    void testSaveLaboratorio() throws ExecutionException, InterruptedException
+    @CsvSource({"0,0","1,1","2,2"})
+    @Order(1)
+    @DisplayName("Testa se e possivel criar um laboratorio")
+    void testCreateNormalLaboratorio(int id,int ref) throws ExecutionException, InterruptedException
     {
-        Laboratorio l = new Laboratorio(1,1);
+        Laboratorio l = new Laboratorio(id,ref);
         String result = myService.createLaboratorio(l);
-        assertNotNull(result);
+        assertEquals("laboratorio created",result);
     }
 
-    @Test
-    void testSaveLaboratorioDb() throws ExecutionException, InterruptedException
+    @ParameterizedTest
+    @CsvSource({"0,-1","1,99999"})
+    @Order(2)
+    @DisplayName("Testa se e possivel criar um laboratorio com refAdmin inexistente na base de dados")
+    void testCreateLaboratorioRefAdminInexistent(int id,int ref) throws ExecutionException, InterruptedException
+    {
+        Laboratorio l = new Laboratorio(id,ref);
+        String result = myService.createLaboratorio(l);
+        assertNull(result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"-1,0","-3,2"})
+    @Order(3)
+    @DisplayName("Testa se e possivel criar um laboratorio com id abaixo de zero")
+    void testCreateLaboratorioIdLowerThanZero(int id,int ref) throws ExecutionException, InterruptedException
+    {
+        Laboratorio l = new Laboratorio(id,ref);
+        String result = myService.createLaboratorio(l);
+        assertNull(result);
+    }
+
+
+    @ParameterizedTest
+    @CsvSource({"0","1","2"})
+    @Order(4)
+    @DisplayName("Verifica se os laboratorios foram guardados na base de dados")
+    void testCreateLaboratorioSavedInDb(int id) throws ExecutionException, InterruptedException
     {
         //Alterar o id no futuro
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId",1).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId",id).get();
         assertNotEquals(0,future.get().size());
     }
 
     @ParameterizedTest
-    @CsvSource({"1,20","1,30"})
-    void testSaveLaboratorioSameId(int id,int ref) throws ExecutionException,InterruptedException
+    @CsvSource({"1,0","1,1"})
+    @Order(5)
+    @DisplayName("Verifica se e possivel criar laboratorios com o mesmo id")
+    void testCreateLaboratorioSameId(int id,int ref) throws ExecutionException,InterruptedException
     {
         Laboratorio l = new Laboratorio(id,ref);
         myService.createLaboratorio(l);
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId",1).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId",id).get();
         //Se future.get().size() for diferente de 1 significa que criou laboratorios com o mesmo id, o que nao pode acontecer
         assertEquals(1,future.get().size());
     }
 
     @Test
+    @Order(6)
+    @DisplayName("Testa se existe laboratorios, se nao existir laboratorios retorna null")
     void testGetAllLAbs() throws ExecutionException, InterruptedException
     {
         assertNotNull(myService.getAllLaboratorios());
     }
 
     @Test
+    @Order(7)
+    @DisplayName("Verifica se o tamanho da lista e superior a 0,presumindo que os valores ja foram inseridos")
     void testGetAllLabsSize() throws ExecutionException, InterruptedException
     {
         assertNotEquals(0,myService.getAllLaboratorios().size());
     }
 
     @ParameterizedTest
-    @CsvSource({"400,5","700,20"})
-    void testDeleteLab(int id,int ref) throws ExecutionException, InterruptedException
+    @CsvSource({"0,1","1,2","2,3"})
+    @Order(8)
+    @DisplayName("Testa se e possivel atualizar um laboratorio existente na base de dados")
+    void testUpdateLabExistent(int id,int ref) throws ExecutionException, InterruptedException
     {
-        myService.createLaboratorio(new Laboratorio(id,ref));
-        assertNotEquals("laboratorio não encontrado",myService.deleteLaboratorio(id));
-
+        Laboratorio h = new Laboratorio(id,ref);
+        assertEquals("laboratorio updated with:" + id,myService.updateLaboratorio(h));
     }
 
-    @Test
-    void testDeleteLabInexistent() throws ExecutionException, InterruptedException
+    @ParameterizedTest
+    @CsvSource({"-1,1","-2,2","9999999,3"})
+    @Order(9)
+    @DisplayName("Testa se e possivel atualizar um laboratorio inexistente na base de dados")
+    void testUpdateLabInexistent(int id,int ref) throws ExecutionException, InterruptedException
     {
-        assertEquals("laboratorio não encontrado",myService.deleteLaboratorio(-1));
+        Laboratorio l = new Laboratorio(id,ref);
+        assertNull(myService.updateLaboratorio(l));
     }
 
-    @Test
-    void testUpdateLab() throws ExecutionException, InterruptedException
+    @ParameterizedTest
+    @CsvSource({"0,-1","1,-2","2,99999999"})
+    @Order(10)
+    @DisplayName("Testa se e possivel atualizar um laboratorio existente na base de dados mas com refAdmin inexistente na bd")
+    void testUpdateLabRefAdminInexistent(int id,int ref) throws ExecutionException, InterruptedException
     {
-
-        //Altera o laboratorio de id 1 para ref 5
-        Laboratorio h = new Laboratorio(1,5);
-        assertNotEquals("laboratorio não encontrado",myService.updateLab(h));
-
+        Laboratorio h = new Laboratorio(id,ref);
+        assertNull(myService.updateLaboratorio(h));
     }
 
-    @Test
-    void testUpdateLabInexistent() throws ExecutionException, InterruptedException
+    @ParameterizedTest
+    @CsvSource({"0","1","2"})
+    @Order(11)
+    @DisplayName("Testa se e possivel eliminar um laboratorio existente na base de dados")
+    void testDeleteLabExistent(int id) throws ExecutionException, InterruptedException
     {
-        Laboratorio l = new Laboratorio(-1,-1);
-        assertEquals("laboratorio não encontrado",myService.updateLab(l));
+        assertEquals("laboratorio deleted with:" + id,myService.deleteLaboratorio(id));
     }
+
+    @ParameterizedTest
+    @CsvSource({"-1","-2","999999"})
+    @Order(12)
+    @DisplayName("Testa se e possivel eliminar um laboratorio inexistente na base de dados")
+    void testDeleteLabInexistent(int id) throws ExecutionException, InterruptedException
+    {
+        assertNull(myService.deleteLaboratorio(id));
+    }
+
+
 
     //Fim de testes de caso nao particulares
 

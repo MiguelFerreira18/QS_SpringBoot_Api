@@ -91,6 +91,7 @@ public class RespostaService {
         {
             return null;
         }
+
         //Lab tem de existir
         ApiFuture<QuerySnapshot> future3 = db.collection(COL_NAME_LAB).whereEqualTo("laboratorioId",resposta.getLaboratorioId()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
@@ -98,16 +99,17 @@ public class RespostaService {
         {
             return null;
         }
-
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
         Resposta oldResposta = null;
-
+/*
         if(documents.isEmpty())
         {
             return null;
         }
+
+ */
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
             oldResposta = doc.toObject(RespostaLaboratorio.class);
@@ -135,7 +137,7 @@ public class RespostaService {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
-        //Docente tem de existir
+        //Numero Docente tem de existir
         ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
@@ -200,17 +202,30 @@ public class RespostaService {
         //Material tem de existir
         ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereIn("materialId",resposta.getMateriaisId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+
         if(documents2.isEmpty())
         {
             return null;
         }
 
+        //Docente tem de existir
+        ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if(documents3.isEmpty())
+        {
+            return null;
+        }
+
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+        /*
         if(documents.isEmpty())
         {
             return null;
         }
+
+         */
         int biggest = -1;
         Resposta oldResposta = null;
 
@@ -235,9 +250,18 @@ public class RespostaService {
         }
         Firestore db = FirestoreClient.getFirestore();
         //Material tem de existir
+
+
         ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereIn("materialId",resposta.getMateriaisId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
+        {
+            return null;
+        }
+        //Docente tem de existir
+        ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if(documents3.isEmpty())
         {
             return null;
         }
@@ -288,21 +312,33 @@ public class RespostaService {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
-        //Tem de existir Utilizador/Docente
+        //Tem de existir numero Utilizador/Docente
         ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
         {
             return null;
         }
+
+        //Tem de existir nome Utilizador/Docente
+        ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if(documents3.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
         Resposta oldResposta = null;
+        /*
         if(documents.isEmpty())
         {
             return null;
         }
+
+         */
 
         /*AUTO INCREMENTA O ID QUANDO ADICIONA*/
         for (QueryDocumentSnapshot doc : documents) {
@@ -372,10 +408,19 @@ public class RespostaService {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
-        //Tem de existir Utilizador/Docente
+
+        //Tem de existir o id do Utilizador/Docente
         ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
+        {
+            return null;
+        }
+
+        //Tem de existir o nome do Utilizador/Docente
+        ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
+        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
+        if(documents3.isEmpty())
         {
             return null;
         }
@@ -458,9 +503,12 @@ public class RespostaService {
                 || respostaLaboratorio.getUtilizadorId() < 0
                 || respostaLaboratorio.getRespostaId() < 0
                 || respostaLaboratorio.getLaboratorioId() < 0
-                || respostaLaboratorio.getData() == null || respostaLaboratorio.getData().equalsIgnoreCase("")
-                || respostaLaboratorio.getDataReservaInicio() == null || respostaLaboratorio.getDataReservaInicio().equalsIgnoreCase("")
-                || respostaLaboratorio.getDataReservaFim() == null || respostaLaboratorio.getDataReservaFim().equalsIgnoreCase(""))
+                || respostaLaboratorio.getData() == null || respostaLaboratorio.getData().isEmpty()
+                 || respostaLaboratorio.getData().length()<8 || respostaLaboratorio.getData().length()>14
+                || respostaLaboratorio.getDataReservaInicio() == null || respostaLaboratorio.getDataReservaInicio().isEmpty()
+                 ||respostaLaboratorio.getDataReservaInicio().length()<8 || respostaLaboratorio.getDataReservaInicio().length()>14
+                || respostaLaboratorio.getDataReservaFim() == null || respostaLaboratorio.getDataReservaFim().isEmpty()
+                 || respostaLaboratorio.getDataReservaFim().length()<8 || respostaLaboratorio.getDataReservaFim().length()>14)
         {
             return true;
         }
@@ -478,9 +526,12 @@ public class RespostaService {
         }
         if(resMat.getRespostaId()<0
                 || resMat.getUtilizadorId() < 0
-                || resMat.getDataEntrega() == null || resMat.getDataEntrega().equalsIgnoreCase("")
-                || resMat.getDataReserva() == null || resMat.getDataReserva().equalsIgnoreCase("")
-                || resMat.getData() == null || resMat.getData().equalsIgnoreCase("")
+                || resMat.getDataEntrega() == null || resMat.getDataEntrega().isEmpty()
+                || resMat.getDataEntrega().length()<8 || resMat.getDataEntrega().length()>14
+                || resMat.getDataReserva() == null || resMat.getDataReserva().isEmpty()
+                || resMat.getDataReserva().length()<8 || resMat.getDataReserva().length()>14
+                || resMat.getData() == null || resMat.getData().isEmpty()
+                ||resMat.getData().length()<8 || resMat.getData().length()>14
                 || resMat.getDescricao().equalsIgnoreCase( "") || resMat.getDescricao() == null
                 || resMat.getDescricao().length() < 8 || resMat.getDescricao().length()>64)
         {
@@ -498,6 +549,7 @@ public class RespostaService {
                 || resUti.getNomeUtilizador().length() > 32
                 || resUti.getRespostaId() < 0
                 || resUti.getData() == null || resUti.getData().equalsIgnoreCase("")
+                ||resUti.getData().length()<8 || resUti.getData().length()>14
                 || resUti.getDescricao().equalsIgnoreCase("") || resUti.getDescricao() == null
                 || resUti.getDescricao().length() < 8 || resUti.getDescricao().length() > 64)
         {

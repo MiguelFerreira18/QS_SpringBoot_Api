@@ -16,27 +16,25 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class WishListService {
     private static final String COL_NAME = "wishList";
-    private static final String COL_NAME_DOCENTE ="docente";
+    private static final String COL_NAME_DOCENTE = "docente";
 
     /**
      * Metodo para criar uma wish na base de dados
+     *
      * @param wish wish a receber para ser criada
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String createWish(Wish wish) throws ExecutionException, InterruptedException
-    {
-        if(checkAll(wish))
-        {
+    public String createWish(Wish wish) throws ExecutionException, InterruptedException {
+        if (checkAll(wish)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber",wish.getIdDocente()).get();
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", wish.getIdDocente()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if(documents2.isEmpty())
-        {
+        if (documents2.isEmpty()) {
             return null;
         }
 
@@ -56,35 +54,35 @@ public class WishListService {
         wish.setIdWish(biggest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(wish);
-        return colApiFuture.get().getUpdateTime().toString();
+        return "wish created";
 
     }
 
     /**
      * Metodo para eliminar uma wish da base de dados
+     *
      * @param idWish identificacao da wish a eliminar
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String deleteWish(int idWish) throws ExecutionException, InterruptedException
-    {
-        if(idWish < 0)
-        {
+    public String deleteWish(int idWish) throws ExecutionException, InterruptedException {
+        if (idWish < 0) {
             return null;
         }
 
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot>  future= db.collection(COL_NAME).whereEqualTo("idWish",idWish).get();
-        if (future.get().size()<=0)
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("idWish", idWish).get();
+        if (future.get().size() <= 0)
             return null;
 
         db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).delete();
-        return "wish deleted with:"+idWish;
+        return "wish deleted with:" + idWish;
     }
 
     /**
      * Metodo para retornar uma lista de wish
+     *
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
@@ -98,32 +96,31 @@ public class WishListService {
 
     /**
      * Metodo para atualizar uma wish da base de dados
+     *
      * @param wish wish a receber como parametro para atualizar uma wish existente na base de dados
      * @return
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public String updateWish(Wish wish) throws ExecutionException, InterruptedException {
-        if(checkAll(wish))
-        {
+        if (checkAll(wish)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber",wish.getIdDocente()).get();
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", wish.getIdDocente()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if(documents2.isEmpty())
-        {
+        if (documents2.isEmpty()) {
             return null;
         }
 
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("idWish", wish.getIdWish()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-        if(documents.isEmpty())
+        if (documents.isEmpty())
             return null;
 
         db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(wish);
-        return "wish updated with:"+wish.getIdWish();
+        return "wish updated with:" + wish.getIdWish();
 
     }
 
@@ -131,31 +128,29 @@ public class WishListService {
 
     /**
      * Metodo para auxiliar na criacao e atualizao da wish
+     *
      * @param wish Wish a receber como parametro para ser verificada
      * @return
      */
-    public boolean checkAll(Wish wish)
-    {
-        if(wish.getDescricaoMaterial().equalsIgnoreCase("")
+    public boolean checkAll(Wish wish) {
+        if (wish.getDescricaoMaterial().equalsIgnoreCase("")
                 || wish.getDescricaoMaterial() == null
-                || wish.getDescricaoMaterial().length() > 252
-                || wish.getDescricaoMaterial().length() < 16 )
-        {
+                || wish.getDescricaoMaterial().length() > 64
+                || wish.getDescricaoMaterial().length() < 8) {
             return true;
-        }else if(wish.getIdDocente() < 0 )
-        {
+        } else if (wish.getIdDocente() < 0) {
             return true;
-        }else if(wish.getNomeMaterial().equalsIgnoreCase("")
+        } else if (wish.getNomeMaterial().equalsIgnoreCase("")
                 || wish.getNomeMaterial() == null
                 || wish.getNomeMaterial().length() < 8
-                || wish.getNomeMaterial().length() > 32 )
-        {
+                || wish.getNomeMaterial().length() > 32) {
             return true;
-        }else if(wish.getIdWish() < 0)
-        {
+        } else if (wish.getIdWish() < 0) {
             return true;
-        } else if(wish.getDate() == null)
-        {
+            //10-11-20 10 - 11 - 1212
+        } else if (wish.getDate() == null
+                || wish.getDate().isEmpty()
+                ||wish.getDate().length() < 8 ||wish.getDate().length() > 14 ) {
             return true;
         }
         //A DATA N FOI AVALIADO PQ DEPENDE DA INTERFACE DO ANDROID STUDIO; VALIDAR NO FIM DO PROJETO
