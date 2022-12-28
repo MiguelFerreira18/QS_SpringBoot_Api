@@ -86,7 +86,7 @@ public class EtiquetaServiceTest {
         materiaisId.add(2);
        EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
         String result = myService.updateEtiqueta(etiquetaMaterial);
-        assertEquals(result, "updated",result);
+        assertEquals(result, "etiqueta updated:"+etiquetaId,result);
     }
 
 

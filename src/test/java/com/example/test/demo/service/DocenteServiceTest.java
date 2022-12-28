@@ -89,8 +89,8 @@ class DocenteServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            0,Ruan carlosChanged0,123.@upt.pt,12345678910,false
-            1,Ruan carlosChanged1,1234.@upt.pt,1234567899,false
+            0,Ruan carlosChanged0,123@upt.pt,SD_@6789Fff,false
+            1,Ruan carlosChanged1,1234.asd@upt.pt,SD_@6789Fasd,false
             """)
     @Order(6)
     @DisplayName("Deve testar se o docente foi atualizado na base de dados")
@@ -105,7 +105,7 @@ class DocenteServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {19, 12,13,14,99})
+    @ValueSource(ints = {0, 1,2,3,4})
     @Order(7)
     @DisplayName("Deve testar se o docente foi apagado da base de dados")
     void shouldDeleteDocenteFromDataBase(int docenteNumber) throws ExecutionException, InterruptedException {
@@ -115,7 +115,7 @@ class DocenteServiceTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {3, 4,123,123,124,345,2,123,129012490,-3124124,-124123})
+    @ValueSource(ints = {124, -2344,-123,341,124,345,40,123,129012490,-3124124,-124123})
     @Order(8)
     @DisplayName("Deve testar se o docente que não existe retorna a mensagem correta")
     void shouldNotdeleteDocente(int docenteNumber) throws ExecutionException, InterruptedException {
@@ -136,6 +136,7 @@ class DocenteServiceTest {
             4,Ruan carlosChanged4,1234.@upt.pt,"",false
             5,Ruan carlosChanged5,1234.@upt.pt,askjdbnsdjkbnfadjsnbvcxjknabsdhbjjk,false
             6,Ruan carlosChanged6,@upt.pt,SD_@6789F,true
+            0, Ruan carlosChanged10,asd@upt.pt,SD_@6789F,true
             """)
     @Order(9)
     @DisplayName("Deve testar se os limites de inserção para a base de dados estão a funcionar")

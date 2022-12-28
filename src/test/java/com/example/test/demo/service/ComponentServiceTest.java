@@ -39,14 +39,19 @@ class ComponentServiceTest {
         db = FirestoreClient.getFirestore();
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            0,teste1,1
+            1,teste2,2
+            2,teste3,3
+            3,teste4,4
+            4,teste5,5
+            """)
     @Order(1)
     @DisplayName("Deve testar se um componente é criado na base de dados")
-    public void shouldTestCreateComponentIsSent() throws ExecutionException, InterruptedException {
-        Componente componente = new Componente(0, "teste1", 1);
+    public void shouldTestCreateComponentIsSent(int id,String descricao,int quantidade) throws ExecutionException, InterruptedException {
+        Componente componente = new Componente(id, descricao, quantidade);
         String result = myService.createComponent(componente);
-        componente = new Componente(0, "teste2", 1);
-        myService.createComponent(componente);
         assertNotNull(result);
     }
 
@@ -96,7 +101,7 @@ class ComponentServiceTest {
     @DisplayName("Deve testar se um componente é apagado na base de dados")
     public void shouldTestIfDeleteComponentIsWorking(int id) throws ExecutionException, InterruptedException {
         String isDeleted = myService.deleteComponent(id);
-        assertEquals(id, Integer.parseInt(isDeleted));
+        assertEquals("deleted component: " + id, isDeleted);
     }
 
     /*TESTES PARA REBENTAR COM ISTO TUDO*/

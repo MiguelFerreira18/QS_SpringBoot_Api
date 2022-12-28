@@ -283,7 +283,7 @@ public class EtiquetaService {
      */
     private boolean verifyMateriais(Integer material) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_MATERIAL).whereEqualTo("id", material).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_MATERIAL).whereEqualTo("materialId", material).get();
         if (future.get().isEmpty())
             return true;
         return false;
@@ -302,7 +302,7 @@ public class EtiquetaService {
                 || (etiquetaMaterial.getQuantidade() < 0 || etiquetaMaterial.getQuantidade() > 99)
                 || (etiquetaMaterial.getSubEtiqueta() == null || etiquetaMaterial.getSubEtiqueta().length() > 32 || etiquetaMaterial.getSubEtiqueta().length() < 1)
                 || (etiquetaMaterial.getEtiquetaId() < 0)|| (etiquetaMaterial.getEtiqueta() == null || etiquetaMaterial.getEtiqueta().length() > 32 || etiquetaMaterial.getEtiqueta().length() < 1)
-                || (etiquetaMaterial.getComponentes() == null || etiquetaMaterial.getMateriaisId() == null || verifyArrays(etiquetaMaterial));
+                || (etiquetaMaterial.getComponentes() == null || etiquetaMaterial.getMateriaisId() == null || verifyArrays(etiquetaMaterial));//Probelma nisto VerifyArrays
     }
 
 
