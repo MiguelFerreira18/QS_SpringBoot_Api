@@ -22,6 +22,7 @@ public class EtiquetaService {
 
     /**
      * Metodo cria uma nova etiqueta na base de dados
+     *
      * @param etiquetaMaterial objeto enviado do client side
      * @return retorna a data de criação da etiqueta
      * @throws ExecutionException
@@ -258,6 +259,7 @@ public class EtiquetaService {
 
     /**
      * metodo verifica se as componentes da lista são validas
+     *
      * @param idComponente id da componente a ser verificada
      * @return retorna verdadeiro se for invalida
      * @throws ExecutionException
@@ -273,6 +275,7 @@ public class EtiquetaService {
 
     /**
      * metodo que verifica se os materiais da lista são validos
+     *
      * @param material id do material a ser verificado
      * @return retorna verdadeiro se for invalido
      * @throws ExecutionException
@@ -288,6 +291,7 @@ public class EtiquetaService {
 
     /**
      * metodo que verifica se a etiqueta é valida
+     *
      * @param etiquetaMaterial objeto a ser verificado
      * @return retorna verdadeiro se for invalida
      * @throws ExecutionException
@@ -297,31 +301,35 @@ public class EtiquetaService {
         return (etiquetaMaterial.getDescricaoMaterial() == null || etiquetaMaterial.getDescricaoMaterial().length() > 128 || etiquetaMaterial.getDescricaoMaterial().length() < 1)
                 || (etiquetaMaterial.getQuantidade() < 0 || etiquetaMaterial.getQuantidade() > 99)
                 || (etiquetaMaterial.getSubEtiqueta() == null || etiquetaMaterial.getSubEtiqueta().length() > 32 || etiquetaMaterial.getSubEtiqueta().length() < 1)
-                || (etiquetaMaterial.getEtiquetaId() < 0)
-                || (etiquetaMaterial.getEtiqueta() == null || etiquetaMaterial.getEtiqueta().length() > 32 || etiquetaMaterial.getEtiqueta().length() < 1)
-                || (etiquetaMaterial.getComponentes() == null || etiquetaMaterial.getMateriaisId() == null || verifyArrays(etiquetaMaterial))
-                || (!etiquetaMaterial.getEtiqueta().equalsIgnoreCase("NÃO CONSUMIVEIS") && !etiquetaMaterial.getEtiqueta().equalsIgnoreCase("CONSUMIVEIS"));
+                || (etiquetaMaterial.getEtiquetaId() < 0)|| (etiquetaMaterial.getEtiqueta() == null || etiquetaMaterial.getEtiqueta().length() > 32 || etiquetaMaterial.getEtiqueta().length() < 1)
+                || (etiquetaMaterial.getComponentes() == null || etiquetaMaterial.getMateriaisId() == null || verifyArrays(etiquetaMaterial));
     }
+
 
     /**
      * metodo que verifica se os arraysLists são validos
+     *
      * @param etiquetaMaterial objeto a ser verificado
      * @return retorna verdadeiro se pelo menos 1 for invalido
      * @throws ExecutionException
      * @throws InterruptedException
      */
     private boolean verifyArrays(EtiquetaMaterial etiquetaMaterial) throws ExecutionException, InterruptedException {
-        for (Integer componente : etiquetaMaterial.getComponentes()) {
-            if (componente == null || componente < 0 || verifyComponentes(componente)) {
-                return true;
+        if (etiquetaMaterial.getComponentes().size() > 0) {
+            for (Integer componente : etiquetaMaterial.getComponentes()) {
+                if (componente == null || componente < 0 || verifyComponentes(componente)) {
+                    return true;
+                }
             }
         }
-        for (Integer material : etiquetaMaterial.getMateriaisId()) {
-            if (material == null || material < 0 || verifyMateriais(material)) {
-                return true;
+        if (etiquetaMaterial.getMateriaisId().size() > 0) {
+            for (Integer material : etiquetaMaterial.getMateriaisId()) {
+                if (material == null || material < 0 || verifyMateriais(material)) {
+                    return true;
+                }
             }
+
         }
         return false;
     }
-
 }

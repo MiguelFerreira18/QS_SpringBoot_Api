@@ -91,4 +91,14 @@ public class Docente {
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }
+
+    @Override
+    public String toString() {
+        return "Docente{" +
+                "docenteNome='" + docenteNome + '\'' +
+                ", docenteEmail='" + docenteEmail + '\'' +
+                ", docenteNumber=" + docenteNumber +
+                ", unidadesCurriculares=" + unidadesCurriculares +
+                '}';
+    }
 }

@@ -55,11 +55,11 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                2,2,abc
-                3,3,xyz
+                2,2,abcasdadsad
+                3,3,xyzasdasd
             """)
     @Order(2)
-    @DisplayName("Deve testar se o pedidoUtilizador foi inserido na base de dadaos")
+    @DisplayName("Deve testar se o pedidoUtilizador foi inserido na base de dados")
     void shouldTestIfCreatePedidoUtilizadorIsSent(int respostaId, int pedidoId, String descricao) throws ExecutionException, InterruptedException {
 
         PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(respostaId, pedidoId, descricao);
@@ -71,7 +71,7 @@ class PedidoServiceTest {
     @ParameterizedTest
     @CsvSource(textBlock = """
                 4,4,0,0
-                5,5,1,0
+                5,5,1,1
             """)
     @Order(3)
     @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
@@ -268,4 +268,19 @@ class PedidoServiceTest {
     // TODO: 26/12/2022 TESTAR LIMITES DE CRIAÇÃO DE PEDIDOS PARA OS 3
     // TODO: 26/12/2022 TESTAR LIMITES NA ATUALIZAÇÃO DE PEDIDOS PARA OS 3
     // TODO: 26/12/2022 TESTAR SE APAGAR PEDIDOS ACEITA NEGATIVOS
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            1,1,null
+            -12312,-123123,""
+            0,0,""        
+            """)
+    @Order(21)
+    @DisplayName("Deve testar se o pedido de utilizador não foi criado na base de dados")
+    void shouldCreatePedidoUtilizador(int idPedidoUtilizador, int idResposta, String descricao) throws ExecutionException, InterruptedException {
+        ArrayList<Integer> idMateriais = new ArrayList<>();
+        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(idPedidoUtilizador, idResposta, descricao );
+        String isCreated = myService.createPedidoUtilizador(pedidoUtilizador);
+        assertNull(isCreated);
+    }
 }

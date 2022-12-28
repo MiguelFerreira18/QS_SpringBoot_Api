@@ -61,7 +61,7 @@ public class DocenteController {
     }
 
     /*!AUTH REQUEST!*/
-    @GetMapping("/auth")
+    @PostMapping("/auth")
     public Docente authDocente(@RequestBody int numeroDocente, @RequestBody String password) throws Exception {
         return docenteService.loginDocente(numeroDocente, password);
     }
