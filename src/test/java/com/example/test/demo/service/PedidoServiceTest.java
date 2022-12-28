@@ -1,6 +1,7 @@
 package com.example.test.demo.service;
 
 import com.example.test.demo.model.*;
+import com.google.api.client.util.DateTime;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
 import org.junit.jupiter.api.*;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -45,7 +47,7 @@ class PedidoServiceTest {
     void shouldTestIfCreatePedidoMaterialIsSent(int respostaId, int pedidoId, int authorId) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
 
-        PedidoMaterial PedidoMaterial = new PedidoMaterial(respostaId, pedidoId, authorId, idMateriais);
+        PedidoMaterial PedidoMaterial = new PedidoMaterial(respostaId, pedidoId, authorId, idMateriais, LocalDate.now().toString(), LocalDate.now().toString());
         String result = myService.createPedidoMaterial(PedidoMaterial);
         assertNotNull(result);
 
@@ -75,7 +77,7 @@ class PedidoServiceTest {
     @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
     void shouldTestIfCreatePedidoLaboratorioIsSent(int respostaId, int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
 
-        PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(respostaId, pedidoId, labId, authorId);
+        PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(respostaId, pedidoId, labId, authorId, LocalDate.now().toString());
         String result = myService.createPedidoLaboratorio(pedidoLaboratorio);
         assertNotNull(result);
 
@@ -163,7 +165,7 @@ class PedidoServiceTest {
     @Order(13)
     @DisplayName("Deve testar se o pedido de laboratorio foi atualizado na base de dadaos")
     void shouldTestIfUpdatePedidoLaboratorioWorks(int respostaId, int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
-        PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(respostaId, pedidoId, labId, authorId);
+        PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(respostaId, pedidoId, labId, authorId, LocalDate.now().toString());
         String isUpDated = myService.updatePedidoLaboratorio(pedidoLaboratorio);
         assertNotNull(isUpDated);
     }
@@ -179,7 +181,7 @@ class PedidoServiceTest {
         ArrayList<Integer> idMateriais = new ArrayList<>();
         idMateriais.add(mat);
         idMateriais.add(mat2);
-        PedidoMaterial pedidoMaterial = new PedidoMaterial(respostaId, pedidoId,author, idMateriais);
+        PedidoMaterial pedidoMaterial = new PedidoMaterial(respostaId, pedidoId,author, idMateriais, LocalDate.now().toString(), LocalDate.now().toString());
         String isUpDated = myService.updatePedidoMaterial(pedidoMaterial);
         assertNotNull(isUpDated);
     }

@@ -1,14 +1,19 @@
 package com.example.test.demo.model;
 
+import java.time.LocalDate;
+
 public class PedidoLaboratorio extends Pedido {
     private int labId;
     private int authorId;
+    private String dataMarcada;
     private final static String TIPO_LABORATORIO = "pedidoLaboratorio";
 
-    public PedidoLaboratorio(int respostaId,int pedidoId, int labId, int authorId) {
+    public PedidoLaboratorio(int respostaId,int pedidoId, int labId, int authorId,String dataMarcada) {
         super(respostaId,pedidoId,TIPO_LABORATORIO);
         this.labId = labId;
         this.authorId = authorId;
+        this.dataMarcada = dataMarcada;
+
     }
 
     public PedidoLaboratorio() {
