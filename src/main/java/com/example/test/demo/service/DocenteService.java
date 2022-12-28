@@ -97,7 +97,7 @@ public class DocenteService {
      * @throws InterruptedException
      */
     public String updateDocente(Docente docente) throws ExecutionException, InterruptedException {
-        if (checkDocente(docente) || checkPassword(docente) || checkEmail(docente.getDocenteEmail()) || checkUcsDocente(docente)) {
+        if (checkDocente(docente) || checkPassword(docente) ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
             return null;
         }
 
@@ -294,7 +294,7 @@ public class DocenteService {
      * @return retorna verdadeiro se o email não é valido
      */
     private boolean checkEmail(String email) {
-        return email == null || !Pattern.compile("[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+").matcher(email).find()
+        return email == null || !Pattern.compile("[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(\\.[a-zA-Z0-9]+)+").matcher(email).find()
                 || email.length() > 32
                 || email.equals("");
     }
