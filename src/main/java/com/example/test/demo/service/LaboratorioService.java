@@ -53,8 +53,7 @@ public class LaboratorioService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", laboratorio.getLaboratorioId()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         //Se ja existir lab com o mesmo id
-        if(documents.size()  == 1)
-        {
+        if (documents.size() == 1) {
             return null;
         }
         db.collection(COL_NAME).document().set(laboratorio);
@@ -117,8 +116,7 @@ public class LaboratorioService {
             return null;
         } else if (checkAll(laboratorio)) {
             return null;
-        }else if(laboratorio.getRefAdmin()<0)
-        {
+        } else if (laboratorio.getRefAdmin() < 0) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
@@ -157,14 +155,12 @@ public class LaboratorioService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", id).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-
-        if (documents.size() > 0) {
-            Laboratorio docente = documents.get(0).toObject(Laboratorio.class);
-            docente.getMateriaisId().add(matId);
-            ApiFuture<WriteResult> writeResultApiFuture = db.collection(COL_NAME).document(documents.get(0).getId()).set(docente);
-            return writeResultApiFuture.get().getUpdateTime().toString();
-        }
-        return "docente não encontrado";
+        if (documents.isEmpty())
+            return null;
+        Laboratorio laboratorio = documents.get(0).toObject(Laboratorio.class);
+        laboratorio.getMateriaisId().add(matId);
+        db.collection(COL_NAME).document(documents.get(0).getId()).set(laboratorio);
+        return "material added to lab with id:" + id;
     }
 
     /**
