@@ -48,7 +48,7 @@ public class DocenteService {
      * @throws InterruptedException
      */
     public String createDocentes(Docente docente) throws ExecutionException, InterruptedException {
-        if (checkDocente(docente) || checkPassword(docente) || checkEmail(docente.getDocenteEmail()) || checkForDuplicates(docente) || checkUcsDocente(docente)) {
+        if (checkDocente(docente) || checkEmail(docente.getDocenteEmail()) || checkForDuplicates(docente) || checkUcsDocente(docente)) {
             return null;
         }
         if (checkIsAdmin(docente))
@@ -96,7 +96,7 @@ public class DocenteService {
      * @throws InterruptedException
      */
     public String updateDocente(Docente docente) throws ExecutionException, InterruptedException {
-        if (checkDocente(docente) || checkPassword(docente) ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
+        if (checkDocente(docente)  ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
             return null;
         }
 
@@ -268,20 +268,19 @@ public class DocenteService {
                 || docente.getHasAccess() > 1;
     }
 
-    /**
-     * metodo para verificar se um docente existe
-     * @param docente docente a verificar
-     * @return retorna verdadeiro se o docente não está correto
-     */
-    private boolean checkPassword(Docente docente) {
-        return docente.getDocentePassword() == null
-                || docente.getDocentePassword().equals("")
-                || docente.getDocentePassword().length() > 16
-                || docente.getDocentePassword().length() < 3
-                || !Pattern.compile("[^a-zA-Z0-9]").matcher(docente.getDocentePassword()).find()
-                || !Pattern.compile("[A-Z]").matcher(docente.getDocentePassword()).find()
-                || !Pattern.compile("[0-9]").matcher(docente.getDocentePassword()).find();
-    }
+//    /**
+//     * metodo para verificar se um docente existe
+//     * @param docente docente a verificar
+//     * @return retorna verdadeiro se o docente não está correto
+//    private boolean checkPassword(Docente docente) {
+//        return docente.getDocentePassword() == null
+//                || docente.getDocentePassword().equals("")
+//                || docente.getDocentePassword().length() > 16
+//                || docente.getDocentePassword().length() < 3
+//                || !Pattern.compile("[^a-zA-Z0-9]").matcher(docente.getDocentePassword()).find()
+//                || !Pattern.compile("[A-Z]").matcher(docente.getDocentePassword()).find()
+//                || !Pattern.compile("[0-9]").matcher(docente.getDocentePassword()).find();
+//    }*/
 
     /**
      * metodo para verificar se um docente existe
