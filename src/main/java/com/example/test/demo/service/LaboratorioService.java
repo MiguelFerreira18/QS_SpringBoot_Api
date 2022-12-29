@@ -25,7 +25,7 @@ public class LaboratorioService {
      * Metodo para inserir um laboratorio na base de dados
      *
      * @param laboratorio Laboratorio a receber para ser criado
-     * @return
+     * @return laboratorio created ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -64,7 +64,7 @@ public class LaboratorioService {
     /**
      * Metodo que retorna uma lista de Laboratorios
      *
-     * @return
+     * @return lista laboratorios ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -86,7 +86,7 @@ public class LaboratorioService {
      * Metodo para eliminar um laboratorio da base de dados
      *
      * @param id Identificacao do laboratorio
-     * @return
+     * @return laboratorio deleted with: laboratorioId ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -108,7 +108,7 @@ public class LaboratorioService {
      * Metodo para atualizar um laboratorio existente na base de dados
      *
      * @param laboratorio Laboratorio que ira substituir o Laboratorio a atualizar
-     * @return
+     * @return laboratorio updated with: laboratorioId ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */

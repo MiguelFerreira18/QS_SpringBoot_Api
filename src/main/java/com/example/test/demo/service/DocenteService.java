@@ -60,10 +60,14 @@ public class DocenteService {
         docente.setDocentePassword(new String(pwd));
 
         Firestore db = FirestoreClient.getFirestore();
-        db.collection(COL_NAME_PEDIDO).document().set(new PedidoUtilizador(0, 0, docente.toString()));
+        //Cria pedidoUtilizador JA ESTAVA FEITO PELO MIGUEL, ELE PEDIU PARA MENCIONAR :)
+        db.collection(COL_NAME_PEDIDO).document().set(new PedidoUtilizador(0,  docente.toString(),docente.getDocenteNumber()));
 
         /*ADICIONA UM NOVO Docente*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(docente);
+
+
+
         return "docente created";
     }
 

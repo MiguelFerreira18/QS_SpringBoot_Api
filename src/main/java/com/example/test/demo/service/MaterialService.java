@@ -24,7 +24,7 @@ public class MaterialService {
      * Metodo para inserir um material na base de dados
      *
      * @param mat Material a receber para ser criado
-     * @return
+     * @return material created ou null em caso de falha
      * @throws InterruptedException
      * @throws ExecutionException
      */
@@ -63,7 +63,7 @@ public class MaterialService {
      * Metodo para eliminar um material da base de dados
      *
      * @param id Identificacao do material
-     * @return
+     * @return deleted material with: materialId ou null em caso de falha
      * @throws InterruptedException
      * @throws ExecutionException
      */
@@ -86,7 +86,7 @@ public class MaterialService {
      * Metodo para atualizar um material existente na base de dados
      *
      * @param mat Material que ira substituir o material a atualizar
-     * @return
+     * @return material updated with: materialId ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -111,7 +111,7 @@ public class MaterialService {
     /**
      * Metodo para retornar uma lista de materiais
      *
-     * @return
+     * @return lista de materiais
      * @throws ExecutionException
      * @throws InterruptedException
      */

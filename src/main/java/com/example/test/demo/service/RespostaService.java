@@ -25,7 +25,7 @@ public class RespostaService {
 
     /**
      * Metodo que retorna todas as respostas
-     * @return
+     * @return retorna todas as respostas ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -189,7 +189,7 @@ public class RespostaService {
     /**
      * Metodo para criar uma RespostaMaterial na base de dados
      * @param resposta resposta do tipo material a receber como parametro para ser adicionada na base de dados
-     * @return
+     * @return retorna null
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -363,10 +363,22 @@ public class RespostaService {
         } else if (!resposta.isAceite()) {
 
             /*!PERGUNTAR AO QUENTAL COMO PROCEDER (SE APAGA OU NÃO O DOCENTE AQUI)!*/
+            //Apaga docente caso a resposta nao seja aceite
+            ApiFuture<QuerySnapshot> future4 = db.collection(COL_NAME).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+            List<QueryDocumentSnapshot> documents4 = future4.get().getDocuments();
+            if(documents4.isEmpty())
+            {
+                return null;
+            }
+            db.collection(PATH_QUARY_DOCENTE).document(documents4.get(0).getId()).delete();
+
+            /* Codigo anterior
             ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(-1);
             db.collection(PATH_QUARY_DOCENTE).document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
+
+             */
         }
 
         db.collection(COL_NAME).document().set(resposta);

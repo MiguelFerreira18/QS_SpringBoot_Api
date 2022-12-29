@@ -23,6 +23,7 @@ public class PedidoService {
     private static final String COL_NAME = "pedido";
     private static final String COL_NAME_MATERIAL = "material";
     private static final String COL_NAME_LABORATORIO = "laboratorio";
+    private static final String COL_NAME_DOCENTE = "docente";
     private static final String PEDIDO_NAME_UTILIZADOR = "pedidoUtilizador";
     private static final String PEDIDO_NAME_MATERIAL = "pedidoMaterial";
     private static final String PEDIDO_NAME_LABORATORIO = "pedidoLaboratorio";
@@ -30,7 +31,7 @@ public class PedidoService {
 
 
     /**
-     * @return
+     * @return lista de todos os pedidos ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -53,7 +54,7 @@ public class PedidoService {
     /**
      * Método que retorna todos os pedidos do tipo utilizador
      *
-     * @return
+     * @return lista de pedidos de utilizador ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -76,14 +77,25 @@ public class PedidoService {
      * Metodo cria pedido do tipo PedidoUtilizador na base de dados
      *
      * @param pedido pedido a ser inserido
-     * @return pedidoUtilizador created
+     * @return pedidoUtilizador created ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
     public String createPedidoUtilizador(PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
+
         if (verifyPedidoUtilizador(pedido))
             return null;
+
         Firestore db = FirestoreClient.getFirestore();
+
+        //Tem de existir numero Utilizador/Docente
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber",pedido.getDocenteId()).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if(documents2.isEmpty())
+        {
+            return null;
+        }
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
@@ -109,7 +121,7 @@ public class PedidoService {
      * altera um pedido do utlizador
      *
      * @param pedido pedido a ser alterado com valores novos
-     * @return pedidoUtilizador updated
+     * @return pedidoUtilizador updated ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -136,7 +148,7 @@ public class PedidoService {
      * elimina um pedido do utilizador
      *
      * @param pedidoId id do pedido a ser eliminado
-     * @return pedidoUtilizador deleted
+     * @return pedidoUtilizador deleted with: pedidoId ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -162,7 +174,7 @@ public class PedidoService {
     /**
      * Método que retorna todos os pedidos do tipo PedidoMaterial
      *
-     * @return lista de pedidos do tipo PedidoMaterial
+     * @return lista de pedidos do tipo PedidoMaterial ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -186,7 +198,7 @@ public class PedidoService {
     /**
      * Metodo cria um pedido do tipo PedidoMaterial na base de dados
      * @param pedido pedido a ser inserido
-     * @return pedidoMaterial created
+     * @return pedidoMaterial created ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -220,7 +232,7 @@ public class PedidoService {
     /**
      * altera um pedido do tipo PedidoMaterial
      * @param pedido pedido a ser alterado com valores novos
-     * @return pedidoMaterial updated
+     * @return pedidoMaterial updated ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -248,7 +260,7 @@ public class PedidoService {
      * elimina um pedido do tipo PedidoMaterial
      * @param pedidoId id do pedido a ser eliminado
      * @param authorId id do utilizador que criou o pedido
-     * @return pedidoMaterial deleted
+     * @return pedidoMaterial deleted ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -273,7 +285,7 @@ public class PedidoService {
 
     /**
      * Método que retorna todos os pedidos do tipo PedidoLaboratorio
-     * @return lista de pedidos do tipo PedidoLaboratorio
+     * @return lista de pedidos do tipo PedidoLaboratorio ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -297,7 +309,7 @@ public class PedidoService {
     /**
      * Metodo cria um pedido do tipo PedidoLaboratorio na base de dados
      * @param pedido pedido a ser inserido
-     * @return pedidoLaboratorio created
+     * @return pedidoLaboratorio created ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -332,7 +344,7 @@ public class PedidoService {
     /**
      * altera um pedido do tipo PedidoLaboratorio
      * @param pedido pedido a ser alterado com valores novos
-     * @return pedidoLaboratorio updated
+     * @return pedidoLaboratorio updated ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -359,7 +371,7 @@ public class PedidoService {
      * elimina um pedido do tipo PedidoLaboratorio
      * @param pedidoId id do pedido a ser eliminado
      * @param authorId id do utilizador que criou o pedido
-     * @return pedidoLaboratorio deleted
+     * @return pedidoLaboratorio deleted ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -484,7 +496,7 @@ public class PedidoService {
         return pedido == null
                 || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
                 || pedido.getDataPedido() == null
-                || pedido.getRespostaId() < 0 || pedido.getPedidoId() < 0
+                || pedido.getDocenteId() < 0 || pedido.getPedidoId() < 0
                 || pedido.getDescricao() == null || pedido.getDescricao().length() > 64 || pedido.getDescricao().length() < 8;
     }
 
@@ -499,7 +511,7 @@ public class PedidoService {
         return pedido == null
                 || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
                 || pedido.getDataPedido() == null
-                || pedido.getAuthorId() < 0 || pedido.getRespostaId() < 0 || pedido.getPedidoId() < 0
+                || pedido.getAuthorId() < 0 || pedido.getPedidoId() < 0
                 || checkMaterials(pedido.getMateriais());
     }
 
@@ -514,7 +526,7 @@ public class PedidoService {
         return pedido == null
                 || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
                 || pedido.getDataPedido() == null
-                || pedido.getPedidoId() < 0 || pedido.getRespostaId() < 0
+                || pedido.getPedidoId() < 0
                 || pedido.getAuthorId() < 0 || pedido.getLabId() < 0
                 || checkIfLaboratorio(pedido.getLabId());
     }

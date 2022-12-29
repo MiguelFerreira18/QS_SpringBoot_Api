@@ -55,14 +55,14 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                2,2,abcasdadsad
-                3,3,xyzasdasd
+                2,abcasdadsad,0
+                3,xyzasdasd,1
             """)
     @Order(2)
     @DisplayName("Deve testar se o pedidoUtilizador foi inserido na base de dados")
-    void shouldTestIfCreatePedidoUtilizadorIsSent(int respostaId, int pedidoId, String descricao) throws ExecutionException, InterruptedException {
+    void shouldTestIfCreatePedidoUtilizadorIsSent(int respostaId,String descricao,int docenteId) throws ExecutionException, InterruptedException {
 
-        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(respostaId, pedidoId, descricao);
+        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(respostaId,descricao,docenteId);
         String result = myService.createPedidoUtilizador(pedidoUtilizador);
         assertNotNull(result);
 
@@ -75,9 +75,9 @@ class PedidoServiceTest {
             """)
     @Order(3)
     @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
-    void shouldTestIfCreatePedidoLaboratorioIsSent(int respostaId, int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
+    void shouldTestIfCreatePedidoLaboratorioIsSent( int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
 
-        PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(respostaId, pedidoId, labId, authorId, LocalDate.now().toString());
+        PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(pedidoId, labId, authorId, LocalDate.now().toString());
         String result = myService.createPedidoLaboratorio(pedidoLaboratorio);
         assertNotNull(result);
 

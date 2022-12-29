@@ -8,15 +8,17 @@ public abstract class Resposta {
     private int respostaId;
     private int tipoResposta;
     private int utilizadorId;
+    private int pedidoId;
 
     //0=pedidos do utilizador, 1=pedidos do laboratorio,2=pedidos do material
 
-    public Resposta(String data, String descricao, int respostaId, int tipoResposta, int utilizadorId) {
+    public Resposta(String data, String descricao, int respostaId, int tipoResposta, int utilizadorId,int pedidoId) {
         this.data = data;
         this.descricao = descricao;
         this.respostaId = respostaId;
         this.tipoResposta = tipoResposta;
         this.utilizadorId = utilizadorId;
+        this.pedidoId = pedidoId;
     }
 
     public Resposta() {
@@ -60,4 +62,11 @@ public abstract class Resposta {
         this.descricao = descricao;
     }
 
+    public int getPedidoId() {
+        return pedidoId;
+    }
+
+    public void setPedidoId(int pedidoId) {
+        this.pedidoId = pedidoId;
+    }
 }

@@ -10,27 +10,20 @@ public abstract class Pedido {
     private String dataPedido;
     private boolean resposta;
     private String tipoPedido;
-    private int respostaId;
 
 
-    public Pedido(int respostaId,int pedidoId, String tipoPedido) {
+
+    public Pedido(int pedidoId, String tipoPedido) {
         this.resposta = false;
         this.tipoPedido = tipoPedido;
         this.dataPedido = LocalDate.now().toString();
         this.pedidoId = pedidoId;
-        this.respostaId = respostaId;
     }
 
     public Pedido() {
     }
 
-    public int getRespostaId() {
-        return respostaId;
-    }
 
-    public void setRespostaId(int respostaId) {
-        this.respostaId = respostaId;
-    }
 
     public String getDataPedido() {
         return dataPedido;
