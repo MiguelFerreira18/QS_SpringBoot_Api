@@ -48,268 +48,307 @@ class RespostaServiceTest
     //Testes de Create
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,1,2,28/12/2022,29/12/2022"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,1,1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,1,2,2,28/12/2022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio")
     @Order(1)
-    void testCreateRespostaLaboratorio(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorio(String data, String descricao, int respostaId, int utilizadorId,int pedidoId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertEquals("RespostaLaboratorio created",result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/,RespostaLabDesc0,0,0,1,26/12/2022,27/12/2022","20/12/202222222,RespostaLabDesC1,1,1,2,28/12/2022,29/12/2022"})
+    @CsvSource({"24/,RespostaLabDesc0,0,0,1,1,26/12/2022,27/12/2022","20/12/202222222,RespostaLabDesC1,1,1,2,2,28/12/2022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com a data fora dos limites")
     @Order(2)
-    void testCreateRespostaLaboratorioDataOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioDataOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,Desc0,0,0,1,26/12/2022,27/12/2022","20/12/2022,iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,1,1,2,28/12/2022,29/12/2022"})
+    @CsvSource({"24/12/2022,Desc0,0,0,1,1,26/12/2022,27/12/2022","20/12/2022,iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii,1,1,2,2,28/12/2022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com a descricao fora dos limites")
     @Order(3)
-    void testCreateRespostaLaboratorioDescricaoOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioDescricaoOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,RespostaLabDesc0,-1,0,1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,-99,1,2,28/12/2022,29/12/2022"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,-1,0,1,1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,-99,1,2,2,28/12/2022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com o id da resposta fora dos limites")
     @Order(4)
-    void testCreateRespostaLaboratorioIdOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioIdOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,RespostaLabDesc0,0,-1,1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,999999,2,28/12/2022,29/12/2022"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,0,-1,1,1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,999999,2,2,28/12/2022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com o id do docente inexistente na base de dados")
     @Order(5)
-    void testCreateRespostaLaboratorioIdDocenteInexistent(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioIdDocenteInexistent(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,RespostaLabDesc0,0,1,-1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,1,99999,28/12/2022,29/12/2022"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,0,1,1,-1,26/12/2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,1,2,99999,28/12/2022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com o id do laboratorio inexistente na base de dados")
     @Order(6)
-    void testCreateRespostaLaboratorioIdLabInexistent(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioIdLabInexistent(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,1,2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,1,2,28  /  1 2/2 022,29/12/2022"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,1,1,2022,27/12/2022","20/12/2022,RespostaLabDesC1,1,1,2,2,28  /  1 2/2 022,29/12/2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com a data de reserva de inicio fora dos limites")
     @Order(7)
-    void testCreateRespostaLaboratorioReservaInicioOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioReservaInicioOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,1,26/12/2022,2022","20/12/202,RespostaLabDesC1,1,1,2,28/12/2022,29   / 12 /   2022"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,1,1,26/12/2022,2022","20/12/202,RespostaLabDesC1,1,1,2,2,28/12/2022,29   / 12 /   2022"})
     @DisplayName("Testa a criacao de uma RespostaLaboratorio com a data de reserva de fim fora dos limites")
     @Order(8)
-    void testCreateRespostaLaboratorioReservaFimOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
-        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,laboratorioId,dataReservaInicio,dataReservaFim);
+    void testCreateRespostaLaboratorioReservaFimOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
         String result = myService.createRespostaLaboratorio(r);
         assertNull(result);
     }
 
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,1","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,2"})
+    @CsvSource({"24/12/2022,RespostaLabDesc0,0,0,-1,1,26/12/2022,27/12/2022","20/12/202,RespostaLabDesC1,1,1,9999,2,28/12/2022,29/12/2022"})
+    @DisplayName("Testa a criacao de uma RespostaLaboratorio com o id de pedido fora dos limites")
+    @Order(8)
+    void testCreateRespostaLaboratorioPedidoOutOfBounds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim) throws ExecutionException, InterruptedException {
+        RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim);
+        String result = myService.createRespostaLaboratorio(r);
+        assertNull(result);
+    }
+
+
+
+
+    @ParameterizedTest
+    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,1,0","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial")
     @Order(9)
-    void testCreateRespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertEquals("respostaMaterial created",result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12,RespostaMaterial0,2,30/12/22,31/12/22,1","01  /  01  /  23,RespostaMaterial1,3,02/01/23,04/01/23,2"})
+    @CsvSource({"24/12,RespostaMaterial0,2,30/12/22,31/12/22,1,0","01  /  01  /  23,RespostaMaterial1,3,02/01/23,04/01/23,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com a data fora dos limites")
     @Order(10)
-    void testCreateRespostaMaterialDataOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialDataOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,R,2,30/12/22,31/12/22,1","01/01/23,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,3,02/01/23,04/01/23,2"})
+    @CsvSource({"24/12/22,R,2,30/12/22,31/12/22,1,0","01/01/23,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,3,02/01/23,04/01/23,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com a descricao fora dos limites")
     @Order(11)
-    void testCreateRespostaMaterialDescOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialDescOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,RespostaMaterial0,-1,30/12/22,31/12/22,1","01/01/23,RespostaMaterial1,-5,02/01/23,04/01/23,2"})
+    @CsvSource({"24/12/22,RespostaMaterial0,-1,30/12/22,31/12/22,1,0","01/01/23,RespostaMaterial1,-5,02/01/23,04/01/23,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com o id da resposta menor que zero")
     @Order(12)
-    void testCreateRespostaMaterialIdNegative(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialIdNegative(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12,31/12/22,1","01/01/23,RespostaMaterial1,3,022 / 01111/2023,04/01/23,2"})
+    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12,31/12/22,1,0","01/01/23,RespostaMaterial1,3,022 / 01111/2023,04/01/23,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com a dataReserva fora dos limites")
     @Order(13)
-    void testCreateRespostaMaterialReservaOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialReservaOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,/12/22,1","01/01/23,RespostaMaterial1,3,02/01/23,042 / 011 / 2023,2"})
+    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,/12/22,1,0","01/01/23,RespostaMaterial1,3,02/01/23,042 / 011 / 2023,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com a data de Entrega fora do limite")
     @Order(14)
-    void testCreateRespostaMaterialEntregaOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialEntregaOutOfBounds(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,-1","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,9999"})
+    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,-1,0","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,9999,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com o id de utilizador nao existente na base de dados")
     @Order(15)
-    void testCreateRespostaMaterialIdDocenteInexistent(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialIdDocenteInexistent(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(1);
         materiaisId.add(2);
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,1","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,2"})
+    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,1,0","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,2,1"})
     @DisplayName("Testa a criacao de uma RespostaMaterial com materiais inexistentes ")
     @Order(16)
-    void testCreateRespostaMaterialIdMateriaisInexistent(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId) throws ExecutionException, InterruptedException {
+    void testCreateRespostaMaterialIdMateriaisInexistent(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
         ArrayList <Integer> materiaisId = new ArrayList<>();
         materiaisId.add(-98);
         materiaisId.add(-1);
         materiaisId.add(123); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
-        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,materiaisId);
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
         String result = myService.createRespostaMaterial(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,false,2,Ruan carlosChanged8"})
+    @CsvSource({"24/12/22,RespostaMaterial0,2,30/12/22,31/12/22,1,-1","01/01/23,RespostaMaterial1,3,02/01/23,04/01/23,2,999"})
+    @DisplayName("Testa a criacao de uma RespostaMaterial com pedidoId inexistente na base de dados ")
+    @Order(16)
+    void testCreateRespostaMaterialPedidoIdInexistent(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException {
+        ArrayList <Integer> materiaisId = new ArrayList<>();
+        materiaisId.add(-98);
+        materiaisId.add(-1);
+        materiaisId.add(123); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
+
+        RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId);
+        String result = myService.createRespostaMaterial(r);
+        assertNull(result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,false,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a criacao de um RespostaUtilizador")
     @Order(17)
-    void testCreateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
         String result = myService.createRespostaUtilizador(r);
         assertEquals("RespostaUtilizador created",result);
     }
 
     @ParameterizedTest
-    @CsvSource({"2010,RespostaUtilizador0,4,true,1,Ruan carlosChanged7","101010/101/2010,RespostaUtilizador1,5,false,2,Ruan carlosChanged8"})
+    @CsvSource({"2010,RespostaUtilizador0,4,true,1,2,Ruan carlosChanged7","101010/101/2010,RespostaUtilizador1,5,false,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com a data fora dos limites")
     @Order(18)
-    void testCreateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,R,4,true,1,Ruan carlosChanged7","10/10/2010,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,5,false,2,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,R,4,true,1,2,Ruan carlosChanged7","10/10/2010,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,5,false,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com a descricao fora dos limites")
     @Order(19)
-    void testCreateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,-1,true,1,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,-5,false,2,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,RespostaUtilizador0,-1,true,1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,-5,false,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com respostaId menor que zero")
     @Order(20)
-    void testCreateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,-1,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,false,9999,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,-1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,false,9999,3,Ruan carlosChanged8"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com utilizadorId inexistente na base de dados")
     @Order(21)
-    void testCreateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,Ruan carlosChanged72","10/10/2010,RespostaUtilizador1,2,false,2,r"})
+    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,2,Ruan carlosChanged72","10/10/2010,RespostaUtilizador1,2,false,2,3,r"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com nome utilizador/docente inexistente na base de dados")
     @Order(22)
-    void testCreateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        String result = myService.createRespostaUtilizador(r);
+        assertNull(result);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,-2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,false,2,9999,Ruan carlosChanged8"})
+    @DisplayName("Testa a criacao de um RespostaUtilizador com pedidoId inexistente na base de dados")
+    @Order(22)
+    void testCreateRespostaUtilizadorPedidoIdInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    {
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
