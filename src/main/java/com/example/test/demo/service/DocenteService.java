@@ -2,7 +2,6 @@ package com.example.test.demo.service;
 
 import com.example.test.demo.model.Docente;
 import com.example.test.demo.model.PedidoUtilizador;
-import com.example.test.demo.util.AESUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -20,8 +19,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class DocenteService {
-    @Autowired
-    private AESUtil aesUtil;
+
     @Autowired
     private PedidoService pedidoService;
 
@@ -55,9 +53,6 @@ public class DocenteService {
         }
         if (checkIsAdmin(docente))
             docente.setHasAccess(1);
-
-        byte[] pwd = aesUtil.encrypt(docente.getDocentePassword().getBytes());
-        docente.setDocentePassword(new String(pwd));
 
         Firestore db = FirestoreClient.getFirestore();
         //Cria pedidoUtilizador JA ESTAVA FEITO PELO MIGUEL, ELE PEDIU PARA MENCIONAR :)
@@ -104,9 +99,6 @@ public class DocenteService {
         if (checkDocente(docente) || checkPassword(docente) ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
             return null;
         }
-
-        byte[] pwd = aesUtil.encrypt(docente.getDocentePassword().getBytes());
-        docente.setDocentePassword(new String(pwd));
 
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", docente.getDocenteNumber()).get();
@@ -253,8 +245,7 @@ public class DocenteService {
             return null;
         }
         Docente docente = documents.get(0).toObject(Docente.class);
-        byte[] pwd = aesUtil.decrypt(docente.getDocentePassword().getBytes());
-        if (pwd.toString().equals(password))
+        if (docente.getDocentePassword().toString().equals(password))
             return docente;
         return documents.get(0).toObject(Docente.class);
     }
