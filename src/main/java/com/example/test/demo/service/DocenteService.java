@@ -2,7 +2,6 @@ package com.example.test.demo.service;
 
 import com.example.test.demo.model.Docente;
 import com.example.test.demo.model.PedidoUtilizador;
-import com.example.test.demo.util.AESUtil;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -20,8 +19,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class DocenteService {
-    @Autowired
-    private AESUtil aesUtil;
+
     @Autowired
     private PedidoService pedidoService;
 
@@ -50,20 +48,21 @@ public class DocenteService {
      * @throws InterruptedException
      */
     public String createDocentes(Docente docente) throws ExecutionException, InterruptedException {
-        if (checkDocente(docente) || checkPassword(docente) || checkEmail(docente.getDocenteEmail()) || checkForDuplicates(docente) || checkUcsDocente(docente)) {
+        if (checkDocente(docente) || checkEmail(docente.getDocenteEmail()) || checkForDuplicates(docente) || checkUcsDocente(docente)) {
             return null;
         }
         if (checkIsAdmin(docente))
             docente.setHasAccess(1);
 
-        byte[] pwd = aesUtil.encrypt(docente.getDocentePassword().getBytes());
-        docente.setDocentePassword(new String(pwd));
-
         Firestore db = FirestoreClient.getFirestore();
-        db.collection(COL_NAME_PEDIDO).document().set(new PedidoUtilizador(0, 0, docente.toString()));
+        //Cria pedidoUtilizador JA ESTAVA FEITO PELO MIGUEL, ELE PEDIU PARA MENCIONAR :) ESTAVA MAL FEITO DE QUALQUER DAS FORMAS
+        pedidoService.createPedidoUtilizador(new PedidoUtilizador(0, docente.toString(), docente.getDocenteNumber()));
 
         /*ADICIONA UM NOVO Docente*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(docente);
+
+
+
         return "docente created";
     }
 
@@ -97,12 +96,9 @@ public class DocenteService {
      * @throws InterruptedException
      */
     public String updateDocente(Docente docente) throws ExecutionException, InterruptedException {
-        if (checkDocente(docente) || checkPassword(docente) ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
+        if (checkDocente(docente)  ||  checkEmail(docente.getDocenteEmail())||  checkUcsDocente(docente)  ) {
             return null;
         }
-
-        byte[] pwd = aesUtil.encrypt(docente.getDocentePassword().getBytes());
-        docente.setDocentePassword(new String(pwd));
 
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("docenteNumber", docente.getDocenteNumber()).get();
@@ -249,8 +245,7 @@ public class DocenteService {
             return null;
         }
         Docente docente = documents.get(0).toObject(Docente.class);
-        byte[] pwd = aesUtil.decrypt(docente.getDocentePassword().getBytes());
-        if (pwd.toString().equals(password))
+        if (docente.getDocentePassword().toString().equals(password))
             return docente;
         return documents.get(0).toObject(Docente.class);
     }
@@ -273,20 +268,19 @@ public class DocenteService {
                 || docente.getHasAccess() > 1;
     }
 
-    /**
-     * metodo para verificar se um docente existe
-     * @param docente docente a verificar
-     * @return retorna verdadeiro se o docente não está correto
-     */
-    private boolean checkPassword(Docente docente) {
-        return docente.getDocentePassword() == null
-                || docente.getDocentePassword().equals("")
-                || docente.getDocentePassword().length() > 16
-                || docente.getDocentePassword().length() < 3
-                || !Pattern.compile("[^a-zA-Z0-9]").matcher(docente.getDocentePassword()).find()
-                || !Pattern.compile("[A-Z]").matcher(docente.getDocentePassword()).find()
-                || !Pattern.compile("[0-9]").matcher(docente.getDocentePassword()).find();
-    }
+//    /**
+//     * metodo para verificar se um docente existe
+//     * @param docente docente a verificar
+//     * @return retorna verdadeiro se o docente não está correto
+//    private boolean checkPassword(Docente docente) {
+//        return docente.getDocentePassword() == null
+//                || docente.getDocentePassword().equals("")
+//                || docente.getDocentePassword().length() > 16
+//                || docente.getDocentePassword().length() < 3
+//                || !Pattern.compile("[^a-zA-Z0-9]").matcher(docente.getDocentePassword()).find()
+//                || !Pattern.compile("[A-Z]").matcher(docente.getDocentePassword()).find()
+//                || !Pattern.compile("[0-9]").matcher(docente.getDocentePassword()).find();
+//    }*/
 
     /**
      * metodo para verificar se um docente existe

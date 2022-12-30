@@ -22,7 +22,7 @@ public class WishListService {
      * Metodo para criar uma wish na base de dados
      *
      * @param wish wish a receber para ser criada
-     * @return
+     * @return wish created na criacao de uma wish ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -62,7 +62,7 @@ public class WishListService {
      * Metodo para eliminar uma wish da base de dados
      *
      * @param idWish identificacao da wish a eliminar
-     * @return
+     * @return wish deleted with: idwish ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -83,7 +83,7 @@ public class WishListService {
     /**
      * Metodo para retornar uma lista de wish
      *
-     * @return
+     * @return retorna lista de uma wish
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -98,7 +98,7 @@ public class WishListService {
      * Metodo para atualizar uma wish da base de dados
      *
      * @param wish wish a receber como parametro para atualizar uma wish existente na base de dados
-     * @return
+     * @return wish updated with: wishId ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */

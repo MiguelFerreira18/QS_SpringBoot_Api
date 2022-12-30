@@ -3,11 +3,13 @@ package com.example.test.demo.model;
 public class PedidoUtilizador extends Pedido{
 
     private String descricao;
+    private int docenteId;
     private static String TIPO_UTILIZADOR = "pedidoUtilizador";
 
-    public PedidoUtilizador(int respostaId,int pedidoId,String descricao) {
-        super(respostaId,pedidoId,TIPO_UTILIZADOR);
+    public PedidoUtilizador(int pedidoId,String descricao,int docenteId) {
+        super(pedidoId,TIPO_UTILIZADOR);
         this.descricao = descricao;
+        this.docenteId = docenteId;
     }
 
     public PedidoUtilizador() {
@@ -27,4 +29,11 @@ public class PedidoUtilizador extends Pedido{
         this.descricao = descricao;
     }
 
+    public int getDocenteId() {
+        return docenteId;
+    }
+
+    public void setDocenteId(int docenteId) {
+        this.docenteId = docenteId;
+    }
 }

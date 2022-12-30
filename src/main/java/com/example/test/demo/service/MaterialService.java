@@ -1,5 +1,6 @@
 package com.example.test.demo.service;
 
+import com.example.test.demo.model.Laboratorio;
 import com.example.test.demo.model.Material;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -7,6 +8,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,19 +18,24 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class MaterialService {
 
+    @Autowired
+    private LaboratorioService laboratorioService;
+
+
     public static final String COL_NAME = "material";
-    public static final String COL_NAME_RESPOSTA = "resposta";
+    public static final String COL_NAME_LABORATORIO = "laboratorio";
+
 
 
     /**
      * Metodo para inserir um material na base de dados
      *
      * @param mat Material a receber para ser criado
-     * @return
+     * @return material created ou null em caso de falha
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    public String createMaterial(Material mat) throws InterruptedException, ExecutionException {
+    public String createMaterial(Material mat,int idLaboratorio) throws InterruptedException, ExecutionException {
         if(mat.getMaterialId()<0)
         {
             return null;
@@ -52,8 +59,12 @@ public class MaterialService {
             }
         }
         mat.setMaterialId(biggest + 1);
+
         /*ADICIONA UM NOVO MATERIAL*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(mat);
+
+        /*ADICIONA O MATERIAL AO LABORATORIO*/
+        laboratorioService.addMaterialToLab(idLaboratorio,mat.getMaterialId());
 
         return "material created";
     }
@@ -63,7 +74,7 @@ public class MaterialService {
      * Metodo para eliminar um material da base de dados
      *
      * @param id Identificacao do material
-     * @return
+     * @return deleted material with: materialId ou null em caso de falha
      * @throws InterruptedException
      * @throws ExecutionException
      */
@@ -86,7 +97,7 @@ public class MaterialService {
      * Metodo para atualizar um material existente na base de dados
      *
      * @param mat Material que ira substituir o material a atualizar
-     * @return
+     * @return material updated with: materialId ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -111,7 +122,7 @@ public class MaterialService {
     /**
      * Metodo para retornar uma lista de materiais
      *
-     * @return
+     * @return lista de materiais
      * @throws ExecutionException
      * @throws InterruptedException
      */
