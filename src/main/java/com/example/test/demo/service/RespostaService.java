@@ -355,18 +355,13 @@ public class RespostaService {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
-        //Tem de existir numero Utilizador/Docente
-        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+
+        //Tem de existir o id e nome do Utilizador/Docente
+        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE)
+                .whereEqualTo("docenteNumber",resposta.getUtilizadorId())
+                .whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
-        {
-            return null;
-        }
-
-        //Tem de existir nome Utilizador/Docente
-        ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
-        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
-        if(documents3.isEmpty())
         {
             return null;
         }
@@ -472,18 +467,12 @@ public class RespostaService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        //Tem de existir o id do Utilizador/Docente
-        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
+        //Tem de existir o id e nome do Utilizador/Docente
+        ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE)
+                .whereEqualTo("docenteNumber",resposta.getUtilizadorId())
+                .whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
-        {
-            return null;
-        }
-
-        //Tem de existir o nome do Utilizador/Docente
-        ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
-        List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
-        if(documents3.isEmpty())
         {
             return null;
         }
