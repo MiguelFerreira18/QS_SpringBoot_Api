@@ -142,7 +142,7 @@ public class WishListService {
             return true;
         } else if (wish.getNomeMaterial().equalsIgnoreCase("")
                 || wish.getNomeMaterial() == null
-                || wish.getNomeMaterial().length() < 8
+                || wish.getNomeMaterial().length() < 3
                 || wish.getNomeMaterial().length() > 32) {
             return true;
         } else if (wish.getIdWish() < 0) {
