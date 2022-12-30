@@ -43,7 +43,7 @@ class PedidoServiceTest {
                 1,1
             """)
     @Order(1)
-    @DisplayName("Deve testar se o pedidoMaterial foi inserido na base de dadaos")
+    @DisplayName("Deve testar se o pedidoMaterial foi inserido na base de dados")
     void shouldTestIfCreatePedidoMaterialIsSent(int pedidoId, int authorId) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
 
@@ -159,7 +159,11 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
+<<<<<<< HEAD
             4,1,1
+=======
+            4,1,0
+>>>>>>> 2021ef68db2b30bad3f4e8200f94b6055b904e35
             5,2,1
             """)
     @Order(13)
@@ -173,7 +177,7 @@ class PedidoServiceTest {
     @ParameterizedTest
     @CsvSource(textBlock = """ 
             0,0,3,4
-            1,0,5,6
+            1,1,2,1
             """)
     @Order(14)
     @DisplayName("Deve testar se o pedido de material foi atualizado na base de dadaos")
@@ -225,8 +229,8 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            342,2
-            345,3
+            342,0
+            345,1
             """)
     @Order(18)
     @DisplayName("Deve testar se o pedido de laboratorio que não existe não foi removido da base de dados")
@@ -238,7 +242,7 @@ class PedidoServiceTest {
     @ParameterizedTest
     @CsvSource(textBlock = """
             0,0
-            1,0
+            1,1
             """)
     @Order(19)
     @DisplayName("Deve testar se o pedido de material foi removido da base de dados")
@@ -266,9 +270,9 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            1,1,null
-            -12312,-123123,""
-            0,0,""        
+            1,1,-1
+            -12312,-123123,99999
+            0,0,987        
             """)
     @Order(21)
     @DisplayName("Deve testar se o pedido de utilizador não foi criado na base de dados")
