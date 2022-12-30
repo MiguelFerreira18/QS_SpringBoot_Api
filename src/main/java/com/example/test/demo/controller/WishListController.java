@@ -21,8 +21,8 @@ public class WishListController {
     public String createWishList(@RequestBody Wish wish) throws Exception {
         return wishListService.createWish(wish);
     }
-    @PutMapping("/delete")
-    public String deleteWishList(@RequestBody int id) throws Exception {
+    @DeleteMapping("/delete/{id}")
+    public String deleteWishList(@PathVariable int id) throws Exception {
         return wishListService.deleteWish(id);
     }
 }
