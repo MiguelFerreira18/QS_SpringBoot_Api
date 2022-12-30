@@ -1,6 +1,5 @@
 package com.example.test.demo.controller;
 
-import com.example.test.demo.model.Resposta;
 import com.example.test.demo.model.RespostaLaboratorio;
 import com.example.test.demo.model.RespostaMaterial;
 import com.example.test.demo.model.RespostaUtilizador;
@@ -20,7 +19,7 @@ public class RespostasController {
 
 
     @GetMapping("/all")
-    public List<Object> getRespostaLaboratorio() throws InterruptedException, ExecutionException {
+    public List<Object> getAllRespostas() throws InterruptedException, ExecutionException {
         return respostaService.getAllRespostas();
     }
 
