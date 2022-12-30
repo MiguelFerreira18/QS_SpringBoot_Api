@@ -6,27 +6,27 @@ import java.util.List;
 public class Material {
     private int materialId;
     private String descricao;
-    private boolean isDisponivel;
-    private boolean isAvariado;
+    private boolean disponivel;
+    private boolean avariado;
     private int etiquetaId;//È POSSIVEL QUE SEJA NECESSÀRIO REMOVER ESTA VARIAVEL; OU NA ETIQUETA A LISTA DE MATERIAIS
     private List<String> unidadesCurriculares;
     private List<Integer> respostasMaterial;
 
-    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId, ArrayList<String> unidadesCurriculares, ArrayList<Integer> respostasMaterial) {
+    public Material(String descricao, boolean disponivel, boolean avariado, int materialId, int etiquetaId, ArrayList<String> unidadesCurriculares, ArrayList<Integer> respostasMaterial) {
         this.materialId = materialId;
         this.descricao = descricao;
-        this.isDisponivel = isDisponivel;
-        this.isAvariado = isAvariado;
+        this.disponivel = disponivel;
+        this.avariado = avariado;
         this.etiquetaId = etiquetaId;
         unidadesCurriculares = unidadesCurriculares;
         respostasMaterial = respostasMaterial;
     }
 
-    public Material(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId) {
+    public Material(String descricao, boolean disponivel, boolean avariado, int materialId, int etiquetaId) {
         this.materialId = materialId;
         this.descricao = descricao;
-        this.isDisponivel = isDisponivel;
-        this.isAvariado = isAvariado;
+        this.disponivel = disponivel;
+        this.avariado = avariado;
         this.etiquetaId = etiquetaId;
         this.unidadesCurriculares = new ArrayList<>();
         this.respostasMaterial = new ArrayList<>();
@@ -60,19 +60,19 @@ public class Material {
     }
 
     public boolean isDisponivel() {
-        return isDisponivel;
+        return disponivel;
     }
 
     public void setDisponivel(boolean disponivel) {
-        isDisponivel = disponivel;
+        this.disponivel = disponivel;
     }
 
     public boolean isAvariado() {
-        return isAvariado;
+        return avariado;
     }
 
     public void setAvariado(boolean avariado) {
-        isAvariado = avariado;
+        this.avariado = avariado;
     }
 
     public int getMaterialId() {
