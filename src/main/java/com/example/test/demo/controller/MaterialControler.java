@@ -15,7 +15,7 @@ public class MaterialControler {
     @Autowired
    private MaterialService materialService;
 
-    @PostMapping("/create")
+    @PostMapping("/create/{idLab}")
     public String createMaterial(@RequestBody Material mat,@PathVariable int idLab) throws InterruptedException, ExecutionException {
         return materialService.createMaterial(mat,idLab);
     }

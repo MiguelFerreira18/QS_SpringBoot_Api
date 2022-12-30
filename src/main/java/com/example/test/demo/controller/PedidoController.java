@@ -19,7 +19,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping("/all")
-    public List<Object> getPedidoLaboratorio() throws InterruptedException, ExecutionException {
+    public List<Object> getallPedidos() throws InterruptedException, ExecutionException {
         return pedidoService.getAllPedidos();
     }
     /*HTTP REQUESTS FOR PEDIDO UTILIZADOR (ignore a gralha)*/

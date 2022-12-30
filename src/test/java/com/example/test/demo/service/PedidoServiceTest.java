@@ -160,7 +160,7 @@ class PedidoServiceTest {
     @ParameterizedTest
     @CsvSource(textBlock = """ 
             4,1,1
-            5,2,2
+            5,2,1
             """)
     @Order(13)
     @DisplayName("Deve testar se o pedido de laboratorio foi atualizado na base de dados")

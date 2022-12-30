@@ -9,27 +9,27 @@ public class Docente {
     private String docentePassword;
     private int docenteNumber;
     private List<String> unidadesCurriculares;
-    private boolean isAdmin;
+    private boolean admin;
     private int hasAccess;
 
 
-    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber,ArrayList<String> unidadesCurriculares,boolean isAdmin) {
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber,ArrayList<String> unidadesCurriculares,boolean Admin) {
         this.docenteNome = docenteNome;
         this.docenteEmail = docenteEmail;
         this.docentePassword = docentePassword;
         this.docenteNumber = docenteNumber;
         this.unidadesCurriculares = unidadesCurriculares;
-        this.isAdmin = isAdmin;
+        this.admin = Admin;
         this.hasAccess = 0;
     }
 
-    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber, boolean isAdmin, int hasAccess) {
+    public Docente(String docenteNome, String docenteEmail, String docentePassword, int docenteNumber, boolean admin, int hasAccess) {
         this.docenteNome = docenteNome;
         this.docenteEmail = docenteEmail;
         this.docentePassword = docentePassword;
         this.docenteNumber = docenteNumber;
         this.unidadesCurriculares = new ArrayList<>();
-        this.isAdmin = isAdmin;
+        this.admin = admin;
         this.hasAccess = hasAccess;
     }
 
@@ -85,11 +85,11 @@ public class Docente {
     }
 
     public boolean isAdmin() {
-        return isAdmin;
+        return admin;
     }
 
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
     }
 
     @Override
