@@ -45,6 +45,12 @@ public class MaterialService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
+         //Verificar se o laboratorio existe na base de dados
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_LABORATORIO).whereEqualTo("laboratorioId", idLaboratorio).get();
+        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if (documents2.isEmpty())
+            return null;
+
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
@@ -109,7 +115,6 @@ public class MaterialService {
         }
 
         Firestore db = FirestoreClient.getFirestore();
-
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", mat.getMaterialId()).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         if (documents.isEmpty())

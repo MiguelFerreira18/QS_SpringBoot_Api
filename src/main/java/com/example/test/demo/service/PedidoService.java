@@ -488,6 +488,26 @@ public class PedidoService {
     }
 
     /**
+     *Metodo auxiliar para verificar se o docente existe na bd
+     * @param docente - id do docente
+     * @return true se o docente existir na bd ou false se nao existir
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private boolean checkDocentes(int docente) throws ExecutionException, InterruptedException
+    {
+            Firestore db = FirestoreClient.getFirestore();
+            ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_DOCENTE)
+                    .whereEqualTo("docenteNumber", docente)
+                    .get();
+            if(future.get().size() <= 0)
+            {
+                return true;
+            }
+        return false;
+    }
+
+    /**
      * Metodo para verificar se o Pedido do tipo PedidoUtilizador é valido
      * @param pedido pedido a ser verificado
      * @return true se não for valido, false for valido
@@ -512,7 +532,7 @@ public class PedidoService {
                 || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
                 || pedido.getDataPedido() == null
                 || pedido.getAuthorId() < 0 || pedido.getPedidoId() < 0
-                || checkMaterials(pedido.getMateriais());
+                || checkMaterials(pedido.getMateriais()) || checkDocentes(pedido.getAuthorId());
     }
 
     /**
