@@ -45,7 +45,7 @@ public class MaterialService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        //Verificar se o laboratorio existe na base de dados
+         //Verificar se o laboratorio existe na base de dados
         ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_LABORATORIO).whereEqualTo("laboratorioId", idLaboratorio).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if (documents2.isEmpty())
