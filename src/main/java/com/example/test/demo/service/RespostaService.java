@@ -266,7 +266,7 @@ public class RespostaService {
             }
         }
         resposta.setRespostaId(biggest + 1);
-        /*ADICIONA UM NOVO PEDIDO*/
+        /*ADICIONA UMA NOVA RESPOSTA*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
         return "respostaMaterial created";
     }

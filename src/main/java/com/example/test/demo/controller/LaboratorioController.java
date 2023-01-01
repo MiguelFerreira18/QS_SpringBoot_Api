@@ -48,11 +48,11 @@ public class LaboratorioController {
 
     /*ADICIONAR OUTRO CASO*/
 
-    @PostMapping("/createRespostaLaboratorio/{id}")
+    @PostMapping("/createRespostaLaboratorio/{idLab}")
     public String createRespostaLaboratorio(@PathVariable int idLab, @RequestBody int idMaterial) throws Exception {
         return laboratorioService.createRespostaLaboratorio(idLab, idMaterial);
     }
-    @PutMapping("/updateRespostaLaboratorio/{id}")
+    @PutMapping("/updateRespostaLaboratorio/{idLab}")
     public String updateRespostaLaboratorio(@PathVariable int idLab, @RequestBody int idMaterial) throws Exception {
         return laboratorioService.updateRespostaLaboratório(idLab, idMaterial);
     }
