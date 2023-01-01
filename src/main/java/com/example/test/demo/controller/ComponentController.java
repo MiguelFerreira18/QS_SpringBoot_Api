@@ -18,9 +18,9 @@ public class ComponentController {
     public List<Componente> getComponentes() throws Exception {
         return componentService.getAllComponents();
     }
-    @PostMapping("/create")
-    public String createComponent(@RequestBody Componente componente) throws Exception {
-        return componentService.createComponent(componente);
+    @PostMapping("/create/{id}")
+    public String createComponent(@RequestBody Componente componente,@PathVariable int id) throws Exception {
+        return componentService.createComponent(componente,id);
     }
     @DeleteMapping("/delete/{id}")
     public String deleteComponent(@PathVariable int id) throws Exception {

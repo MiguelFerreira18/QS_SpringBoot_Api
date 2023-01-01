@@ -398,7 +398,31 @@ public class PedidoService {
      * ADICIONAR UM MATERIAL AO PEDIDO
      * APAGAR MATERIAL DO PEDIDO
      * LER TODAS OS MATERIAIS DESSE PEDIDO
+     * TROCAR DE ESTADO DO PEDIDO
      */
+
+    /**
+     * Este metodo altera o estado do pedido quando o pedido tiver sido respondido
+     * @param idPedido id do pedido que vai ter a alteração de estado
+     * @return retorna se o pedido foi atualizado e o id do mesmo
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public String changeHasResposta(int idPedido) throws ExecutionException, InterruptedException {
+        if(idPedido < 0)
+            return null;
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
+                .whereEqualTo("pedidoId", idPedido)
+                .get();
+        //update a document from firestore
+        if (future.get().isEmpty())
+            return null;
+        Pedido pedido = future.get().getDocuments().get(0).toObject(Pedido.class);
+        pedido.setResposta(true);
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
+        return "Pedido updated with:" + idPedido;
+    }
 
     /**
      * @param idPedido

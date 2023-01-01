@@ -51,7 +51,7 @@ class ComponentServiceTest {
     @DisplayName("Deve testar se um componente é criado na base de dados")
     public void shouldTestCreateComponentIsSent(int id,String descricao,int quantidade) throws ExecutionException, InterruptedException {
         Componente componente = new Componente(id, descricao, quantidade);
-        String result = myService.createComponent(componente);
+        String result = myService.createComponent(componente,0);
         assertNotNull(result);
     }
 
@@ -118,7 +118,7 @@ class ComponentServiceTest {
     @Order(7)
     void shouldTestAllLimitsOfCreateComponent(int id, String descricao, int quantidade) throws ExecutionException, InterruptedException {
         Componente componente = new Componente(id, descricao, quantidade);
-        assertNull(myService.createComponent(componente));
+        assertNull(myService.createComponent(componente,0));
     }
 
     @ParameterizedTest

@@ -1,6 +1,7 @@
 package com.example.test.demo.service;
 
 import com.example.test.demo.model.Componente;
+import com.example.test.demo.model.EtiquetaMaterial;
 import com.example.test.demo.model.Material;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -8,6 +9,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,8 +18,10 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class ComponentService {
-    private static final String COL_NAME = "component";
+    @Autowired
+    private EtiquetaService etiquetaService;
 
+    private static final String COL_NAME = "component";
     /**
      * Este metodo cria um componente na base de dados dado um objeto Componente
      *
@@ -26,7 +30,7 @@ public class ComponentService {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String createComponent(Componente componente) throws ExecutionException, InterruptedException {
+    public String createComponent(Componente componente,int id) throws ExecutionException, InterruptedException {
         if (componente == null || componente.getDescricao().length() > 128 || componente.getQuantidade() < 0 || componente.getQuantidade() > 99) {
             return null;
         }
@@ -47,7 +51,7 @@ public class ComponentService {
         componente.setId(biggest + 1);
         /*ADICIONA UM NOVO MATERIAL*/
         db.collection(COL_NAME).document().set(componente);
-
+        etiquetaService.addComponente(id,componente.getId());
         return "componente created";
     }
 

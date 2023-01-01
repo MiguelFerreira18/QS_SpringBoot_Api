@@ -140,12 +140,12 @@ public class EtiquetaService {
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("etiquetaId", idEtiqueta).get();
         //update a document from firestore
         if (future.get().size() <= 0)
-            return "No elements to be queried";
+            return null;
         EtiquetaMaterial etiquetaMaterial = future.get().getDocuments().get(0).toObject(EtiquetaMaterial.class);
         etiquetaMaterial.getComponentes().add(comp);
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(etiquetaMaterial);
 
-        return apiFuture.get().getUpdateTime().toString();
+        return "Componente adicionado na etiqueta:" + idEtiqueta;
     }
 
     /**
