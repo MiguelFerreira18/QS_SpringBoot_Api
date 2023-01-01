@@ -277,56 +277,56 @@ class RespostaServiceTest
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,true,2,3,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,2","10/10/2010,RespostaUtilizador1,5,true,2,3"})
     @DisplayName("Testa a criacao de um RespostaUtilizador")
     @Order(17)
-    void testCreateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertEquals("RespostaUtilizador created",result);
     }
 
     @ParameterizedTest
-    @CsvSource({"2010,RespostaUtilizador0,4,true,1,2,Ruan carlosChanged7","101010/101/2010,RespostaUtilizador1,5,true,2,3,Ruan carlosChanged8"})
+    @CsvSource({"2010,RespostaUtilizador0,4,true,1,2","101010/101/2010,RespostaUtilizador1,5,true,2,3"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com a data fora dos limites")
     @Order(18)
-    void testCreateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,R,4,true,1,2,Ruan carlosChanged7","10/10/2010,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,5,true,2,3,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,R,4,true,1,2","10/10/2010,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,5,true,2,3"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com a descricao fora dos limites")
     @Order(19)
-    void testCreateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,-1,true,1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,-5,true,2,3,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,RespostaUtilizador0,-1,true,1,2","10/10/2010,RespostaUtilizador1,-5,true,2,3"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com respostaId menor que zero")
     @Order(20)
-    void testCreateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
 
     @ParameterizedTest
-    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,-1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,true,9999,3,Ruan carlosChanged8"})
+    @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,-1,2","10/10/2010,RespostaUtilizador1,5,true,9999,3"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com utilizadorId inexistente na base de dados")
     @Order(21)
-    void testCreateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
@@ -335,9 +335,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,2,Ruan carlosChanged72","10/10/2010,RespostaUtilizador1,2,true,2,3,r"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com nome utilizador/docente inexistente na base de dados")
     @Order(22)
-    void testCreateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
@@ -346,9 +346,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0,4,true,1,-2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1,5,true,2,9999,Ruan carlosChanged8"})
     @DisplayName("Testa a criacao de um RespostaUtilizador com pedidoId inexistente na base de dados")
     @Order(22)
-    void testCreateRespostaUtilizadorPedidoIdInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testCreateRespostaUtilizadorPedidoIdInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.createRespostaUtilizador(r);
         assertNull(result);
     }
@@ -587,9 +587,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0Update,4,true,1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1Update,5,true,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a atualizacao de uma RespostaUtilizador")
     @Order(39)
-    void testUpdateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertEquals("RespostaUtilizador updated with:"+respostaId,result);
     }
@@ -598,9 +598,9 @@ class RespostaServiceTest
     @CsvSource({"2010,RespostaUtilizador0Update,4,true,1,2,Ruan carlosChanged7","101010/101/2010,RespostaUtilizador1Update,5,true,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a atualizacao de uma RespostaUtilizador com a data fora dos limites")
     @Order(40)
-    void testUpdateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertNull(result);
     }
@@ -609,9 +609,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,R,4,true,1,2,Ruan carlosChanged7","10/10/2010,aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,5,true,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a atualizacao de uma RespostaUtilizador com a descricao fora dos limites")
     @Order(41)
-    void testUpdateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertNull(result);
     }
@@ -620,9 +620,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0Update,-1,true,1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1Update,-5,true,2,3,Ruan carlosChanged8"})
     @DisplayName("Testa a atualizacao de uma RespostaUtilizador com respostaId menor que zero")
     @Order(42)
-    void testUpdateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertNull(result);
     }
@@ -631,9 +631,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0Update,4,true,-1,2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1Update,5,true,9999,3,Ruan carlosChanged8"})
     @DisplayName("Testa a atualizacao de um RespostaUtilizador com utilizadorId inexistente na base de dados")
     @Order(43)
-    void testUpdateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertNull(result);
     }
@@ -642,9 +642,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0Update,4,true,1,2,Ruan carlosChanged72","10/10/2010,RespostaUtilizador1Update,2,true,2,3,r"})
     @DisplayName("Testa a atualizacao de uma RespostaUtilizador com o nome do utilizador/docente inexistente na base de dados")
     @Order(44)
-    void testUpdateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertNull(result);
     }
@@ -653,9 +653,9 @@ class RespostaServiceTest
     @CsvSource({"10/10/2010,RespostaUtilizador0Update,4,true,1,-2,Ruan carlosChanged7","10/10/2010,RespostaUtilizador1Update,2,true,2,999,Ruan carlosChanged8"})
     @DisplayName("Testa a atualizacao de uma RespostaUtilizador com o pedidoIde inexistente na base de dados")
     @Order(44)
-    void testUpdateRespostaUtilizadorPedidoIdInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId, String nomeUtilizador) throws ExecutionException, InterruptedException
+    void testUpdateRespostaUtilizadorPedidoIdInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
-        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId,nomeUtilizador);
+        RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
         String result = myService.updateRespostaUtilizador(r);
         assertNull(result);
     }
