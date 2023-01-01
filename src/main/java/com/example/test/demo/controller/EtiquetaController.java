@@ -44,11 +44,11 @@ public class EtiquetaController {
     public List<Integer> getComponentesEtiqueta(@PathVariable int id) throws Exception {
         return etiquetaService.getAllComponentes(id);
     }
-    @PostMapping("/createMaterialEtiqueta/{id}")
+    @PostMapping("/createMaterialEtiqueta/{idEtiqueta}")
     public String createMateriaisEtiqueta(@RequestBody int idMaterial, @PathVariable int idEtiqueta) throws Exception {
         return etiquetaService.addMaterialToEtiqueta(idEtiqueta , idMaterial);
     }
-    @DeleteMapping("/deleteMaterialEtiqueta/{id}")
+    @DeleteMapping("/deleteMaterialEtiqueta/{idEtiqueta}")
     public String deleteMateriaisEtiqueta(@RequestBody int idMaterial, @PathVariable int idEtiqueta) throws Exception {
         return etiquetaService.deleteMaterialFromEtiqueta(idEtiqueta , idMaterial);
     }

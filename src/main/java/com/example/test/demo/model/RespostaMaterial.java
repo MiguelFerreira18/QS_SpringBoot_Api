@@ -9,14 +9,14 @@ public class RespostaMaterial extends Resposta {
     private String dataEntrega;
     private static final int TIPO_RESPOSTA = 2;
 
-    public RespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId, ArrayList<Integer> materiaisId) {
-        super(data, descricao, respostaId, TIPO_RESPOSTA,utilizadorId,pedidoId);
+    public RespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId, ArrayList<Integer> materiaisId,boolean aceite) {
+        super(data, descricao, respostaId, TIPO_RESPOSTA,utilizadorId,pedidoId,aceite);
         this.materiaisId = materiaisId;
         this.dataReserva = dataReserva;
         this.dataEntrega = dataEntrega;
     }
-    public RespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId) {
-        super(data, descricao, respostaId, TIPO_RESPOSTA,utilizadorId,pedidoId);
+    public RespostaMaterial(String data, String descricao, int respostaId, String dataReserva, String dataEntrega, int utilizadorId,int pedidoId,boolean aceite) {
+        super(data, descricao, respostaId, TIPO_RESPOSTA,utilizadorId,pedidoId,aceite);
         this.materiaisId = new ArrayList<>();
         this.dataReserva = dataReserva;
         this.dataEntrega = dataEntrega;
