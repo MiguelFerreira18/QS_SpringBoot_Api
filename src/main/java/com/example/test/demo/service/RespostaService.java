@@ -356,10 +356,9 @@ public class RespostaService {
         }
         Firestore db = FirestoreClient.getFirestore();
 
-        //Tem de existir o id e nome do Utilizador/Docente
+        //Tem de existir o id  do Utilizador/Docente
         ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE)
-                .whereEqualTo("docenteNumber",resposta.getUtilizadorId())
-                .whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
+                .whereEqualTo("docenteNumber",resposta.getUtilizadorId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
         {
@@ -401,7 +400,7 @@ public class RespostaService {
 
         //SE A RESPOSTA TIVER A DIZRE QUE FOI ACEITE O ESTADO DO DOCENTE MUDA PARA 1 SE NÃO, MUDA PARA -1(DEVE SER ELIMINADO O DOCENTE)
         if (resposta.isAceite()) {
-            ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+            ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(1);
             db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
@@ -410,7 +409,7 @@ public class RespostaService {
 
             /*!PERGUNTAR AO QUENTAL COMO PROCEDER (SE APAGA OU NÃO O DOCENTE AQUI)!*/
             //Apaga docente caso a resposta nao seja aceite
-            ApiFuture<QuerySnapshot> future4 = db.collection(COL_NAME).whereEqualTo("docenteNome", resposta.getNomeUtilizador()).get();
+            ApiFuture<QuerySnapshot> future4 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
             List<QueryDocumentSnapshot> documents4 = future4.get().getDocuments();
             if(documents4.isEmpty())
             {
@@ -470,7 +469,7 @@ public class RespostaService {
         //Tem de existir o id e nome do Utilizador/Docente
         ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE)
                 .whereEqualTo("docenteNumber",resposta.getUtilizadorId())
-                .whereEqualTo("docenteNome",resposta.getNomeUtilizador()).get();
+                .whereEqualTo("descricao",resposta.getDescricao()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
         if(documents2.isEmpty())
         {
@@ -606,9 +605,9 @@ public class RespostaService {
     private boolean checkRespostaUtilizador(RespostaUtilizador resUti)
     {
         if(resUti.getUtilizadorId() < 0
-                || resUti.getNomeUtilizador().equalsIgnoreCase("")
-                || resUti.getNomeUtilizador() == null
-                || resUti.getNomeUtilizador().length() > 32
+                || resUti.getDescricao().equalsIgnoreCase("")
+                || resUti.getDescricao() == null
+                || resUti.getDescricao().length() > 32
                 || resUti.getRespostaId() < 0
                 || resUti.getData() == null || resUti.getData().equalsIgnoreCase("")
                 ||resUti.getData().length()<8 || resUti.getData().length()>14
