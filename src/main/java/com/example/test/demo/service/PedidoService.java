@@ -89,10 +89,9 @@ public class PedidoService {
         Firestore db = FirestoreClient.getFirestore();
 
         //Tem de existir numero Utilizador/Docente
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber",pedido.getDocenteId()).get();
+        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_DOCENTE).whereEqualTo("docenteNumber", pedido.getDocenteId()).get();
         List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
-        if(documents2.isEmpty())
-        {
+        if (documents2.isEmpty()) {
             return null;
         }
 
@@ -197,6 +196,7 @@ public class PedidoService {
 
     /**
      * Metodo cria um pedido do tipo PedidoMaterial na base de dados
+     *
      * @param pedido pedido a ser inserido
      * @return pedidoMaterial created ou null em caso de falha
      * @throws ExecutionException
@@ -231,6 +231,7 @@ public class PedidoService {
 
     /**
      * altera um pedido do tipo PedidoMaterial
+     *
      * @param pedido pedido a ser alterado com valores novos
      * @return pedidoMaterial updated ou null em caso de falha
      * @throws ExecutionException
@@ -258,6 +259,7 @@ public class PedidoService {
 
     /**
      * elimina um pedido do tipo PedidoMaterial
+     *
      * @param pedidoId id do pedido a ser eliminado
      * @param authorId id do utilizador que criou o pedido
      * @return pedidoMaterial deleted ou null em caso de falha
@@ -285,6 +287,7 @@ public class PedidoService {
 
     /**
      * Método que retorna todos os pedidos do tipo PedidoLaboratorio
+     *
      * @return lista de pedidos do tipo PedidoLaboratorio ou null em caso de falha
      * @throws ExecutionException
      * @throws InterruptedException
@@ -308,6 +311,7 @@ public class PedidoService {
 
     /**
      * Metodo cria um pedido do tipo PedidoLaboratorio na base de dados
+     *
      * @param pedido pedido a ser inserido
      * @return pedidoLaboratorio created ou null em caso de falha
      * @throws ExecutionException
@@ -343,6 +347,7 @@ public class PedidoService {
 
     /**
      * altera um pedido do tipo PedidoLaboratorio
+     *
      * @param pedido pedido a ser alterado com valores novos
      * @return pedidoLaboratorio updated ou null em caso de falha
      * @throws ExecutionException
@@ -369,6 +374,7 @@ public class PedidoService {
 
     /**
      * elimina um pedido do tipo PedidoLaboratorio
+     *
      * @param pedidoId id do pedido a ser eliminado
      * @param authorId id do utilizador que criou o pedido
      * @return pedidoLaboratorio deleted ou null em caso de falha
@@ -403,22 +409,37 @@ public class PedidoService {
 
     /**
      * Este metodo altera o estado do pedido quando o pedido tiver sido respondido
+     *
      * @param idPedido id do pedido que vai ter a alteração de estado
      * @return retorna se o pedido foi atualizado e o id do mesmo
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public String changeHasResposta(int idPedido) throws ExecutionException, InterruptedException {
-        if(idPedido < 0)
+    public String changeHasResposta(String tipo, int idPedido) throws ExecutionException, InterruptedException {
+        if (idPedido < 0)
             return null;
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME)
                 .whereEqualTo("pedidoId", idPedido)
                 .get();
+        Pedido pedido = null;
         //update a document from firestore
         if (future.get().isEmpty())
             return null;
-        Pedido pedido = future.get().getDocuments().get(0).toObject(Pedido.class);
+        switch (tipo) {
+            case PEDIDO_NAME_UTILIZADOR:
+                pedido = future.get().getDocuments().get(0).toObject(PedidoUtilizador.class);
+                break;
+            case PEDIDO_NAME_LABORATORIO:
+                pedido = future.get().getDocuments().get(0).toObject(PedidoLaboratorio.class);
+                break;
+
+            case PEDIDO_NAME_MATERIAL:
+                pedido = future.get().getDocuments().get(0).toObject(PedidoMaterial.class);
+                break;
+        }
+        if (pedido == null)
+            return null;
         pedido.setResposta(true);
         db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(pedido);
         return "Pedido updated with:" + idPedido;
@@ -494,6 +515,7 @@ public class PedidoService {
 
     /**
      * Metodo para verificar se o material existe
+     *
      * @param materiais lista de materiais
      * @return true se não existir, false se existir
      * @throws ExecutionException
@@ -512,31 +534,31 @@ public class PedidoService {
     }
 
     /**
-     *Metodo auxiliar para verificar se o docente existe na bd
+     * Metodo auxiliar para verificar se o docente existe na bd
+     *
      * @param docente - id do docente
      * @return true se o docente existir na bd ou false se nao existir
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    private boolean checkDocentes(int docente) throws ExecutionException, InterruptedException
-    {
-            Firestore db = FirestoreClient.getFirestore();
-            ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_DOCENTE)
-                    .whereEqualTo("docenteNumber", docente)
-                    .get();
-            if(future.get().size() <= 0)
-            {
-                return true;
-            }
+    private boolean checkDocentes(int docente) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_DOCENTE)
+                .whereEqualTo("docenteNumber", docente)
+                .get();
+        if (future.get().size() <= 0) {
+            return true;
+        }
         return false;
     }
 
     /**
      * Metodo para verificar se o Pedido do tipo PedidoUtilizador é valido
+     *
      * @param pedido pedido a ser verificado
      * @return true se não for valido, false for valido
      */
-    private boolean verifyPedidoUtilizador(PedidoUtilizador pedido){
+    private boolean verifyPedidoUtilizador(PedidoUtilizador pedido) {
         return pedido == null
                 || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
                 || pedido.getDataPedido() == null
@@ -546,6 +568,7 @@ public class PedidoService {
 
     /**
      * Metodo para verificar se o Pedido do tipo PedidoMaterial é valido
+     *
      * @param pedido pedido a ser verificado
      * @return true se não for valido, false for valido
      * @throws ExecutionException
@@ -561,6 +584,7 @@ public class PedidoService {
 
     /**
      * Metodo para verificar se o Pedido do tipo PedidoLaboratorio é valido
+     *
      * @param pedido pedido a ser verificado
      * @return true se não for valido, false for valido
      * @throws ExecutionException
@@ -577,6 +601,7 @@ public class PedidoService {
 
     /**
      * Metodo para verificar se o Laboratorio existe
+     *
      * @param labId id do laboratorio
      * @return true se não existir, false se existir
      * @throws ExecutionException

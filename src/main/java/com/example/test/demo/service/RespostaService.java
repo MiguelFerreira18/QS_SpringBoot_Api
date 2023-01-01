@@ -25,6 +25,10 @@ public class RespostaService {
     private static final String COL_NAME_MATERIAL = "material";
     private static final String COL_NAME_PEDIDO = "pedido";
 
+    private static final String TIPO_PEDIDO_LAB = "pedidoLaboratorio";
+    private static final String TIPO_PEDIDO_MATERIAL = "pedidoMaterial";
+    private static final String TIPO_PEDIDO_UTILIZADOR = "pedidoUtilizador";
+
 
     /*TODAS AS RESPOSTAS */
 
@@ -132,7 +136,7 @@ public class RespostaService {
         resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
         db.collection(COL_NAME).document().set(resposta);
-        pedidoService.changeHasResposta(id);
+        pedidoService.changeHasResposta(TIPO_PEDIDO_LAB,id);
         return "RespostaLaboratorio created";
     }
 
@@ -212,12 +216,14 @@ public class RespostaService {
      * @throws InterruptedException
      */
     public String createRespostaMaterial(RespostaMaterial resposta, int id) throws ExecutionException, InterruptedException {
+        System.out.println("RespostaMaterial: 0");
         if (checkRespostaMaterial(resposta)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
+        System.out.println("RespostaMaterial: 1");
         //Material tem de existir
-        if (resposta.getMateriaisId().isEmpty()) {
+        if (!resposta.getMateriaisId().isEmpty()) {
             ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereEqualTo("materialId", resposta.getMateriaisId().get(0)).get();
             List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
 
@@ -225,6 +231,7 @@ public class RespostaService {
                 return null;
             }
         }
+        System.out.println("RespostaMaterial: 2");
         //Docente tem de existir
         ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
@@ -232,6 +239,7 @@ public class RespostaService {
             return null;
         }
 
+        System.out.println("RespostaMaterial: 3");
         //Pedido tem de existir para ser respondido
         ApiFuture<QuerySnapshot> future4 = db.collection(COL_NAME_PEDIDO).whereEqualTo("pedidoId", resposta.getPedidoId()).get();
         List<QueryDocumentSnapshot> documents4 = future4.get().getDocuments();
@@ -239,7 +247,7 @@ public class RespostaService {
             return null;
         }
 
-
+        System.out.println("RespostaMaterial: 4");
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         /*
@@ -262,8 +270,8 @@ public class RespostaService {
         }
         resposta.setRespostaId(biggest + 1);
         /*ADICIONA UMA NOVA RESPOSTA*/
-        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(resposta);
-        pedidoService.changeHasResposta(id);
+        ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(resposta);
+        pedidoService.changeHasResposta(TIPO_PEDIDO_MATERIAL,id);
         return "respostaMaterial created";
     }
 
@@ -416,7 +424,7 @@ public class RespostaService {
         }
 
         db.collection(COL_NAME).document().set(resposta);
-        pedidoService.changeHasResposta(id);
+        pedidoService.changeHasResposta(TIPO_PEDIDO_UTILIZADOR,id);
         return "RespostaUtilizador created";
     }
 
@@ -562,9 +570,11 @@ public class RespostaService {
     }
 
     private boolean checkRespostaMaterial(RespostaMaterial resMat) {
-        for (int i = 0; i < resMat.getMateriaisId().size(); i++) {
-            if (resMat.getMateriaisId().get(i) < 0) {
-                return true;
+        if (!resMat.getMateriaisId().isEmpty()) {
+            for (int i = 0; i < resMat.getMateriaisId().size(); i++) {
+                if (resMat.getMateriaisId().get(i) < 0) {
+                    return true;
+                }
             }
         }
         if (resMat.getRespostaId() < 0
