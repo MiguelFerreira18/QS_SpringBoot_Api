@@ -217,13 +217,14 @@ public class RespostaService {
         }
         Firestore db = FirestoreClient.getFirestore();
         //Material tem de existir
-        ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereIn("materialId", resposta.getMateriaisId()).get();
-        List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
+        if (resposta.getMateriaisId().isEmpty()) {
+            ApiFuture<QuerySnapshot> future2 = db.collection(COL_NAME_MATERIAL).whereEqualTo("materialId", resposta.getMateriaisId().get(0)).get();
+            List<QueryDocumentSnapshot> documents2 = future2.get().getDocuments();
 
-        if (documents2.isEmpty()) {
-            return null;
+            if (documents2.isEmpty()) {
+                return null;
+            }
         }
-
         //Docente tem de existir
         ApiFuture<QuerySnapshot> future3 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
         List<QueryDocumentSnapshot> documents3 = future3.get().getDocuments();
