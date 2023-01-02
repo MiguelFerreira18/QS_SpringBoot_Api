@@ -617,7 +617,7 @@ public class RespostaService {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_PEDIDO).whereEqualTo("pedidoId", pedidoId).whereEqualTo("resposta",true).get();
         if (future.get().isEmpty())
-            return false;
+            return false;''
         return true;
     }
 }
