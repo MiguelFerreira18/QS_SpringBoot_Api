@@ -90,4 +90,5 @@ public class EtiquetaMaterial {
     public void setSubEtiqueta(String subEtiqueta) {
         this.subEtiqueta = subEtiqueta;
     }
+
 }

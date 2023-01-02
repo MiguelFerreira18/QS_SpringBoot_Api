@@ -209,19 +209,18 @@ public class LaboratorioService {
      */
 
 
-    public String createRespostaLaboratorio(int labId, int respostaId) throws ExecutionException, InterruptedException {
+    public String addRespostaLaboratorio(int labId, int respostaId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("laboratorioId", labId).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
 
-        if (future.get().size() <= 0)
-            return "Laboratório não encontrado";
+        if (future.get().isEmpty())
+            return null;
 
         Laboratorio lab = future.get().getDocuments().get(0).toObject(Laboratorio.class);
-        lab.getRespostasLaboratorio().remove(lab.getRespostasLaboratorio().indexOf(respostaId));
         lab.getRespostasLaboratorio().add(respostaId);
         ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(lab);
-        return apiFuture.get().getUpdateTime().toString();
+        return "resposta adicionada ao laboratorio com id:" + labId;
 
     }
 

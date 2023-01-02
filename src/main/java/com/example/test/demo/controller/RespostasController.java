@@ -31,9 +31,9 @@ public class RespostasController {
     public List<RespostaLaboratorio> getRespostasLaboratorio() throws Exception {
         return respostaService.getRespostaLaboratorio();
     }
-    @PostMapping("/createRespostaLaboratorio")
-    public String createRespostaLaboratorio(@RequestBody RespostaLaboratorio resposta) throws Exception {
-        return respostaService.createRespostaLaboratorio(resposta);
+    @PostMapping("/createRespostaLaboratorio/{id}")
+    public String createRespostaLaboratorio(@RequestBody RespostaLaboratorio resposta,@PathVariable int id) throws Exception {
+        return respostaService.createRespostaLaboratorio(resposta,id);
     }
     @PutMapping("/updateRespostaLaboratorio")
     public String updateRespostaLaboratorio(@RequestBody RespostaLaboratorio resposta) throws Exception {
@@ -45,9 +45,9 @@ public class RespostasController {
     public List<RespostaMaterial> getRespostasMaterial() throws Exception {
         return respostaService.getRespostaMaterial();
     }
-    @PostMapping("/createRespostaMaterial")
-    public String createRespostaMaterial(@RequestBody RespostaMaterial resposta) throws Exception {
-        return respostaService.createRespostaMaterial(resposta);
+    @PostMapping("/createRespostaMaterial/{id}")
+    public String createRespostaMaterial(@RequestBody RespostaMaterial resposta,@PathVariable int id) throws Exception {
+        return respostaService.createRespostaMaterial(resposta,id);
     }
     @PutMapping("/updateRespostaMaterial")
     public String updateRespostaMaterial(@RequestBody RespostaMaterial resposta) throws Exception {
@@ -60,9 +60,9 @@ public class RespostasController {
     public List<RespostaUtilizador> getRespostasUtilizador() throws Exception {
         return respostaService.getRespostaUtilizador();
     }
-    @PostMapping("/createRespostaUtilizador")
-    public String createRespostaUtilizador(@RequestBody RespostaUtilizador resposta) throws Exception {
-        return respostaService.createRespostaUtilizador(resposta);
+    @PostMapping("/createRespostaUtilizador/{id}")
+    public String createRespostaUtilizador(@RequestBody RespostaUtilizador resposta,@PathVariable int id) throws Exception {
+        return respostaService.createRespostaUtilizador(resposta,id);
     }
     @PutMapping("/updateRespostaUtilizador")
     public String updateRespostaUtilizador(@RequestBody RespostaUtilizador resposta) throws Exception {

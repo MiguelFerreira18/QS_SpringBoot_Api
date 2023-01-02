@@ -79,4 +79,17 @@ public abstract class Resposta {
     public void setAceite(boolean aceite) {
         this.aceite = aceite;
     }
+
+    @Override
+    public String toString() {
+        return "Resposta{" +
+                "data='" + data + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", respostaId=" + respostaId +
+                ", tipoResposta=" + tipoResposta +
+                ", utilizadorId=" + utilizadorId +
+                ", pedidoId=" + pedidoId +
+                ", aceite=" + aceite +
+                '}';
+    }
 }

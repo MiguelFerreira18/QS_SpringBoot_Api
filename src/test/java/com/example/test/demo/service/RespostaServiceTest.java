@@ -53,7 +53,7 @@ class RespostaServiceTest
     @Order(1)
     void testCreateRespostaLaboratorio(String data, String descricao, int respostaId, int utilizadorId,int pedidoId, int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertEquals("RespostaLaboratorio created",result);
     }
 
@@ -63,7 +63,7 @@ class RespostaServiceTest
     @Order(2)
     void testCreateRespostaLaboratorioDataOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -73,7 +73,7 @@ class RespostaServiceTest
     @Order(3)
     void testCreateRespostaLaboratorioDescricaoOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -83,7 +83,7 @@ class RespostaServiceTest
     @Order(4)
     void testCreateRespostaLaboratorioIdOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -93,7 +93,7 @@ class RespostaServiceTest
     @Order(5)
     void testCreateRespostaLaboratorioIdDocenteInexistent(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -103,7 +103,7 @@ class RespostaServiceTest
     @Order(6)
     void testCreateRespostaLaboratorioIdLabInexistent(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -113,7 +113,7 @@ class RespostaServiceTest
     @Order(7)
     void testCreateRespostaLaboratorioReservaInicioOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -123,7 +123,7 @@ class RespostaServiceTest
     @Order(8)
     void testCreateRespostaLaboratorioReservaFimOutOfBonds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -134,7 +134,7 @@ class RespostaServiceTest
     @Order(8)
     void testCreateRespostaLaboratorioPedidoOutOfBounds(String data, String descricao, int respostaId, int utilizadorId, int pedidoId,int laboratorioId, String dataReservaInicio, String dataReservaFim,boolean aceite) throws ExecutionException, InterruptedException {
         RespostaLaboratorio r = new RespostaLaboratorio(data,descricao,respostaId,utilizadorId,pedidoId,laboratorioId,dataReservaInicio,dataReservaFim,aceite);
-        String result = myService.createRespostaLaboratorio(r);
+        String result = myService.createRespostaLaboratorio(r,pedidoId);
         assertNull(result);
     }
 
@@ -152,7 +152,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertEquals("respostaMaterial created",result);
     }
 
@@ -167,7 +167,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -182,7 +182,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -197,7 +197,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -212,7 +212,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -227,7 +227,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -242,7 +242,7 @@ class RespostaServiceTest
         materiaisId.add(3); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -257,7 +257,7 @@ class RespostaServiceTest
         materiaisId.add(123); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -272,7 +272,7 @@ class RespostaServiceTest
         materiaisId.add(123); //tem de ter obrigatoriamente pelo menos um destes materiais na base de dados
 
         RespostaMaterial r = new RespostaMaterial(data,descricao,respostaId,dataReserva,dataEntrega,utilizadorId,pedidoId,materiaisId,aceite);
-        String result = myService.createRespostaMaterial(r);
+        String result = myService.createRespostaMaterial(r,pedidoId);
         assertNull(result);
     }
 
@@ -283,7 +283,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizador(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertEquals("RespostaUtilizador created",result);
     }
 
@@ -294,7 +294,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizadorDataOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertNull(result);
     }
 
@@ -305,7 +305,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizadorDescOutOfBounds(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertNull(result);
     }
 
@@ -316,7 +316,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizadorIdNegative(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertNull(result);
     }
 
@@ -327,7 +327,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizadorIdDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertNull(result);
     }
 
@@ -338,7 +338,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizadorNomeDocenteInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertNull(result);
     }
 
@@ -349,7 +349,7 @@ class RespostaServiceTest
     void testCreateRespostaUtilizadorPedidoIdInexistent(String data, String descricao, int respostaId,  boolean aceite,int utilizadorId,int pedidoId) throws ExecutionException, InterruptedException
     {
         RespostaUtilizador r = new RespostaUtilizador(data,descricao,respostaId,aceite,utilizadorId,pedidoId);
-        String result = myService.createRespostaUtilizador(r);
+        String result = myService.createRespostaUtilizador(r,pedidoId);
         assertNull(result);
     }
 

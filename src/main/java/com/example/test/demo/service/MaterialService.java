@@ -153,15 +153,19 @@ public class MaterialService {
      * ALTERA UMA UC NA QUAL O MATERIAL PODE SER USADO
      * APAGA UMA UC NA QUAL O MATERIAL PDOE SER USADO*/
 
-    public String createRespostaToMaterial(int idResposta, int idMaterial) throws ExecutionException, InterruptedException {
+    public String addRespostaToMaterial(int idResposta, int idMaterial) throws ExecutionException, InterruptedException {
+        System.out.println("ID Material: " + idMaterial);
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("materialId", idMaterial).get();
-        if (future.get().size() <= 0)
-            return "No elements to be queried";
+        if (future.get().isEmpty())
+            return null;
         Material mat = future.get().getDocuments().get(0).toObject(Material.class);
         mat.getRespostasMaterial().add(idResposta);
-        ApiFuture<WriteResult> apiFuture = db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
-        return apiFuture.get().getUpdateTime().toString();
+        db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).set(mat);
+        System.out.println("Resposta adicionada ao material");
+        System.out.println(mat.getRespostasMaterial());
+        System.out.println(db.collection(COL_NAME).document(future.get().getDocuments().get(0).getId()).get().get().get("respostasMaterial").toString());
+        return "resposta added to material with id:" + idMaterial;
     }
 
     public String updateRespostaToMaterial(int idResposta, int idMaterial) throws ExecutionException, InterruptedException {

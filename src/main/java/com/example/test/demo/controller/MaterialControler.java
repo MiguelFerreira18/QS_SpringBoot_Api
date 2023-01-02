@@ -35,7 +35,7 @@ public class MaterialControler {
 
     @PostMapping("/createRespostaMaterial/{id}")
     public String createRespostaMaterial(@PathVariable int id,@RequestBody int matId) throws InterruptedException, ExecutionException {
-        return materialService.createRespostaToMaterial(id,matId);
+        return materialService.addRespostaToMaterial(id,matId);
     }
     @PostMapping("/updateRespostaMaterial/{id}")
     public String updateRespostaMaterial(@PathVariable int id,@RequestBody int matId) throws InterruptedException, ExecutionException {

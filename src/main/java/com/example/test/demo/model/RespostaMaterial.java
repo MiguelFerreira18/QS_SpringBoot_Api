@@ -52,4 +52,13 @@ public class RespostaMaterial extends Resposta {
     public int getTipoResposta() {
         return TIPO_RESPOSTA;
     }
+
+    @Override
+    public String toString() {
+        return "RespostaMaterial{" +
+                "materiaisId=" + materiaisId +
+                ", dataReserva='" + dataReserva + '\'' +
+                ", dataEntrega='" + dataEntrega + '\'' +
+                "} " + super.toString();
+    }
 }
