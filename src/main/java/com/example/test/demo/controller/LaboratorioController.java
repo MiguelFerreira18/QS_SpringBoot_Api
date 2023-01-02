@@ -50,7 +50,7 @@ public class LaboratorioController {
 
     @PostMapping("/createRespostaLaboratorio/{idLab}")
     public String createRespostaLaboratorio(@PathVariable int idLab, @RequestBody int idMaterial) throws Exception {
-        return laboratorioService.createRespostaLaboratorio(idLab, idMaterial);
+        return laboratorioService.addRespostaLaboratorio(idLab, idMaterial);
     }
     @PutMapping("/updateRespostaLaboratorio/{idLab}")
     public String updateRespostaLaboratorio(@PathVariable int idLab, @RequestBody int idMaterial) throws Exception {

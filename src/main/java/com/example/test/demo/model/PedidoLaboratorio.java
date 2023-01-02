@@ -39,4 +39,12 @@ public class PedidoLaboratorio extends Pedido {
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
     }
+
+    public String getDataMarcada() {
+        return dataMarcada;
+    }
+
+    public void setDataMarcada(String dataMarcada) {
+        this.dataMarcada = dataMarcada;
+    }
 }

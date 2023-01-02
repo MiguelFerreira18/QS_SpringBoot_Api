@@ -70,4 +70,5 @@ public class Laboratorio {
     public void setRefAdmin(int refAdmin) {
         this.refAdmin = refAdmin;
     }
+
 }

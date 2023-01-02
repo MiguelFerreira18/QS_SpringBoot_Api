@@ -5,26 +5,26 @@ import java.util.List;
 
 public class PedidoMaterial extends Pedido{
     private List<Integer> materiais;
-    private String dataDeInicio;
-    private String dataFim;
+    private String dataReserva;
+    private String dataEntrega;
     private int authorId;
     private final static String TIPO_MATERIAL = "pedidoMaterial";
 
-    public PedidoMaterial(int pedidoId,int authorId, ArrayList<Integer> materiais, String dataDeInicio, String dataFim) {
+    public PedidoMaterial(int pedidoId, int authorId, ArrayList<Integer> materiais, String dataReserva, String dataEntrega) {
         super(pedidoId,TIPO_MATERIAL);
         this.materiais = materiais;
         this.authorId = authorId;
-        this.dataDeInicio = dataDeInicio;
-        this.dataFim = dataFim;
+        this.dataReserva = dataReserva;
+        this.dataEntrega = dataEntrega;
     }
 
 
-    public PedidoMaterial(int pedidoId, int authorId, String dataDeInicio, String dataFim) {
+    public PedidoMaterial(int pedidoId, int authorId, String dataReserva, String dataEntrega) {
         super(pedidoId,TIPO_MATERIAL);
         this.materiais = new ArrayList<>();
         this.authorId = authorId;
-        this.dataDeInicio = dataDeInicio;
-        this.dataFim = dataFim;
+        this.dataReserva = dataReserva;
+        this.dataEntrega = dataEntrega;
     }
 
     public PedidoMaterial() {
@@ -50,6 +50,22 @@ public class PedidoMaterial extends Pedido{
 
     public void setAuthorId(int authorId) {
         this.authorId = authorId;
+    }
+
+    public String getDataReserva() {
+        return dataReserva;
+    }
+
+    public void setDataReserva(String dataReserva) {
+        this.dataReserva = dataReserva;
+    }
+
+    public String getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(String dataEntrega) {
+        this.dataEntrega = dataEntrega;
     }
 }
 

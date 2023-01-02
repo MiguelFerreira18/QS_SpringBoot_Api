@@ -4,8 +4,6 @@ import com.example.test.demo.model.*;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.DataSnapshot;
-import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +13,12 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class RespostaService {
-
+    @Autowired
+    private LaboratorioService laboratorioService;
     @Autowired
     private PedidoService pedidoService;
+    @Autowired
+    private MaterialService materialService;
 
     private static final String COL_NAME = "resposta";
     private static final String PATH_QUARY_DOCENTE = "docente";
@@ -88,7 +89,7 @@ public class RespostaService {
      * @throws InterruptedException
      */
     public String createRespostaLaboratorio(RespostaLaboratorio resposta, int id) throws ExecutionException, InterruptedException {
-        if (checkRespostaLab(resposta)) {
+        if (checkRespostaLab(resposta) || checkIfPedidoHasResposta(id)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
@@ -136,6 +137,7 @@ public class RespostaService {
         resposta.setRespostaId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
         db.collection(COL_NAME).document().set(resposta);
+        laboratorioService.addRespostaLaboratorio(id, resposta.getRespostaId());
         pedidoService.changeHasResposta(TIPO_PEDIDO_LAB,id);
         return "RespostaLaboratorio created";
     }
@@ -216,8 +218,8 @@ public class RespostaService {
      * @throws InterruptedException
      */
     public String createRespostaMaterial(RespostaMaterial resposta, int id) throws ExecutionException, InterruptedException {
-        System.out.println("RespostaMaterial: 0");
-        if (checkRespostaMaterial(resposta)) {
+
+        if (checkRespostaMaterial(resposta) || checkIfPedidoHasResposta(id)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
@@ -272,6 +274,8 @@ public class RespostaService {
         /*ADICIONA UMA NOVA RESPOSTA*/
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().create(resposta);
         pedidoService.changeHasResposta(TIPO_PEDIDO_MATERIAL,id);
+        System.out.println(resposta.getMateriaisId());
+        materialService.addRespostaToMaterial(resposta.getRespostaId(),resposta.getMateriaisId().get(0));
         return "respostaMaterial created";
     }
 
@@ -350,7 +354,7 @@ public class RespostaService {
      * @throws InterruptedException
      */
     public String createRespostaUtilizador(RespostaUtilizador resposta, int id) throws ExecutionException, InterruptedException {
-        if (checkRespostaUtilizador(resposta)) {
+        if (checkRespostaUtilizador(resposta) || checkIfPedidoHasResposta(id)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
@@ -608,5 +612,12 @@ public class RespostaService {
             return true;
         }
         return false;
+    }
+    public boolean checkIfPedidoHasResposta(int pedidoId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("pedidoId", pedidoId).whereEqualTo("resposta",true).get();
+        if (future.get().isEmpty())
+            return false;
+        return true;
     }
 }
