@@ -615,7 +615,7 @@ public class RespostaService {
     }
     public boolean checkIfPedidoHasResposta(int pedidoId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).whereEqualTo("pedidoId", pedidoId).whereEqualTo("resposta",true).get();
+        ApiFuture<QuerySnapshot> future = db.collection(COL_NAME_PEDIDO).whereEqualTo("pedidoId", pedidoId).whereEqualTo("resposta",true).get();
         if (future.get().isEmpty())
             return false;
         return true;
