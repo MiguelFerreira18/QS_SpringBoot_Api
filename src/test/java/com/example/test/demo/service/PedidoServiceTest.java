@@ -27,11 +27,32 @@ import static org.junit.jupiter.api.Assertions.*;
 class PedidoServiceTest {
     @Autowired
     private PedidoService myService;
+    @Autowired
+    private MaterialService myMaterialService;
     Firestore db;
 
     @BeforeEach
     void setUp() {
         db = FirestoreClient.getFirestore();
+        try {
+            myMaterialService.createMaterial(new Material("asdasdadad", false, true, 0, 0), 3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @AfterEach
+    void tearDown() {
+        try {
+            myMaterialService.deleteMateriais(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -39,8 +60,8 @@ class PedidoServiceTest {
      **/
     @ParameterizedTest
     @CsvSource(textBlock = """
-                0,0
-                1,1
+                0,10
+                1,10
             """)
     @Order(1)
     @DisplayName("Deve testar se o pedidoMaterial foi inserido na base de dados")
@@ -55,14 +76,14 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                2,abcasdadsad,0
-                3,xyzasdasd,1
+                2,abcasdadsad,10
+                3,xyzasdasd,10
             """)
     @Order(2)
     @DisplayName("Deve testar se o pedidoUtilizador foi inserido na base de dados")
-    void shouldTestIfCreatePedidoUtilizadorIsSent(int pedidoId,String descricao,int docenteId) throws ExecutionException, InterruptedException {
+    void shouldTestIfCreatePedidoUtilizadorIsSent(int pedidoId, String descricao, int docenteId) throws ExecutionException, InterruptedException {
 
-        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(pedidoId,descricao,docenteId);
+        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(pedidoId, descricao, docenteId);
         String result = myService.createPedidoUtilizador(pedidoUtilizador);
         assertNotNull(result);
 
@@ -70,12 +91,12 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                4,1,0
-                5,2,1
+                4,1,10
+                5,2,10
             """)
     @Order(3)
     @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
-    void shouldTestIfCreatePedidoLaboratorioIsSent( int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
+    void shouldTestIfCreatePedidoLaboratorioIsSent(int pedidoId, int labId, int authorId) throws ExecutionException, InterruptedException {
 
         PedidoLaboratorio pedidoLaboratorio = new PedidoLaboratorio(pedidoId, labId, authorId, LocalDate.now().toString());
         String result = myService.createPedidoLaboratorio(pedidoLaboratorio);
@@ -146,25 +167,21 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            2,pedidoUtiliUpdtated2,0
-            3,pedidoUtiliUpdated3,1
+            2,pedidoUtiliUpdtated2,10
+            3,pedidoUtiliUpdated3,10
             """)
     @Order(12)
     @DisplayName("Deve testar se o pedido de utilizador foi atualizado na base de dados")
-    void shouldTestIfUpdatePedidoUtilizadorWorks(int pedidoId, String descricao,int docenteId) throws ExecutionException, InterruptedException {
-        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(pedidoId, descricao,docenteId);
+    void shouldTestIfUpdatePedidoUtilizadorWorks(int pedidoId, String descricao, int docenteId) throws ExecutionException, InterruptedException {
+        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(pedidoId, descricao, docenteId);
         String isUpDated = myService.updatePedidoUtilizador(pedidoUtilizador);
         assertNotNull(isUpDated);
     }
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-<<<<<<< HEAD
-            4,1,1
-=======
-            4,1,0
->>>>>>> 2021ef68db2b30bad3f4e8200f94b6055b904e35
-            5,2,1
+            4,3,10
+            5,3,10
             """)
     @Order(13)
     @DisplayName("Deve testar se o pedido de laboratorio foi atualizado na base de dados")
@@ -176,16 +193,15 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """ 
-            0,0,3,4
-            1,1,2,1
+            0,10,0
+            1,10,0
             """)
     @Order(14)
     @DisplayName("Deve testar se o pedido de material foi atualizado na base de dadaos")
-    void shouldTestIfUpdatePedidoMaterialWorks(int pedidoId,int author,int mat,int mat2) throws ExecutionException, InterruptedException {
+    void shouldTestIfUpdatePedidoMaterialWorks(int pedidoId, int author, int mat) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
         idMateriais.add(mat);
-        idMateriais.add(mat2);
-        PedidoMaterial pedidoMaterial = new PedidoMaterial(pedidoId,author, idMateriais, LocalDate.now().toString(), LocalDate.now().toString());
+        PedidoMaterial pedidoMaterial = new PedidoMaterial(pedidoId, author, idMateriais, LocalDate.now().toString(), LocalDate.now().toString());
         String isUpDated = myService.updatePedidoMaterial(pedidoMaterial);
         assertNotNull(isUpDated);
     }
@@ -215,13 +231,13 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            4,0
-            5,1
+            4,10
+            5,10
             """)
     @Order(17)
     @DisplayName("Deve testar se o pedido de laboratorio foi removido da base de dados")
-    void shouldDeletePedidoLaboratorioFromDataBase(int idPedidoLaboratorio,int idAuthor) throws ExecutionException, InterruptedException {
-        String isDeleted = myService.deletePedidoLaboratorio(idPedidoLaboratorio,idAuthor);
+    void shouldDeletePedidoLaboratorioFromDataBase(int idPedidoLaboratorio, int idAuthor) throws ExecutionException, InterruptedException {
+        String isDeleted = myService.deletePedidoLaboratorio(idPedidoLaboratorio, idAuthor);
         String[] isDeletedArray = isDeleted.split(":");
         System.out.println(Arrays.toString(isDeletedArray));
         assertEquals(String.valueOf(idPedidoLaboratorio), isDeletedArray[1]);
@@ -234,33 +250,33 @@ class PedidoServiceTest {
             """)
     @Order(18)
     @DisplayName("Deve testar se o pedido de laboratorio que não existe não foi removido da base de dados")
-    void shouldNotDeletePedidoLaboratorio(int idPedidoLaboratorio,int author) throws ExecutionException, InterruptedException {
-        String isDeleted = myService.deletePedidoLaboratorio(idPedidoLaboratorio,author);
+    void shouldNotDeletePedidoLaboratorio(int idPedidoLaboratorio, int author) throws ExecutionException, InterruptedException {
+        String isDeleted = myService.deletePedidoLaboratorio(idPedidoLaboratorio, author);
         assertNull(isDeleted);
     }
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            0,0
-            1,1
+            0,10
+            1,10
             """)
     @Order(19)
     @DisplayName("Deve testar se o pedido de material foi removido da base de dados")
-    void shouldDeletePedidoMaterialFromDataBase(int idPedidoMAterial,int idAuthor) throws ExecutionException, InterruptedException {
-        String isDeleted = myService.deletePedidoMaterial(idPedidoMAterial,idAuthor);
+    void shouldDeletePedidoMaterialFromDataBase(int idPedidoMAterial, int idAuthor) throws ExecutionException, InterruptedException {
+        String isDeleted = myService.deletePedidoMaterial(idPedidoMAterial, idAuthor);
         String[] isDeletedArray = isDeleted.split(":");
         assertEquals(String.valueOf(idPedidoMAterial), isDeletedArray[1]);
     }
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-            342,0
-            345,0
+            342,10
+            345,10
             """)
     @Order(20)
     @DisplayName("Deve testar se o pedido de material que não existe não foi removido da base de dados")
-    void shouldNotDeletePedidoMaterial(int idPedidoMaterial,int idAuthor) throws ExecutionException, InterruptedException {
-        String isDeleted = myService.deletePedidoMaterial(idPedidoMaterial,idAuthor);
+    void shouldNotDeletePedidoMaterial(int idPedidoMaterial, int idAuthor) throws ExecutionException, InterruptedException {
+        String isDeleted = myService.deletePedidoMaterial(idPedidoMaterial, idAuthor);
         assertNull(isDeleted);
     }
 
@@ -276,10 +292,12 @@ class PedidoServiceTest {
             """)
     @Order(21)
     @DisplayName("Deve testar se o pedido de utilizador não foi criado na base de dados")
-    void shouldCreatePedidoUtilizador(int idPedidoUtilizador, String descricao,int docenteID) throws ExecutionException, InterruptedException {
+    void shouldCreatePedidoUtilizador(int idPedidoUtilizador, String descricao, int docenteID) throws ExecutionException, InterruptedException {
         ArrayList<Integer> idMateriais = new ArrayList<>();
-        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(idPedidoUtilizador, descricao, docenteID );
+        PedidoUtilizador pedidoUtilizador = new PedidoUtilizador(idPedidoUtilizador, descricao, docenteID);
         String isCreated = myService.createPedidoUtilizador(pedidoUtilizador);
         assertNull(isCreated);
     }
+
+
 }
