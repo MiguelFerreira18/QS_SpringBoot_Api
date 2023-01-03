@@ -35,7 +35,7 @@ class MaterialServiceTest
             db = FirestoreClient.getFirestore();
         }
         @ParameterizedTest
-        @CsvSource({"carrinho,true,false,1,1,0","helicoptero,true,false,2,2,0"})
+        @CsvSource({"carrinho,true,false,1,1,3","helicoptero,true,false,2,2,3"})
         @Order(1)
         @DisplayName("Deve testar se um material e criado na base de dados")
         void testCreateNormalMat(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId,int labId) throws ExecutionException, InterruptedException
@@ -57,7 +57,7 @@ class MaterialServiceTest
         }
 
         @ParameterizedTest
-        @CsvSource({"um,true,false,11,1","aaaaatxnjevwxmxagqacnklyoxgqigwpfsqujmwagnevakjvxtezitkjxkxrpgayowlxcncftoniumpueqollqmnlodopxfryzqhowesztcbfldwznldncohghvmiooalixf,true,false,12,2,0",",true,false,13,1",",true,false,14,1,0"})
+        @CsvSource({"u,true,false,11,1,0","aaaaatxnjevwxmxagqacnklyoxgqigwpfsqujmwagnevakjvxtezitkjxkxrpgayowlxcncftoniumpueqollqmnlodopxfryzqhowesztcbfldwznldncohghvmiooalixf,true,false,12,2,0",",true,false,13,1,0",",true,false,14,1,0"})
         @Order(3)
         @DisplayName("Deve testar se e possivel criar um material com descricao fora dos limites")
         void testCreateMatDescOutOfBonds(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId,int labId) throws ExecutionException, InterruptedException
@@ -68,7 +68,7 @@ class MaterialServiceTest
         }
 
         @ParameterizedTest
-        @CsvSource({"avariadoDispo,true,true,10,1,0","avariadoDispo2,true,true,11,2,0"})
+        @CsvSource({"avariadoDispo,true,true,10,1,3","avariadoDispo2,true,true,11,2,3"})
         @Order(4)
         @DisplayName("Deve testar se e possivel criar um material avariado e disponivel")
         void testCreateMatAvariadoDisponivel(String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId,int labId) throws ExecutionException, InterruptedException
@@ -100,7 +100,7 @@ class MaterialServiceTest
         }
 
         @ParameterizedTest
-        @CsvSource({"carrinhoT1,false,false,0,6,0","carrinhoT2,true,false,0,6,0"})
+        @CsvSource({"carrinhoT1,false,false,0,6,3","carrinhoT2,true,false,0,6,3"})
         @Order(7)
         @DisplayName("Deve testar se e possivel criar materiais com o mesmo id")
         void testCreateMatSameId( String descricao, boolean isDisponivel, boolean isAvariado, int materialId, int etiquetaId,int labId) throws ExecutionException,InterruptedException

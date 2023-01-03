@@ -2,6 +2,7 @@ package com.example.test.demo.service;
 
 
 import com.example.test.demo.model.Componente;
+import com.example.test.demo.model.Material;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -31,12 +32,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class ComponentServiceTest {
     @Autowired
     private ComponentService myService;
+    @Autowired
+            private MaterialService myService2;
     Firestore db;
     private static final String COL_NAME = "component";
 
     @BeforeEach
     void setUp() {
         db = FirestoreClient.getFirestore();
+        try {
+            myService2.createMaterial(new Material("adssad",false,true,0,0),3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @AfterEach
+    void clearUp(){
+        try {
+            myService2.deleteMateriais(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @ParameterizedTest

@@ -225,8 +225,9 @@ public class MaterialService {
     public boolean checkAll(Material material) {
         if (material.getDescricao() == null
                 || material.getDescricao().equalsIgnoreCase("")
-                || material.getDescricao().length() < 8
-                || material.getDescricao().length() > 128) {
+                || material.getDescricao().length() < 3
+                || material.getDescricao().length() > 128
+                || (material.isAvariado() && material.isDisponivel())) {
             return true;
         } else if (material.getEtiquetaId() < 0) {
             return true;

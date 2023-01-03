@@ -79,11 +79,11 @@ public class EtiquetaServiceTest {
     @Order(5)
     public void shouldTestIfUpdateEtiquetaWorks(String etiqueta, String descricaoMaterial, int quantidade, int etiquetaId, String subEtiqueta) throws Exception {
         ArrayList<Integer> componentes = new ArrayList<>();
-        componentes.add(1);
-        componentes.add(2);
+//        componentes.add(1);
+//        componentes.add(2);
         ArrayList<Integer> materiaisId = new ArrayList<>();
-        materiaisId.add(1);
-        materiaisId.add(2);
+//        materiaisId.add(1);
+//        materiaisId.add(2);
        EtiquetaMaterial etiquetaMaterial = new EtiquetaMaterial(componentes,etiqueta, descricaoMaterial, quantidade, etiquetaId, subEtiqueta, materiaisId);
         String result = myService.updateEtiqueta(etiquetaMaterial);
         assertEquals(result, "etiqueta updated:"+etiquetaId,result);

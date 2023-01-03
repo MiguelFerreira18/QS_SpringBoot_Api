@@ -34,7 +34,7 @@ public final class WishServiceTest {
 
     @ParameterizedTest
     @DisplayName("Teste para inserir uma wish")
-    @CsvSource(value = {"0,nomeMat1,descMat1,0,24/12/2022", "1,nomeMat2,descMat2,1,24/12/2022", "2,nomeMat3,descMat3,2,24/12/2022" })
+    @CsvSource(value = {"0,nomeMat1,descMat1,10,24/12/2022", "1,nomeMat2,descMat2,10,24/12/2022", "2,nomeMat3,descMat3,10,24/12/2022" })
     @Order(1)
     public void shouldTestCreateWishIsSent(int id, String nomeMaterial, String descMaterial, int idDocente, String date) throws Exception {
         Wish wish = new Wish(id, nomeMaterial, descMaterial, idDocente, date);
@@ -111,7 +111,7 @@ public final class WishServiceTest {
 
     @ParameterizedTest
     @DisplayName("Testa se e realizado um update na wish ao receber uma wish com o mesmo id")
-    @CsvSource(value = {"0,nomeMat1UPDATED,descMat1UPDATED,1,24/12/2022", "1,nomeMat2UPDATED,descMat2UPDATED,2,24/12/2022", "2,nomeMat3UPDATED,descMat3UPDATED,3,24/12/2022" })
+    @CsvSource(value = {"0,nomeMat1UPDATED,descMat1UPDATED,10,24/12/2022", "1,nomeMat2UPDATED,descMat2UPDATED,10,24/12/2022", "2,nomeMat3UPDATED,descMat3UPDATED,10,24/12/2022" })
     @Order(9)
     public void shouldTestIfUpdateWishWorks(int id, String nomeMaterial, String descMaterial, int idDocente, String date) throws Exception {
         Wish wish = new Wish(id, nomeMaterial, descMaterial, idDocente, date);
@@ -198,7 +198,5 @@ public final class WishServiceTest {
         String result = myService.deleteWish(id);
         assertEquals(result,"wish deleted with:" + id);
     }
-    // TODO: 26/12/2022 TESTAR SE LIMITES DE CRIAÇÃO DE WISHES ESTÃO A FUNCIONAR
-    // TODO: 26/12/2022 TESTAR SE LIMITES DE NA ATUALIZAÇÃO DE UM WISH ESTÃO A FUNCIONAR
-    // TODO: 26/12/2022 TESTAR SE O ID PODE SER MENOR QUE 0
+
 }
