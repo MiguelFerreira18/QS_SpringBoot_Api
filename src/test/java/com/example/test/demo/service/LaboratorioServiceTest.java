@@ -34,7 +34,7 @@ class LaboratorioServiceTest {
 
 
     @ParameterizedTest
-    @CsvSource({"0,1","1,1","2,1"})
+    @CsvSource({"0,10","1,10","2,10"})
     @Order(1)
     @DisplayName("Testa se e possivel criar um laboratorio")
     void testCreateNormalLaboratorio(int id,int ref) throws ExecutionException, InterruptedException
@@ -108,7 +108,7 @@ class LaboratorioServiceTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"0,1","1,1","2,1"})
+    @CsvSource({"0,10","1,10","2,10"})
     @Order(8)
     @DisplayName("Testa se e possivel atualizar um laboratorio existente na base de dados")
     void testUpdateLabExistent(int id,int ref) throws ExecutionException, InterruptedException
