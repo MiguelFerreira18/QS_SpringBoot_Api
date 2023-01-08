@@ -91,8 +91,8 @@ class PedidoServiceTest {
 
     @ParameterizedTest
     @CsvSource(textBlock = """
-                4,1,10
-                5,2,10
+                4,3,10
+                5,3,10
             """)
     @Order(3)
     @DisplayName("Deve testar se o pedidoLaboratorio foi inserido na base de dadaos")
