@@ -17,4 +17,8 @@ public class RespostaUtilizador extends Resposta{
         return TIPO_RESPOSTA;
     }
 
+    @Override
+    public String toString() {
+        return "RespostaUtilizador{} " + super.toString();
+    }
 }

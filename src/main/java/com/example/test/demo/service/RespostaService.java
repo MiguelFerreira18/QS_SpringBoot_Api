@@ -354,7 +354,7 @@ public class RespostaService {
      * @throws InterruptedException
      */
     public String createRespostaUtilizador(RespostaUtilizador resposta, int id) throws ExecutionException, InterruptedException {
-        if (checkRespostaUtilizador(resposta) || checkIfPedidoHasResposta(id)) {
+        if (checkRespostaUtilizador(resposta)  || checkIfPedidoHasResposta(id)) {
             return null;
         }
         Firestore db = FirestoreClient.getFirestore();
@@ -366,14 +366,12 @@ public class RespostaService {
         if (documents2.isEmpty()) {
             return null;
         }
-
         //Pedido tem de existir para ser respondido
         ApiFuture<QuerySnapshot> future5 = db.collection(COL_NAME_PEDIDO).whereEqualTo("pedidoId", resposta.getPedidoId()).get();
         List<QueryDocumentSnapshot> documents5 = future5.get().getDocuments();
         if (documents5.isEmpty()) {
             return null;
         }
-
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
@@ -398,16 +396,14 @@ public class RespostaService {
 
 
         /*ADICIONA UM NOVO PEDIDO*/
-
         //SE A RESPOSTA TIVER A DIZRE QUE FOI ACEITE O ESTADO DO DOCENTE MUDA PARA 1 SE NÃO, MUDA PARA -1(DEVE SER ELIMINADO O DOCENTE)
         if (resposta.isAceite()) {
             ApiFuture<QuerySnapshot> docenteQuery = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
             Docente docenteWithAccess = docenteQuery.get().getDocuments().get(0).toObject(Docente.class);
             docenteWithAccess.setHasAccess(1);
-            db.collection("Docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
+            db.collection("docente").document(docenteQuery.get().getDocuments().get(0).getId()).set(docenteWithAccess);
 
         } else if (!resposta.isAceite()) {
-
             /*!PERGUNTAR AO QUENTAL COMO PROCEDER (SE APAGA OU NÃO O DOCENTE AQUI)!*/
             //Apaga docente caso a resposta nao seja aceite
             ApiFuture<QuerySnapshot> future4 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
@@ -600,14 +596,10 @@ public class RespostaService {
 
     private boolean checkRespostaUtilizador(RespostaUtilizador resUti) {
         if (resUti.getUtilizadorId() < 0
-                || resUti.getDescricao().equalsIgnoreCase("")
-                || resUti.getDescricao() == null
-                || resUti.getDescricao().length() > 32
-                || resUti.getRespostaId() < 0
                 || resUti.getData() == null || resUti.getData().equalsIgnoreCase("")
-                || resUti.getData().length() < 8 || resUti.getData().length() > 14
+                || resUti.getData().length() < 4 || resUti.getData().length() > 18
                 || resUti.getDescricao().equalsIgnoreCase("") || resUti.getDescricao() == null
-                || resUti.getDescricao().length() < 8 || resUti.getDescricao().length() > 64
+                || resUti.getDescricao().length() < 4 || resUti.getDescricao().length() > 250
                 || resUti.getPedidoId() < 0) {
             return true;
         }
