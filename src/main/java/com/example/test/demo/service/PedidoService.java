@@ -82,10 +82,10 @@ public class PedidoService {
      * @throws InterruptedException
      */
     public String createPedidoUtilizador(PedidoUtilizador pedido) throws ExecutionException, InterruptedException {
-
+        System.out.println("1");
         if (verifyPedidoUtilizador(pedido))
             return null;
-
+        System.out.println("2");
         Firestore db = FirestoreClient.getFirestore();
 
         //Tem de existir numero Utilizador/Docente
@@ -94,7 +94,7 @@ public class PedidoService {
         if (documents2.isEmpty()) {
             return null;
         }
-
+        System.out.println("3");
         ApiFuture<QuerySnapshot> future = db.collection(COL_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         int biggest = -1;
@@ -108,10 +108,11 @@ public class PedidoService {
 
             }
         }
+        System.out.println("4");
         pedido.setPedidoId(biggest + 1);
         /*ADICIONA UM NOVO PEDIDO*/
         db.collection(COL_NAME).document().set(pedido);
-
+        System.out.println("5");
         return "pedidoUtilizador created";
     }
 
@@ -563,7 +564,7 @@ public class PedidoService {
                 || pedido.getTipoPedido() == null || pedido.getTipoPedido().equals("")
                 || pedido.getDataPedido() == null
                 || pedido.getDocenteId() < 0 || pedido.getPedidoId() < 0
-                || pedido.getDescricao() == null || pedido.getDescricao().length() > 64 || pedido.getDescricao().length() < 8;
+                || pedido.getDescricao() == null;
     }
 
     /**

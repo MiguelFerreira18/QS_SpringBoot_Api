@@ -59,8 +59,9 @@ public class DocenteService {
         ApiFuture<WriteResult> colApiFuture = db.collection(COL_NAME).document().set(docente);
 
         //Cria pedidoUtilizador JA ESTAVA FEITO PELO MIGUEL, ELE PEDIU PARA MENCIONAR :) ESTAVA MAL FEITO DE QUALQUER DAS FORMAS
+        System.out.println("cuidado 1");
         pedidoService.createPedidoUtilizador(new PedidoUtilizador(0, docente.toString(), docente.getDocenteNumber()));
-
+        System.out.println("cuidado 2");
 
 
         return "docente created";
