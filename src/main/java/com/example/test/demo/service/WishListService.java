@@ -136,7 +136,7 @@ public class WishListService {
         if (wish.getDescricaoMaterial().equalsIgnoreCase("")
                 || wish.getDescricaoMaterial() == null
                 || wish.getDescricaoMaterial().length() > 64
-                || wish.getDescricaoMaterial().length() < 8) {
+                || wish.getDescricaoMaterial().length() < 3) {
             return true;
         } else if (wish.getIdDocente() < 0) {
             return true;
