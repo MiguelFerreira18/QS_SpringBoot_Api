@@ -89,9 +89,12 @@ public class RespostaService {
      * @throws InterruptedException
      */
     public String createRespostaLaboratorio(RespostaLaboratorio resposta, int id) throws ExecutionException, InterruptedException {
+        System.out.println("1");
+        System.out.println(resposta);
         if (checkRespostaLab(resposta) || checkIfPedidoHasResposta(id)) {
             return null;
         }
+        System.out.println("2");
         Firestore db = FirestoreClient.getFirestore();
         //Docente tem de existir
         ApiFuture<QuerySnapshot> future2 = db.collection(PATH_QUARY_DOCENTE).whereEqualTo("docenteNumber", resposta.getUtilizadorId()).get();
@@ -550,15 +553,11 @@ public class RespostaService {
     //Metodos auxiliares
 
     private boolean checkRespostaLab(RespostaLaboratorio respostaLaboratorio) {
-        if (respostaLaboratorio.getDescricao().equalsIgnoreCase("")
-                || respostaLaboratorio.getDescricao().length() > 64
-                || respostaLaboratorio.getDescricao().length() < 8
-                || respostaLaboratorio.getDescricao() == null
-                || respostaLaboratorio.getUtilizadorId() < 0
+        if ( respostaLaboratorio.getUtilizadorId() < 0
                 || respostaLaboratorio.getRespostaId() < 0
                 || respostaLaboratorio.getLaboratorioId() < 0
                 || respostaLaboratorio.getData() == null || respostaLaboratorio.getData().isEmpty()
-                || respostaLaboratorio.getData().length() < 8 || respostaLaboratorio.getData().length() > 14
+                || respostaLaboratorio.getData().length() < 4 || respostaLaboratorio.getData().length() > 20
                 || respostaLaboratorio.getDataReservaInicio() == null || respostaLaboratorio.getDataReservaInicio().isEmpty()
                 || respostaLaboratorio.getDataReservaInicio().length() < 8 || respostaLaboratorio.getDataReservaInicio().length() > 14
                 || respostaLaboratorio.getDataReservaFim() == null || respostaLaboratorio.getDataReservaFim().isEmpty()

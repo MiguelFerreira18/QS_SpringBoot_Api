@@ -1,18 +1,16 @@
 package com.example.test.demo.model;
 
-import java.time.LocalDate;
-
 public class PedidoLaboratorio extends Pedido {
     private int labId;
     private int authorId;
-    private String dataMarcada;
+    private String date;
     private final static String TIPO_LABORATORIO = "pedidoLaboratorio";
 
-    public PedidoLaboratorio(int pedidoId,int labId, int authorId,String dataMarcada) {
+    public PedidoLaboratorio(int pedidoId,int labId, int authorId,String date) {
         super(pedidoId,TIPO_LABORATORIO);
         this.labId = labId;
         this.authorId = authorId;
-        this.dataMarcada = dataMarcada;
+        this.date = date;
 
     }
 
@@ -40,11 +38,11 @@ public class PedidoLaboratorio extends Pedido {
         this.authorId = authorId;
     }
 
-    public String getDataMarcada() {
-        return dataMarcada;
+    public String getDate() {
+        return date;
     }
 
-    public void setDataMarcada(String dataMarcada) {
-        this.dataMarcada = dataMarcada;
+    public void setDate(String date) {
+        this.date = date;
     }
 }
